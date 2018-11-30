@@ -25,7 +25,11 @@
 	"dependencies": {
 		"@nestjs/common": "~5.4.1",
 		"@nestjs/core": "~5.4.1",
+		"@nestjs/graphql": "~5.4.0",
+		"apollo-server-express": "~2.2.5",
 		"dotenv": "~6.1.0",
+		"graphql": "~14.0.2",
+		"graphql-tools": "~4.0.3",
 		"node-pg-migrate": "~3.14.1",
 		"pg": "~7.7.1",
 		"reflect-metadata": "~0.1.12",

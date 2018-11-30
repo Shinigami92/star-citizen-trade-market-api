@@ -1,0 +1,9 @@
+type Query {
+  commodityCategories: [CommodityCategory]
+  commodityCategory(id: ID!): CommodityCategory
+}
+
+type CommodityCategory {
+  id: ID!
+  name: String!
+}
