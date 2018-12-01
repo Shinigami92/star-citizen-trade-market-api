@@ -2,10 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { QueryResult } from 'pg';
 import { client } from 'src/database.service';
 import { CommodityCategory } from '../graphql.schema';
+import { CreateCommodityCategoryDto } from './dto/create-commodity-category.dto';
 
 @Injectable()
 export class CommodityCategoryService {
-	public async create(commodityCategory: CommodityCategory): Promise<CommodityCategory> {
+	public async create(commodityCategory: CreateCommodityCategoryDto): Promise<CommodityCategory> {
 		const result: QueryResult = await client.query('INSERT INTO commodity_category(name) VALUES ($1::text)', [
 			commodityCategory.name
 		]);

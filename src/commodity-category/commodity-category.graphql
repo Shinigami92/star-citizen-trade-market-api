@@ -1,9 +1,21 @@
 type Query {
-  commodityCategories: [CommodityCategory]
-  commodityCategory(id: ID!): CommodityCategory
+	commodityCategories: [CommodityCategory]
+	commodityCategory(id: ID!): CommodityCategory
+}
+
+type Mutation {
+	createCommodityCategory(createCommodityCategoryInput: CreateCommodityCategoryInput!): CommodityCategory!
+}
+
+type Subscription {
+	commodityCategoryCreated: CommodityCategory!
 }
 
 type CommodityCategory {
-  id: ID!
-  name: String!
+	id: ID!
+	name: String!
+}
+
+input CreateCommodityCategoryInput {
+	name: String!
 }

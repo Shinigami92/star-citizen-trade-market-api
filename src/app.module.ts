@@ -12,7 +12,7 @@ import { CommodityCategoryModule } from './commodity-category/commodity-category
 			typePaths: ['./**/*.graphql'],
 			definitions: {
 				path: join(process.cwd(), 'src/graphql.schema.ts'),
-				outputAs: 'class'
+				outputAs: 'interface'
 			}
 		})
 	],
