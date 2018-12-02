@@ -1,0 +1,33 @@
+type Query {
+	accounts: [Account]
+	account(id: ID!): Account
+}
+
+type Mutation {
+	signUp(createAccountInput: CreateAccountInput!): Account!
+}
+
+type Subscription {
+	accountCreated: Account!
+}
+
+enum Role {
+	USER
+	ADVANCED
+	USERADMIN
+	ADMIN
+}
+
+type Account {
+	id: ID!
+	username: String!
+	handle: String!
+	email: String
+	roles: [Role]
+}
+
+input CreateAccountInput {
+	username: String!
+	handle: String!
+	email: String!
+}

@@ -1,8 +1,8 @@
 import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver, Subscription } from '@nestjs/graphql';
 import { PubSub } from 'graphql-subscriptions';
+import { AuthGuard } from 'src/auth.guard';
 import { CommodityCategory } from '../graphql.schema';
-import { CommodityCategoryGuard } from './commodity-category.guard';
 import { CommodityCategoryService } from './commodity-category.service';
 import { CreateCommodityCategoryDto } from './dto/create-commodity-category.dto';
 
@@ -13,7 +13,6 @@ export class CommodityCategoryResolvers {
 	constructor(private readonly commodityCategoryService: CommodityCategoryService) {}
 
 	@Query('commodityCategories')
-	@UseGuards(CommodityCategoryGuard)
 	public async commodityCategory(): Promise<CommodityCategory[]> {
 		return await this.commodityCategoryService.findAll();
 	}
@@ -27,6 +26,7 @@ export class CommodityCategoryResolvers {
 	}
 
 	@Mutation('createCommodityCategory')
+	@UseGuards(AuthGuard)
 	public async create(
 		@Args('createCommodityCategoryInput') args: CreateCommodityCategoryDto
 	): Promise<CommodityCategory> {
