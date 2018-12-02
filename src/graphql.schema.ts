@@ -42,6 +42,6 @@ export interface IQuery {
 }
 
 export interface ISubscription {
-    accountCreated(): Account | Promise<Account>;
+    accountSignedUp(): Account | Promise<Account>;
     commodityCategoryCreated(): CommodityCategory | Promise<CommodityCategory>;
 }

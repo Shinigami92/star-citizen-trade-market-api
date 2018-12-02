@@ -8,7 +8,7 @@ type Mutation {
 }
 
 type Subscription {
-	accountCreated: Account!
+	accountSignedUp: Account!
 }
 
 enum Role {
