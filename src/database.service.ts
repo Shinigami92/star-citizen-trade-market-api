@@ -1,5 +1,10 @@
 import * as dotenv from 'dotenv';
+import * as pg from 'pg';
 import { Client } from 'pg';
+// @ts-ignore
+import * as pgCamelCase from 'pg-camelcase';
+
+pgCamelCase.inject(pg);
 
 dotenv.config();
 

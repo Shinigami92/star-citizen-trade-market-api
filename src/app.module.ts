@@ -7,14 +7,18 @@ import { AppController } from './app.controller';
 import { roles } from './app.roles';
 import { AppService } from './app.service';
 import { CommodityCategoryModule } from './commodity-category/commodity-category.module';
+import { CommonModule } from './common/common.module';
 import { GameVersionModule } from './game-version/game-version.module';
+import { ItemModule } from './item/item.module';
 
 @Module({
 	imports: [
+		CommonModule,
 		AccountModule,
 		AccessControlModule.forRoles(roles),
 		CommodityCategoryModule,
 		GameVersionModule,
+		ItemModule,
 		GraphQLModule.forRoot({
 			typePaths: ['./**/*.graphql'],
 			definitions: {

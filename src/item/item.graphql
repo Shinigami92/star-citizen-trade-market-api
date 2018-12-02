@@ -1,0 +1,48 @@
+type Query {
+	items: [Item]
+	item(id: ID!): Item
+}
+
+type Mutation {
+	createItem(createItemInput: CreateItemInput!): Item!
+}
+
+type Subscription {
+	itemCreated: Item!
+}
+
+enum ItemType {
+	ARMS
+	ATTACHMENT
+	COMMODITY
+	COOLER
+	GADGET
+	GUN
+	HELMET
+	LEGS
+	MISSILE
+	ORDNANCE
+	POWER_PLANT
+	QUANTUM_DRIVE
+	SHIELD_GENERATOR
+	SHIP
+	TORSO
+	TURRET
+	UNDERSUIT
+	WEAPON
+}
+
+interface Item {
+	id: ID!
+	name: String!
+	inGameSinceVersionId: ID!
+	inGameSinceVersion: GameVersion!
+	inGameSince: Date
+	type: ItemType!
+}
+
+input CreateItemInput {
+	name: String!
+	inGameSinceVersionId: ID!
+	inGameSince: String
+}

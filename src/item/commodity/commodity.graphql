@@ -1,0 +1,28 @@
+type Query {
+	commodities: [Commodity]
+	commodity(id: ID!): Commodity
+}
+
+type Mutation {
+	createCommodity(createCommodityInput: CreateCommodityInput!): Commodity!
+}
+
+type Subscription {
+	commodityCreated: Commodity!
+}
+
+type Commodity implements Item {
+	id: ID!
+	name: String!
+	inGameSinceVersionId: ID!
+	inGameSinceVersion: GameVersion!
+	inGameSince: Date
+	type: ItemType!
+}
+
+input CreateCommodityInput {
+	name: String!
+	inGameSinceVersionId: ID!
+	inGameSince: String
+	commodityCategoryId: ID!
+}
