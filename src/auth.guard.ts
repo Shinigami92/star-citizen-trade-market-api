@@ -1,6 +1,7 @@
 import { CanActivate, ExecutionContext, Injectable, Logger } from '@nestjs/common';
 import { GqlArgumentsHost, GqlExecutionContext } from '@nestjs/graphql';
 import { QueryResult } from 'pg';
+import * as postgresArray from 'postgres-array';
 import { Account, Role } from 'src/graphql.schema';
 import { client } from './database.service';
 
@@ -27,8 +28,7 @@ export class AuthGuard implements CanActivate {
 		if (currentUser === undefined) {
 			return false;
 		}
-		const rolesString: string = result.rows[0].roles;
-		currentUser.roles = rolesString.substring(1, rolesString.length - 1).split(',') as Role[];
+		currentUser.roles = postgresArray.parse(result.rows[0].roles) as Role[];
 		// TODO: do not log email later
 		this.logger.log(`user: ${JSON.stringify(currentUser)}`);
 		ctx.getContext().user = currentUser;
