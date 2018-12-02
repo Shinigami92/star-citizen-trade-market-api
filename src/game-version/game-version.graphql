@@ -1,0 +1,23 @@
+type Query {
+	gameVersions: [GameVersion]
+	gameVersion(id: ID!): GameVersion
+}
+
+type Mutation {
+	createGameVersion(createGameVersionInput: CreateGameVersionInput!): GameVersion!
+}
+
+type Subscription {
+	gameVersionCreated: GameVersion!
+}
+
+type GameVersion {
+	id: ID!
+	identifier: String!
+	# releaseTimestamp: Date
+}
+
+input CreateGameVersionInput {
+	identifier: String!
+	# releaseTimestamp: Date
+}
