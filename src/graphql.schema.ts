@@ -1,3 +1,15 @@
+export enum ItemPriceType {
+    BUY = "BUY",
+    SELL = "SELL"
+}
+
+export enum ItemPriceVisibility {
+    PRIVATE = "PRIVATE",
+    MAIN_ORGANIZATION = "MAIN_ORGANIZATION",
+    MEMBER_ORGANIZATION = "MEMBER_ORGANIZATION",
+    PUBLIC = "PUBLIC"
+}
+
 export enum ItemType {
     ARMS = "ARMS",
     ATTACHMENT = "ATTACHMENT",
@@ -53,6 +65,17 @@ export interface CreateItemInput {
     inGameSince?: string;
 }
 
+export interface CreateItemPriceInput {
+    scannedById?: string;
+    itemId: string;
+    locationId: string;
+    price: number;
+    quantity: number;
+    scanTime?: Date;
+    type: ItemPriceType;
+    visibility?: ItemPriceVisibility;
+}
+
 export interface CreateLocationInput {
     name: string;
     parentLocationId?: string;
@@ -103,6 +126,21 @@ export interface GameVersion {
     identifier: string;
 }
 
+export interface ItemPrice {
+    id: string;
+    scannedById: string;
+    scannedBy: Account;
+    itemId: string;
+    item: Item;
+    locationId: string;
+    location: Location;
+    price: number;
+    quantity: number;
+    scanTime: Date;
+    type: ItemPriceType;
+    visibility: ItemPriceVisibility;
+}
+
 export interface Location {
     id: string;
     name: string;
@@ -124,6 +162,7 @@ export interface IMutation {
     signUp(createAccountInput: CreateAccountInput): Account | Promise<Account>;
     createCommodityCategory(createCommodityCategoryInput: CreateCommodityCategoryInput): CommodityCategory | Promise<CommodityCategory>;
     createGameVersion(createGameVersionInput: CreateGameVersionInput): GameVersion | Promise<GameVersion>;
+    createItemPrice(createItemPriceInput: CreateItemPriceInput): ItemPrice | Promise<ItemPrice>;
     createCommodity(createCommodityInput: CreateCommodityInput): Commodity | Promise<Commodity>;
     createItem(createItemInput: CreateItemInput): Item | Promise<Item>;
     createLocationType(createLocationTypeInput: CreateLocationTypeInput): LocationType | Promise<LocationType>;
@@ -137,6 +176,8 @@ export interface IQuery {
     commodityCategory(id: string): CommodityCategory | Promise<CommodityCategory>;
     gameVersions(): GameVersion[] | Promise<GameVersion[]>;
     gameVersion(id: string): GameVersion | Promise<GameVersion>;
+    itemPrices(): ItemPrice[] | Promise<ItemPrice[]>;
+    itemPrice(id: string): ItemPrice | Promise<ItemPrice>;
     commodities(): Commodity[] | Promise<Commodity[]>;
     commodity(id: string): Commodity | Promise<Commodity>;
     items(): Item[] | Promise<Item[]>;
@@ -152,6 +193,7 @@ export interface ISubscription {
     accountSignedUp(): Account | Promise<Account>;
     commodityCategoryCreated(): CommodityCategory | Promise<CommodityCategory>;
     gameVersionCreated(): GameVersion | Promise<GameVersion>;
+    itemPriceCreated(): ItemPrice | Promise<ItemPrice>;
     commodityCreated(): Commodity | Promise<Commodity>;
     itemCreated(): Item | Promise<Item>;
     locationTypeCreated(): LocationType | Promise<LocationType>;

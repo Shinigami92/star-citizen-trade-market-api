@@ -1,0 +1,50 @@
+type Query {
+	itemPrices: [ItemPrice]
+	itemPrice(id: ID!): ItemPrice
+}
+
+type Mutation {
+	createItemPrice(createItemPriceInput: CreateItemPriceInput!): ItemPrice!
+}
+
+type Subscription {
+	itemPriceCreated: ItemPrice!
+}
+
+enum ItemPriceType {
+	BUY
+	SELL
+}
+
+enum ItemPriceVisibility {
+	PRIVATE
+	MAIN_ORGANIZATION
+	MEMBER_ORGANIZATION
+	PUBLIC
+}
+
+type ItemPrice {
+	id: ID!
+	scannedById: ID!
+	scannedBy: Account!
+	itemId: ID!
+	item: Item!
+	locationId: ID!
+	location: Location!
+	price: Float!
+	quantity: Int!
+	scanTime: Date!
+	type: ItemPriceType!
+	visibility: ItemPriceVisibility!
+}
+
+input CreateItemPriceInput {
+	scannedById: ID
+	itemId: ID!
+	locationId: ID!
+	price: Float!
+	quantity: Int!
+	scanTime: Date
+	type: ItemPriceType!
+	visibility: ItemPriceVisibility
+}
