@@ -21,6 +21,7 @@ import { ItemModule } from './item/item.module';
 		ItemModule,
 		GraphQLModule.forRoot({
 			typePaths: ['./**/*.graphql'],
+			installSubscriptionHandlers: true,
 			definitions: {
 				path: join(process.cwd(), 'src/graphql.schema.ts'),
 				outputAs: 'interface'
