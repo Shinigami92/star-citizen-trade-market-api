@@ -2,8 +2,9 @@ import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Parent, Query, ResolveProperty, Resolver, Subscription } from '@nestjs/graphql';
 import { PubSub } from 'graphql-subscriptions';
 import { AuthGuard } from 'src/auth.guard';
+import { CommodityCategoryService } from 'src/commodity-category/commodity-category.service';
 import { GameVersionService } from 'src/game-version/game-version.service';
-import { Commodity, GameVersion } from 'src/graphql.schema';
+import { Commodity, CommodityCategory, GameVersion } from 'src/graphql.schema';
 import { CommodityService } from './commodity.service';
 import { CreateCommodityDto } from './dto/create-commodity.dto';
 
@@ -13,7 +14,8 @@ const pubSub: PubSub = new PubSub();
 export class CommodityResolvers {
 	constructor(
 		private readonly commodityService: CommodityService,
-		private readonly gameVersionService: GameVersionService
+		private readonly gameVersionService: GameVersionService,
+		private readonly commodityCategoryService: CommodityCategoryService
 	) {}
 
 	@Query('commodities')
@@ -42,7 +44,12 @@ export class CommodityResolvers {
 	}
 
 	@ResolveProperty('inGameSinceVersion')
-	public async inGameSinceVersion(@Parent() item: any): Promise<GameVersion> {
-		return (await this.gameVersionService.findOneById(item.inGameSinceVersionId))!;
+	public async inGameSinceVersion(@Parent() commodity: Commodity): Promise<GameVersion> {
+		return (await this.gameVersionService.findOneById(commodity.inGameSinceVersionId))!;
+	}
+
+	@ResolveProperty('commodityCategory')
+	public async commodityCategory(@Parent() commodity: Commodity): Promise<CommodityCategory> {
+		return (await this.commodityCategoryService.findOneById(commodity.commodityCategoryId))!;
 	}
 }
