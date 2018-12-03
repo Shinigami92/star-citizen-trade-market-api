@@ -88,6 +88,11 @@ export interface CreateLocationTypeInput {
     name: string;
 }
 
+export interface CreateOrganizationInput {
+    name: string;
+    spectrumId: string;
+}
+
 export interface Item {
     id: string;
     name: string;
@@ -167,6 +172,13 @@ export interface IMutation {
     createItem(createItemInput: CreateItemInput): Item | Promise<Item>;
     createLocationType(createLocationTypeInput: CreateLocationTypeInput): LocationType | Promise<LocationType>;
     createLocation(createLocationInput: CreateLocationInput): Location | Promise<Location>;
+    createOrganization(createOrganizationInput: CreateOrganizationInput): Organization | Promise<Organization>;
+}
+
+export interface Organization {
+    id: string;
+    name: string;
+    spectrumId: string;
 }
 
 export interface IQuery {
@@ -186,6 +198,8 @@ export interface IQuery {
     locationType(id: string): LocationType | Promise<LocationType>;
     locations(): Location[] | Promise<Location[]>;
     location(id: string): Location | Promise<Location>;
+    organizations(): Organization[] | Promise<Organization[]>;
+    organization(id: string): Organization | Promise<Organization>;
     temp__(): boolean | Promise<boolean>;
 }
 
@@ -198,6 +212,7 @@ export interface ISubscription {
     itemCreated(): Item | Promise<Item>;
     locationTypeCreated(): LocationType | Promise<LocationType>;
     locationCreated(): Location | Promise<Location>;
+    organizationCreated(): Organization | Promise<Organization>;
 }
 
 export type Date = any;

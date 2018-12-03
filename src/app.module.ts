@@ -13,11 +13,13 @@ import { ItemPriceModule } from './item-price/item-price.module';
 import { ItemModule } from './item/item.module';
 import { LocationTypeModule } from './location-type/location-type.module';
 import { LocationModule } from './location/location.module';
+import { OrganizationModule } from './organization/organization.module';
 
 @Module({
 	imports: [
 		CommonModule,
 		AccountModule,
+		OrganizationModule,
 		AccessControlModule.forRoles(roles),
 		CommodityCategoryModule,
 		GameVersionModule,
