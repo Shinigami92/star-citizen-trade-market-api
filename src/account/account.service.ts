@@ -8,7 +8,7 @@ import { CreateAccountDto } from './dto/create-account.dto';
 export class AccountService {
 	public async signUp(account: CreateAccountDto): Promise<Account> {
 		const result: QueryResult = await client.query(
-			'INSERT INTO account(username, handle, email) VALUES ($1::text, $2::text, $3::text)',
+			'INSERT INTO account(username, handle, email) VALUES ($1::text, $2::text, $3::text) RETURNING *',
 			[account.username, account.handle, account.email]
 		);
 		return result.rows[0];

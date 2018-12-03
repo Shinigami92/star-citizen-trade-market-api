@@ -9,7 +9,7 @@ export class CommodityService {
 	public async create(commodity: CreateCommodityDto): Promise<Commodity> {
 		const result: QueryResult = await client.query(
 			'INSERT INTO item(name, in_game_since_version_id, in_game_since, type, commodity_category_id)' +
-				" VALUES ($1::text, $2::uuid, $3::timestamptz, 'COMMODITY', $4::uuid)",
+				" VALUES ($1::text, $2::uuid, $3::timestamptz, 'COMMODITY', $4::uuid) RETURNING *",
 			[commodity.name, commodity.inGameSinceVersionId, commodity.inGameSince, commodity.commodityCategoryId]
 		);
 		return result.rows[0];

@@ -7,9 +7,10 @@ import { CreateCommodityCategoryDto } from './dto/create-commodity-category.dto'
 @Injectable()
 export class CommodityCategoryService {
 	public async create(commodityCategory: CreateCommodityCategoryDto): Promise<CommodityCategory> {
-		const result: QueryResult = await client.query('INSERT INTO commodity_category(name) VALUES ($1::text)', [
-			commodityCategory.name
-		]);
+		const result: QueryResult = await client.query(
+			'INSERT INTO commodity_category(name) VALUES ($1::text) RETURNING *',
+			[commodityCategory.name]
+		);
 		return result.rows[0];
 	}
 
