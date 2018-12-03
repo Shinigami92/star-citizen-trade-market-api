@@ -1,0 +1,21 @@
+type Query {
+	locationTypes: [LocationType]
+	locationType(id: ID!): LocationType
+}
+
+type Mutation {
+	createLocationType(createLocationTypeInput: CreateLocationTypeInput!): LocationType!
+}
+
+type Subscription {
+	locationTypeCreated: LocationType!
+}
+
+type LocationType {
+	id: ID!
+	name: String!
+}
+
+input CreateLocationTypeInput {
+	name: String!
+}

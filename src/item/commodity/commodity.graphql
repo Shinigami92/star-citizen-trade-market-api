@@ -18,11 +18,13 @@ type Commodity implements Item {
 	inGameSinceVersion: GameVersion!
 	inGameSince: Date
 	type: ItemType!
+	commodityCategoryId: ID!
+	commodityCategory: CommodityCategory!
 }
 
 input CreateCommodityInput {
 	name: String!
 	inGameSinceVersionId: ID!
-	inGameSince: String
+	inGameSince: Date
 	commodityCategoryId: ID!
 }

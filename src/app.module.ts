@@ -10,6 +10,8 @@ import { CommodityCategoryModule } from './commodity-category/commodity-category
 import { CommonModule } from './common/common.module';
 import { GameVersionModule } from './game-version/game-version.module';
 import { ItemModule } from './item/item.module';
+import { LocationTypeModule } from './location-type/location-type.module';
+import { LocationModule } from './location/location.module';
 
 @Module({
 	imports: [
@@ -19,6 +21,8 @@ import { ItemModule } from './item/item.module';
 		CommodityCategoryModule,
 		GameVersionModule,
 		ItemModule,
+		LocationTypeModule,
+		LocationModule,
 		GraphQLModule.forRoot({
 			typePaths: ['./**/*.graphql'],
 			installSubscriptionHandlers: true,

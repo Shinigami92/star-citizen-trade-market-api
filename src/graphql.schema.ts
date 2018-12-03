@@ -39,7 +39,7 @@ export interface CreateCommodityCategoryInput {
 export interface CreateCommodityInput {
     name: string;
     inGameSinceVersionId: string;
-    inGameSince?: string;
+    inGameSince?: Date;
     commodityCategoryId: string;
 }
 
@@ -51,6 +51,18 @@ export interface CreateItemInput {
     name: string;
     inGameSinceVersionId: string;
     inGameSince?: string;
+}
+
+export interface CreateLocationInput {
+    name: string;
+    parentLocationId?: string;
+    typeId: string;
+    inGameSinceVersionId: string;
+    inGameSince?: Date;
+}
+
+export interface CreateLocationTypeInput {
+    name: string;
 }
 
 export interface Item {
@@ -77,6 +89,8 @@ export interface Commodity extends Item {
     inGameSinceVersion: GameVersion;
     inGameSince?: Date;
     type: ItemType;
+    commodityCategoryId: string;
+    commodityCategory: CommodityCategory;
 }
 
 export interface CommodityCategory {
@@ -89,12 +103,31 @@ export interface GameVersion {
     identifier: string;
 }
 
+export interface Location {
+    id: string;
+    name: string;
+    parentLocationId?: string;
+    parentLocation?: Location;
+    typeId: string;
+    type: LocationType;
+    inGameSinceVersionId: string;
+    inGameSinceVersion: GameVersion;
+    inGameSince?: Date;
+}
+
+export interface LocationType {
+    id: string;
+    name: string;
+}
+
 export interface IMutation {
     signUp(createAccountInput: CreateAccountInput): Account | Promise<Account>;
     createCommodityCategory(createCommodityCategoryInput: CreateCommodityCategoryInput): CommodityCategory | Promise<CommodityCategory>;
     createGameVersion(createGameVersionInput: CreateGameVersionInput): GameVersion | Promise<GameVersion>;
     createCommodity(createCommodityInput: CreateCommodityInput): Commodity | Promise<Commodity>;
     createItem(createItemInput: CreateItemInput): Item | Promise<Item>;
+    createLocationType(createLocationTypeInput: CreateLocationTypeInput): LocationType | Promise<LocationType>;
+    createLocation(createLocationInput: CreateLocationInput): Location | Promise<Location>;
 }
 
 export interface IQuery {
@@ -108,6 +141,10 @@ export interface IQuery {
     commodity(id: string): Commodity | Promise<Commodity>;
     items(): Item[] | Promise<Item[]>;
     item(id: string): Item | Promise<Item>;
+    locationTypes(): LocationType[] | Promise<LocationType[]>;
+    locationType(id: string): LocationType | Promise<LocationType>;
+    locations(): Location[] | Promise<Location[]>;
+    location(id: string): Location | Promise<Location>;
     temp__(): boolean | Promise<boolean>;
 }
 
@@ -117,6 +154,8 @@ export interface ISubscription {
     gameVersionCreated(): GameVersion | Promise<GameVersion>;
     commodityCreated(): Commodity | Promise<Commodity>;
     itemCreated(): Item | Promise<Item>;
+    locationTypeCreated(): LocationType | Promise<LocationType>;
+    locationCreated(): Location | Promise<Location>;
 }
 
 export type Date = any;
