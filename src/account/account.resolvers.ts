@@ -2,7 +2,8 @@ import { UseGuards } from '@nestjs/common';
 import { Args, Context, Mutation, Parent, Query, ResolveProperty, Resolver, Subscription } from '@nestjs/graphql';
 import { PubSub } from 'graphql-subscriptions';
 import { AuthGuard } from 'src/auth.guard';
-import { Account, Role } from 'src/graphql.schema';
+import { Account, Organization, Role } from 'src/graphql.schema';
+import { OrganizationService } from 'src/organization/organization.service';
 import { AccountService } from './account.service';
 import { CreateAccountDto } from './dto/create-account.dto';
 
@@ -10,7 +11,10 @@ const pubSub: PubSub = new PubSub();
 
 @Resolver('Account')
 export class AccountResolvers {
-	constructor(private readonly accountService: AccountService) {}
+	constructor(
+		private readonly accountService: AccountService,
+		private readonly organizationService: OrganizationService
+	) {}
 
 	@Query('accounts')
 	public async accounts(): Promise<Account[]> {
@@ -47,5 +51,13 @@ export class AccountResolvers {
 			return account.email;
 		}
 		return undefined;
+	}
+
+	@ResolveProperty('mainOrganization')
+	public async location(@Parent() account: Account): Promise<Organization | null> {
+		if (account.mainOrganizationId !== undefined) {
+			return (await this.organizationService.findOneById(account.mainOrganizationId))!;
+		}
+		return null;
 	}
 }

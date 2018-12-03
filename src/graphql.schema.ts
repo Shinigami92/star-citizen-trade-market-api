@@ -108,6 +108,8 @@ export interface Account {
     handle: string;
     email?: string;
     roles?: Role[];
+    mainOrganizationId?: string;
+    mainOrganization?: Organization;
 }
 
 export interface Commodity extends Item {

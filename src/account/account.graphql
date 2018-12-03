@@ -24,6 +24,8 @@ type Account {
 	handle: String!
 	email: String
 	roles: [Role]
+	mainOrganizationId: ID
+	mainOrganization: Organization
 }
 
 input CreateAccountInput {
