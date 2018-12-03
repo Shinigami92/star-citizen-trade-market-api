@@ -62,3 +62,6 @@ typings/
 
 # Node package-lock.json
 package-lock.json
+
+# Output of build
+dist
