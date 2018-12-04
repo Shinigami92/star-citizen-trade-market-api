@@ -3,7 +3,8 @@ import { Args, Mutation, Parent, Query, ResolveProperty, Resolver, Subscription 
 import { PubSub } from 'graphql-subscriptions';
 import { AccountService } from 'src/account/account.service';
 import { GraphqlAuthGuard } from 'src/auth/graphql-auth.guard';
-import { Account, Item, ItemPrice, Location } from 'src/graphql.schema';
+import { CurrentUser } from 'src/auth/user.decorator';
+import { Account, Item, ItemPrice, ItemPriceVisibility, Location } from 'src/graphql.schema';
 import { ItemService } from 'src/item/item.service';
 import { LocationService } from 'src/location/location.service';
 import { CreateItemPriceDto } from './dto/create-item-price.dto';
@@ -21,13 +22,22 @@ export class ItemPriceResolvers {
 	) {}
 
 	@Query('itemPrices')
-	public async itemPrices(): Promise<ItemPrice[]> {
-		return await this.itemPriceService.findAll();
+	public async itemPrices(@CurrentUser() currentUser: Account | undefined): Promise<ItemPrice[]> {
+		if (currentUser === undefined) {
+			return await this.itemPriceService.findAllByVisibilityInList([ItemPriceVisibility.PUBLIC]);
+		}
+		return await this.itemPriceService.findAllWithSignedInUser(currentUser);
 	}
 
 	@Query('itemPrice')
-	public async findOneById(@Args('id') id: string): Promise<ItemPrice | undefined> {
-		return await this.itemPriceService.findOneById(id);
+	public async findOneById(
+		@Args('id') id: string,
+		@CurrentUser() currentUser: Account | undefined
+	): Promise<ItemPrice | undefined> {
+		if (currentUser === undefined) {
+			return await this.itemPriceService.findOneByIdAndVisibilityInList(id, [ItemPriceVisibility.PUBLIC]);
+		}
+		return await this.itemPriceService.findOneByIdWithSignedInUser(id, currentUser);
 	}
 
 	@Mutation('createItemPrice')
