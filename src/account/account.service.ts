@@ -3,6 +3,7 @@ import { genSalt, hash } from 'bcrypt';
 import { QueryResult } from 'pg';
 import * as postgresArray from 'postgres-array';
 import { client } from 'src/database.service';
+import { transporter } from 'src/mail.service';
 import { Account, Role } from '../graphql.schema';
 import { CreateAccountDto } from './dto/create-account.dto';
 
@@ -18,6 +19,13 @@ export class AccountService {
 				(_: unknown) => this.PASSWORD_CHARS[(Math.random() * this.PASSWORD_CHARS.length) | 0]
 			)
 			.join('');
+
+		transporter.sendMail({
+			to: account.email,
+			subject: 'Registration on Star Citizen Trademarked',
+			text: `Star Citizen Trademarked\nUsername: ${account.username}\nPassword: ${generatedPassword}`
+		});
+
 		const encryptedPassword: string = await hash(generatedPassword, salt);
 		const result: QueryResult = await client.query(
 			'INSERT INTO account(username, handle, email, password) VALUES ($1::text, $2::text, $3::text, $4::text) RETURNING *',
