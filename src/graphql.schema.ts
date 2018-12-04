@@ -107,7 +107,7 @@ export interface Account {
     username: string;
     handle: string;
     email?: string;
-    roles?: Role[];
+    roles: Role[];
     mainOrganizationId?: string;
     mainOrganization?: Organization;
 }

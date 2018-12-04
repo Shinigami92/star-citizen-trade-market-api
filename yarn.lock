@@ -102,6 +102,11 @@
     ts-simple-ast "^14.4.2"
     uuid "3.3.2"
 
+"@nestjs/passport@~5.1.0":
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/@nestjs/passport/-/passport-5.1.0.tgz#abbf028290800092724238f5a2c5b68ae035ce86"
+  integrity sha512-I9UMWM9yfm/7w50f/glnELfKJUiBa1N2b57nqyOxKCbSApaRQtyvw70uMutbCmaOCkw6bjwBayG3uNrOodFMqw==
+
 "@nestjs/testing@~5.4.1":
   version "5.4.1"
   resolved "https://registry.yarnpkg.com/@nestjs/testing/-/testing-5.4.1.tgz#724843bfca0a8f65d1b8fb317bb7053d8e9d9af0"
@@ -185,6 +190,11 @@
   dependencies:
     "@types/node" "*"
 
+"@types/bcrypt@~3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@types/bcrypt/-/bcrypt-3.0.0.tgz#851489a9065a067cb7f3c9cbe4ce9bed8bba0876"
+  integrity sha512-nohgNyv+1ViVcubKBh0+XiNJ3dO8nYu///9aJ4cgSqv70gBL+94SNy/iC2NLzKPT2Zt/QavrOkBVbZRLZmw6NQ==
+
 "@types/body-parser@*", "@types/body-parser@1.17.0":
   version "1.17.0"
   resolved "https://registry.yarnpkg.com/@types/body-parser/-/body-parser-1.17.0.tgz#9f5c9d9bd04bb54be32d5eb9fc0d8c974e6cf58c"
@@ -267,10 +277,30 @@
   resolved "https://registry.yarnpkg.com/@types/mime/-/mime-2.0.0.tgz#5a7306e367c539b9f6543499de8dd519fac37a8b"
   integrity sha512-A2TAGbTFdBw9azHbpVd+/FkdW2T6msN1uct1O9bH3vTerEHKZhTXJUQXy+hNq1B0RagfU8U+KBdqiZpxjhOUQA==
 
-"@types/node@*", "@types/node@^10.1.0", "@types/node@~10.12.11":
+"@types/node@*", "@types/node@^10.1.0":
   version "10.12.11"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-10.12.11.tgz#715c476c99a5f6898a1ae61caf9825e43c03912e"
   integrity sha512-3iIOhNiPGTdcUNVCv9e5G7GotfvJJe2pc9w2UgDXlUwnxSZ3RgcUocIU+xYm+rTU54jIKih998QE4dMOyMN1NQ==
+
+"@types/node@~10.12.12":
+  version "10.12.12"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.12.12.tgz#e15a9d034d9210f00320ef718a50c4a799417c47"
+  integrity sha512-Pr+6JRiKkfsFvmU/LK68oBRCQeEg36TyAbPhc2xpez24OOZZCuoIhWGTd39VZy6nGafSbxzGouFPTFD/rR1A0A==
+
+"@types/passport-http-bearer@~1.0.33":
+  version "1.0.33"
+  resolved "https://registry.yarnpkg.com/@types/passport-http-bearer/-/passport-http-bearer-1.0.33.tgz#68d6df93db17a2abf58925efbfdeb3b7c2e0fdf5"
+  integrity sha512-S9VqrOx5GTcMNujuL2wXUwRCbYwNDSyaIv0B8rDAuWz8E2aM7oFCfEuNbNwV0SsVul0CcK4ftsKf63ETSprt1w==
+  dependencies:
+    "@types/express" "*"
+    "@types/passport" "*"
+
+"@types/passport@*":
+  version "0.4.7"
+  resolved "https://registry.yarnpkg.com/@types/passport/-/passport-0.4.7.tgz#2b7f29bf61df91cf77023b3777e940b613d4b4d8"
+  integrity sha512-EePlxNYx5tf3n0yjdPXX0/zDOv0UCwjMyQo4UkWGlhHteNDItAj7TfDdLttSThVMKQz3uCW7lsGzMuml0f8g9Q==
+  dependencies:
+    "@types/express" "*"
 
 "@types/pg-types@*":
   version "1.11.4"
@@ -308,10 +338,10 @@
     "@types/cookiejar" "*"
     "@types/node" "*"
 
-"@types/supertest@~2.0.6":
-  version "2.0.6"
-  resolved "https://registry.yarnpkg.com/@types/supertest/-/supertest-2.0.6.tgz#a0665350c0e36315e1bccdf4785f2b76fcb71b6b"
-  integrity sha512-qRvPP8dO7IBqJz8LaQ7/Lw2oo/geiDUPAMx/L+CQCkR9sN622O30XCH7RSyUmilyCSyjxyhJ7cEtd3hmwPwvhw==
+"@types/supertest@~2.0.7":
+  version "2.0.7"
+  resolved "https://registry.yarnpkg.com/@types/supertest/-/supertest-2.0.7.tgz#46ff6508075cd4519736be060f0d6331a5c8ca7b"
+  integrity sha512-GibTh4OTkal71btYe2fpZP/rVHIPnnUsYphEaoywVHo+mo2a/LhlOFkIm5wdN0H0DA0Hx8x+tKgCYMD9elHu5w==
   dependencies:
     "@types/superagent" "*"
 
@@ -485,10 +515,10 @@ apollo-server-caching@0.2.1:
   dependencies:
     lru-cache "^5.0.0"
 
-apollo-server-core@2.2.5:
-  version "2.2.5"
-  resolved "https://registry.yarnpkg.com/apollo-server-core/-/apollo-server-core-2.2.5.tgz#bf1538c10213be38a37dd8e6461461f7b808c57e"
-  integrity sha512-obz6VSJI7vSR+pEAZFwqOe/HAOuF4l1fYU9WNtVcQvxaKhykDgcu+byO0sXrOf/iB7uUIyaFdhinwzuwkqB8XQ==
+apollo-server-core@2.2.6:
+  version "2.2.6"
+  resolved "https://registry.yarnpkg.com/apollo-server-core/-/apollo-server-core-2.2.6.tgz#33031a3e1156d4cd0ad3c5c49de263173f521b32"
+  integrity sha512-hC3+Y9A4rN4W2X2cWqjrWWHkjKaG/jUQjtAVpQteDW+7n3bLKHCrpDFiFad++lq0ymRVW8diAaYDS4myJwjmoA==
   dependencies:
     "@apollographql/apollo-tools" "^0.2.6"
     "@apollographql/apollo-upload-server" "^5.0.3"
@@ -500,9 +530,9 @@ apollo-server-core@2.2.5:
     apollo-server-caching "0.2.1"
     apollo-server-env "2.2.0"
     apollo-server-errors "2.2.0"
-    apollo-server-plugin-base "0.1.5"
+    apollo-server-plugin-base "0.1.6"
     apollo-tracing "0.3.3"
-    graphql-extensions "0.3.5"
+    graphql-extensions "0.3.6"
     graphql-subscriptions "^1.0.0"
     graphql-tag "^2.9.2"
     graphql-tools "^4.0.0"
@@ -524,10 +554,10 @@ apollo-server-errors@2.2.0:
   resolved "https://registry.yarnpkg.com/apollo-server-errors/-/apollo-server-errors-2.2.0.tgz#5b452a1d6ff76440eb0f127511dc58031a8f3cb5"
   integrity sha512-gV9EZG2tovFtT1cLuCTavnJu2DaKxnXPRNGSTo+SDI6IAk6cdzyW0Gje5N2+3LybI0Wq5KAbW6VLei31S4MWmg==
 
-apollo-server-express@~2.2.5:
-  version "2.2.5"
-  resolved "https://registry.yarnpkg.com/apollo-server-express/-/apollo-server-express-2.2.5.tgz#9d27d68b3b1cf2f96a107a3091ecdea4012745a2"
-  integrity sha512-2SNlY8CNmYlbRJfn0iK4wesjqX3X9YIFhyok4sQ80n/gm24QMwZkFcPP+NLv+1lxvwyJYMwEFQPIBvkLRoUFXQ==
+apollo-server-express@~2.2.6:
+  version "2.2.6"
+  resolved "https://registry.yarnpkg.com/apollo-server-express/-/apollo-server-express-2.2.6.tgz#2c0c5bdab6eccf63ab138ad4b6d6836aeb723540"
+  integrity sha512-+zajJDcJLhWdkW8f0D5KQfDsaxgx7fQ3ULGDT1eZgL0UY5pazWBOnXqeRoVKRl+r1WcrwN1SMfBVnAKWv6CyVw==
   dependencies:
     "@apollographql/apollo-upload-server" "^5.0.3"
     "@apollographql/graphql-playground-html" "^1.6.6"
@@ -536,17 +566,17 @@ apollo-server-express@~2.2.5:
     "@types/cors" "^2.8.4"
     "@types/express" "4.16.0"
     accepts "^1.3.5"
-    apollo-server-core "2.2.5"
+    apollo-server-core "2.2.6"
     body-parser "^1.18.3"
     cors "^2.8.4"
     graphql-subscriptions "^1.0.0"
     graphql-tools "^4.0.0"
     type-is "^1.6.16"
 
-apollo-server-plugin-base@0.1.5:
-  version "0.1.5"
-  resolved "https://registry.yarnpkg.com/apollo-server-plugin-base/-/apollo-server-plugin-base-0.1.5.tgz#899c4d7bc0d9a6d9f1181cc83a791479409086f8"
-  integrity sha512-be77TaN9l16ZVG1tBl8Re3lJfUZ6B2T3DdEXnu6fjQwUuBdu3Y4MQR6B1TLhbuTb9DUkcSKZ3h5C55dIjvb2Vg==
+apollo-server-plugin-base@0.1.6:
+  version "0.1.6"
+  resolved "https://registry.yarnpkg.com/apollo-server-plugin-base/-/apollo-server-plugin-base-0.1.6.tgz#56932c0e3a0366e03952a6e2805efe5fa2e046bf"
+  integrity sha512-nh6I2+mgSL5cYxqYXymAr8xBZ/ju8nunPjHp/21+/mgbF4Is0xtM9oDq5Qf0Q/cGh/djF6YcBuB1yUG+68gJXw==
 
 apollo-tracing@0.3.3:
   version "0.3.3"
@@ -923,6 +953,14 @@ bcrypt-pbkdf@^1.0.0:
   integrity sha1-pDAdOJtqQ/m2f/PKEaP2Y342Dp4=
   dependencies:
     tweetnacl "^0.14.3"
+
+bcrypt@~3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/bcrypt/-/bcrypt-3.0.2.tgz#3c575c49ccbfdf0875eb42aa1453f5654092a33d"
+  integrity sha512-kE1IaaRchCgdrmzQX/eBQKcsuL4jRHZ+O11sMvEUrI/HgFTQYAGvxlj9z7kb3zfFuwljQ5y8/NrbnXtgx5oJLg==
+  dependencies:
+    nan "2.11.1"
+    node-pre-gyp "0.11.0"
 
 big.js@^3.1.3:
   version "3.2.0"
@@ -2330,10 +2368,10 @@ graphql-extensions@0.3.3:
   dependencies:
     "@apollographql/apollo-tools" "^0.2.6"
 
-graphql-extensions@0.3.5:
-  version "0.3.5"
-  resolved "https://registry.yarnpkg.com/graphql-extensions/-/graphql-extensions-0.3.5.tgz#95b742185d0016a9d65385a7a9e10753eadf0537"
-  integrity sha512-jpWSUIr27iOTR5JYu+dEMz74oZhOj8Xy+6lNopluiIu+ObEVSHW0czb2Jlcy3rOSTEPcibnpStO4F4/64IBqeQ==
+graphql-extensions@0.3.6:
+  version "0.3.6"
+  resolved "https://registry.yarnpkg.com/graphql-extensions/-/graphql-extensions-0.3.6.tgz#9ddb294b4b3303df4bbfd8258f10ad402e290dba"
+  integrity sha512-QGnDQ0TkF1YpVE/ZvKVl3bZ1PfwSbynVBcNU5U1DPU56pLkltETORiFL4TQ/Tt7RzagBX/xVaI3q0xJC6h9M5w==
   dependencies:
     "@apollographql/apollo-tools" "^0.2.6"
 
@@ -3914,7 +3952,7 @@ multimatch@^2.1.0:
     arrify "^1.0.0"
     minimatch "^3.0.0"
 
-nan@^2.9.2:
+nan@2.11.1, nan@^2.9.2:
   version "2.11.1"
   resolved "https://registry.yarnpkg.com/nan/-/nan-2.11.1.tgz#90e22bccb8ca57ea4cd37cc83d3819b52eea6766"
   integrity sha512-iji6k87OSXa0CcrLl9z+ZiYSuR2o+c0bGuNmXdrhTQTakxytAFsC56SArGYoiHlJlFoHSnvmhpceZJaXkVuOtA==
@@ -3992,10 +4030,10 @@ node-notifier@^5.2.1:
     shellwords "^0.1.1"
     which "^1.3.0"
 
-node-pg-migrate@~3.14.1:
-  version "3.14.1"
-  resolved "https://registry.yarnpkg.com/node-pg-migrate/-/node-pg-migrate-3.14.1.tgz#01c42e3f6d4b96d53917c00f0bfdb08bdd57bf40"
-  integrity sha512-qKMZVqjQ6p9JZNVl+PkTRD3NrzvkU2+9HQmb+9+U4iYMmWHWCLZr/z8PsnUut+tmpwecLwusArzSmCSjQR8qFg==
+node-pg-migrate@~3.14.2:
+  version "3.14.2"
+  resolved "https://registry.yarnpkg.com/node-pg-migrate/-/node-pg-migrate-3.14.2.tgz#d87f501c0e64ae9f985958104edc5e3bfb24a46e"
+  integrity sha512-/+/e3RZoNIkWv08v9+P14Qqrm2qav79BD+Uz3VNLoYsWQ3AzdHilumSPABoS8Dvipl987uhwrbkwqgl2Upu7Yg==
   dependencies:
     "@types/pg" "^7.4.0"
     lodash "~4.17.0"
@@ -4004,6 +4042,22 @@ node-pg-migrate@~3.14.1:
   optionalDependencies:
     config ">=1.0.0"
     dotenv ">=1.0.0"
+
+node-pre-gyp@0.11.0:
+  version "0.11.0"
+  resolved "https://registry.yarnpkg.com/node-pre-gyp/-/node-pre-gyp-0.11.0.tgz#db1f33215272f692cd38f03238e3e9b47c5dd054"
+  integrity sha512-TwWAOZb0j7e9eGaf9esRx3ZcLaE5tQ2lvYy1pb5IAaG1a2e2Kv5Lms1Y4hpj+ciXJRofIxxlt5haeQ/2ANeE0Q==
+  dependencies:
+    detect-libc "^1.0.2"
+    mkdirp "^0.5.1"
+    needle "^2.2.1"
+    nopt "^4.0.1"
+    npm-packlist "^1.1.6"
+    npmlog "^4.0.2"
+    rc "^1.2.7"
+    rimraf "^2.6.1"
+    semver "^5.3.0"
+    tar "^4"
 
 node-pre-gyp@^0.10.0:
   version "0.10.3"
@@ -4363,6 +4417,26 @@ pascalcase@^0.1.1:
   resolved "https://registry.yarnpkg.com/pascalcase/-/pascalcase-0.1.1.tgz#b363e55e8006ca6fe21784d2db22bd15d7917f14"
   integrity sha1-s2PlXoAGym/iF4TS2yK9FdeRfxQ=
 
+passport-http-bearer@~1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/passport-http-bearer/-/passport-http-bearer-1.0.1.tgz#147469ea3669e2a84c6167ef99dbb77e1f0098a8"
+  integrity sha1-FHRp6jZp4qhMYWfvmdu3fh8AmKg=
+  dependencies:
+    passport-strategy "1.x.x"
+
+passport-strategy@1.x.x:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/passport-strategy/-/passport-strategy-1.0.0.tgz#b5539aa8fc225a3d1ad179476ddf236b440f52e4"
+  integrity sha1-tVOaqPwiWj0a0XlHbd8ja0QPUuQ=
+
+passport@~0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/passport/-/passport-0.4.0.tgz#c5095691347bd5ad3b5e180238c3914d16f05811"
+  integrity sha1-xQlWkTR71a07XhgCOMORTRbwWBE=
+  dependencies:
+    passport-strategy "1.x.x"
+    pause "0.0.1"
+
 path-dirname@^1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/path-dirname/-/path-dirname-1.0.2.tgz#cc33d24d525e099a5388c0336c6e32b9160609e0"
@@ -4425,6 +4499,11 @@ path-type@^3.0.0:
   integrity sha512-T2ZUsdZFHgA3u4e5PfPbjd7HDDpxPnQb5jN0SrDsjNSuVXHJqtwTnWqG0B1jZrgmJ/7lj1EmVIByWt1gxGkWvg==
   dependencies:
     pify "^3.0.0"
+
+pause@0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/pause/-/pause-0.0.1.tgz#1d408b3fdb76923b9543d96fb4c9dfd535d9cb5d"
+  integrity sha1-HUCLP9t2kjuVQ9lvtMnf1TXZy10=
 
 performance-now@^2.1.0:
   version "2.1.0"

@@ -1,7 +1,8 @@
-import { UseGuards } from '@nestjs/common';
-import { Args, Context, Mutation, Parent, Query, ResolveProperty, Resolver, Subscription } from '@nestjs/graphql';
+import { UnauthorizedException, UseGuards } from '@nestjs/common';
+import { Args, Mutation, Parent, Query, ResolveProperty, Resolver, Subscription } from '@nestjs/graphql';
 import { PubSub } from 'graphql-subscriptions';
-import { AuthGuard } from 'src/auth.guard';
+import { GraphqlAuthGuard } from 'src/auth/graphql-auth.guard';
+import { CurrentUser } from 'src/auth/user.decorator';
 import { Account, Organization, Role } from 'src/graphql.schema';
 import { OrganizationService } from 'src/organization/organization.service';
 import { AccountService } from './account.service';
@@ -27,7 +28,6 @@ export class AccountResolvers {
 	}
 
 	@Mutation('signUp')
-	@UseGuards(AuthGuard)
 	public async signUp(@Args('createAccountInput') args: CreateAccountDto): Promise<Account> {
 		const createdAccount: Account = await this.accountService.signUp(args);
 		pubSub.publish('accountSignedUp', { accountSignedUp: createdAccount });
@@ -42,15 +42,15 @@ export class AccountResolvers {
 	}
 
 	@ResolveProperty('email')
-	@UseGuards(AuthGuard)
-	public email(@Parent() account: Account, @Context('user') currentUser: Account): string | undefined {
-		if (account.id === currentUser.id) {
-			return account.email;
+	@UseGuards(GraphqlAuthGuard)
+	public email(@Parent() account: Account, @CurrentUser() user: Account): string {
+		if (account.id === user.id) {
+			return account.email!;
 		}
-		if (currentUser.roles!.find((r: Role) => r === Role.USERADMIN || r === Role.ADMIN) !== undefined) {
-			return account.email;
+		if (user.roles.find((r: Role) => r === Role.USERADMIN || r === Role.ADMIN) !== undefined) {
+			return account.email!;
 		}
-		return undefined;
+		throw new UnauthorizedException();
 	}
 
 	@ResolveProperty('mainOrganization')

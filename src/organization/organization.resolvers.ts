@@ -1,7 +1,7 @@
 import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver, Subscription } from '@nestjs/graphql';
 import { PubSub } from 'graphql-subscriptions';
-import { AuthGuard } from 'src/auth.guard';
+import { GraphqlAuthGuard } from 'src/auth/graphql-auth.guard';
 import { Organization } from 'src/graphql.schema';
 import { CreateOrganizationDto } from './dto/create-organization.dto';
 import { OrganizationService } from './organization.service';
@@ -23,7 +23,7 @@ export class OrganizationResolvers {
 	}
 
 	@Mutation('createOrganization')
-	@UseGuards(AuthGuard)
+	@UseGuards(GraphqlAuthGuard)
 	public async create(@Args('createOrganizationInput') args: CreateOrganizationDto): Promise<Organization> {
 		const createdOrganization: Organization = await this.organizationService.create(args);
 		pubSub.publish('organizationCreated', { organizationCreated: createdOrganization });

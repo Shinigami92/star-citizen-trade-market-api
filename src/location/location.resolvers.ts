@@ -1,7 +1,7 @@
 import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Parent, Query, ResolveProperty, Resolver, Subscription } from '@nestjs/graphql';
 import { PubSub } from 'graphql-subscriptions';
-import { AuthGuard } from 'src/auth.guard';
+import { GraphqlAuthGuard } from 'src/auth/graphql-auth.guard';
 import { GameVersionService } from 'src/game-version/game-version.service';
 import { GameVersion, Location, LocationType } from 'src/graphql.schema';
 import { LocationTypeService } from 'src/location-type/location-type.service';
@@ -29,7 +29,7 @@ export class LocationResolvers {
 	}
 
 	@Mutation('createLocation')
-	@UseGuards(AuthGuard)
+	@UseGuards(GraphqlAuthGuard)
 	public async create(@Args('createLocationInput') args: CreateLocationDto): Promise<Location> {
 		const createdLocation: Location = await this.locationService.create(args);
 		pubSub.publish('locationCreated', { locationCreated: createdLocation });

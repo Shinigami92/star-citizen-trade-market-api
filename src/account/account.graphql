@@ -23,7 +23,7 @@ type Account {
 	username: String!
 	handle: String!
 	email: String
-	roles: [Role]
+	roles: [Role!]
 	mainOrganizationId: ID
 	mainOrganization: Organization
 }

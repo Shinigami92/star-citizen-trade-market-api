@@ -1,7 +1,7 @@
 import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver, Subscription } from '@nestjs/graphql';
 import { PubSub } from 'graphql-subscriptions';
-import { AuthGuard } from 'src/auth.guard';
+import { GraphqlAuthGuard } from 'src/auth/graphql-auth.guard';
 import { GameVersion } from 'src/graphql.schema';
 import { CreateGameVersionDto } from './dto/create-game-version.dto';
 import { GameVersionService } from './game-version.service';
@@ -23,7 +23,7 @@ export class GameVersionResolvers {
 	}
 
 	@Mutation('createGameVersion')
-	@UseGuards(AuthGuard)
+	@UseGuards(GraphqlAuthGuard)
 	public async create(@Args('createGameVersionInput') args: CreateGameVersionDto): Promise<GameVersion> {
 		const createdGameVersion: GameVersion = await this.gameVersionService.create(args);
 		pubSub.publish('gameVersionCreated', { gameVersionCreated: createdGameVersion });

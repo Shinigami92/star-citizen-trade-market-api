@@ -2,7 +2,7 @@ import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Parent, Query, ResolveProperty, Resolver, Subscription } from '@nestjs/graphql';
 import { PubSub } from 'graphql-subscriptions';
 import { AccountService } from 'src/account/account.service';
-import { AuthGuard } from 'src/auth.guard';
+import { GraphqlAuthGuard } from 'src/auth/graphql-auth.guard';
 import { Account, Item, ItemPrice, Location } from 'src/graphql.schema';
 import { ItemService } from 'src/item/item.service';
 import { LocationService } from 'src/location/location.service';
@@ -31,7 +31,7 @@ export class ItemPriceResolvers {
 	}
 
 	@Mutation('createItemPrice')
-	@UseGuards(AuthGuard)
+	@UseGuards(GraphqlAuthGuard)
 	public async create(@Args('createItemPriceInput') args: CreateItemPriceDto): Promise<ItemPrice> {
 		const createdItemPrice: ItemPrice = await this.itemPriceService.create(args);
 		pubSub.publish('itemPriceCreated', { itemPriceCreated: createdItemPrice });

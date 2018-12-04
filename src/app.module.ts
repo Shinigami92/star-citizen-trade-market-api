@@ -6,6 +6,7 @@ import { AccountModule } from './account/account.module';
 import { AppController } from './app.controller';
 import { roles } from './app.roles';
 import { AppService } from './app.service';
+import { AuthModule } from './auth/auth.module';
 import { CommodityCategoryModule } from './commodity-category/commodity-category.module';
 import { CommonModule } from './common/common.module';
 import { GameVersionModule } from './game-version/game-version.module';
@@ -19,6 +20,7 @@ import { OrganizationModule } from './organization/organization.module';
 	imports: [
 		CommonModule,
 		AccountModule,
+		AuthModule,
 		OrganizationModule,
 		AccessControlModule.forRoles(roles),
 		CommodityCategoryModule,
@@ -29,17 +31,12 @@ import { OrganizationModule } from './organization/organization.module';
 		ItemPriceModule,
 		GraphQLModule.forRoot({
 			typePaths: ['./**/*.graphql'],
-			installSubscriptionHandlers: true,
 			definitions: {
 				path: join(process.cwd(), 'src/graphql.schema.ts'),
 				outputAs: 'interface'
 			},
-			context: ({ req }: any): any => {
-				if (!req || !req.headers || !req.headers.authorization) {
-					return undefined;
-				}
-				return { token: req.headers.authorization };
-			}
+			installSubscriptionHandlers: true,
+			context: ({ req }: any): any => ({ req })
 		})
 	],
 	controllers: [AppController],
