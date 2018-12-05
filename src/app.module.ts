@@ -16,6 +16,8 @@ import { LocationTypeModule } from './location-type/location-type.module';
 import { LocationModule } from './location/location.module';
 import { OrganizationMemberModule } from './organization-member/organization-member.module';
 import { OrganizationModule } from './organization/organization.module';
+import { TransactionDetailModule } from './transaction-detail/transaction-detail.module';
+import { TransactionModule } from './transaction/transaction.module';
 
 @Module({
 	imports: [
@@ -31,6 +33,8 @@ import { OrganizationModule } from './organization/organization.module';
 		LocationTypeModule,
 		LocationModule,
 		ItemPriceModule,
+		TransactionDetailModule,
+		TransactionModule,
 		GraphQLModule.forRoot({
 			typePaths: ['./**/*.graphql'],
 			definitions: {

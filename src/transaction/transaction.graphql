@@ -1,0 +1,34 @@
+type Query {
+	transactions: [Transaction]
+	transaction(id: ID!): Transaction
+}
+
+type Mutation {
+	createTransaction(createTransactionInput: CreateTransactionInput!): Transaction!
+}
+
+type Subscription {
+	transactionCreated: Transaction!
+}
+
+type Transaction {
+	id: ID!
+	accountId: ID!
+	account: Account!
+	commodityId: ID!
+	commodity: Commodity!
+}
+
+input CreateFirstTransactionDetailInput {
+	locationId: ID!
+	price: Float!
+	quantity: Int!
+	note: String
+	timestamp: Date
+}
+
+input CreateTransactionInput {
+	accountId: ID
+	commodityId: ID!
+	transactionDetail: CreateFirstTransactionDetailInput!
+}

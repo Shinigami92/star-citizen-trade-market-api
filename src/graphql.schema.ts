@@ -38,10 +38,25 @@ export enum Role {
     ADMIN = "ADMIN"
 }
 
+export enum TransactionDetailType {
+    BOUGHT = "BOUGHT",
+    SOLD = "SOLD",
+    LOST = "LOST"
+}
+
 export interface CreateAccountInput {
     username: string;
     handle: string;
     email: string;
+}
+
+export interface CreateBoughtTransactionDetailInput {
+    transactionId: string;
+    locationId: string;
+    price: number;
+    quantity: number;
+    note?: string;
+    timestamp?: Date;
 }
 
 export interface CreateCommodityCategoryInput {
@@ -53,6 +68,14 @@ export interface CreateCommodityInput {
     inGameSinceVersionId: string;
     inGameSince?: Date;
     commodityCategoryId: string;
+}
+
+export interface CreateFirstTransactionDetailInput {
+    locationId: string;
+    price: number;
+    quantity: number;
+    note?: string;
+    timestamp?: Date;
 }
 
 export interface CreateGameVersionInput {
@@ -88,9 +111,50 @@ export interface CreateLocationTypeInput {
     name: string;
 }
 
+export interface CreateLostBasedOnTransactionDetailInput {
+    transactionDetailId: string;
+    locationId?: string;
+    note?: string;
+    timestamp?: Date;
+}
+
+export interface CreateLostTransactionDetailInput {
+    transactionId: string;
+    locationId?: string;
+    price: number;
+    quantity: number;
+    note?: string;
+    timestamp?: Date;
+}
+
 export interface CreateOrganizationInput {
     name: string;
     spectrumId: string;
+}
+
+export interface CreateSoldTransactionDetailInput {
+    transactionId: string;
+    locationId: string;
+    price: number;
+    quantity: number;
+    note?: string;
+    timestamp?: Date;
+}
+
+export interface CreateTransactionDetailInput {
+    transactionId: string;
+    type: TransactionDetailType;
+    locationId?: string;
+    price: number;
+    quantity: number;
+    note?: string;
+    timestamp?: Date;
+}
+
+export interface CreateTransactionInput {
+    accountId?: string;
+    commodityId: string;
+    transactionDetail: CreateFirstTransactionDetailInput;
 }
 
 export interface JoinOrganizationInput {
@@ -182,6 +246,12 @@ export interface IMutation {
     createLocation(createLocationInput: CreateLocationInput): Location | Promise<Location>;
     joinOrganization(joinOrganizationInput: JoinOrganizationInput): OrganizationMember | Promise<OrganizationMember>;
     createOrganization(createOrganizationInput: CreateOrganizationInput): Organization | Promise<Organization>;
+    createTransactionDetail(createTransactionDetailInput: CreateTransactionDetailInput): TransactionDetail | Promise<TransactionDetail>;
+    createBoughtTransactionDetail(createBoughtTransactionDetailInput: CreateBoughtTransactionDetailInput): TransactionDetail | Promise<TransactionDetail>;
+    createSoldTransactionDetail(createSoldTransactionDetailInput: CreateSoldTransactionDetailInput): TransactionDetail | Promise<TransactionDetail>;
+    createLostTransactionDetail(createBoughtTransactionDetailInput: CreateLostTransactionDetailInput): TransactionDetail | Promise<TransactionDetail>;
+    createLostBasedOnTransactionDetail(createLostBasedOnTransactionDetailInput: CreateLostBasedOnTransactionDetailInput): TransactionDetail | Promise<TransactionDetail>;
+    createTransaction(createTransactionInput: CreateTransactionInput): Transaction | Promise<Transaction>;
 }
 
 export interface Organization {
@@ -219,6 +289,10 @@ export interface IQuery {
     organizationMember(organizationId: string, accountId: string): OrganizationMember | Promise<OrganizationMember>;
     organizations(): Organization[] | Promise<Organization[]>;
     organization(id: string): Organization | Promise<Organization>;
+    transactionDetails(): TransactionDetail[] | Promise<TransactionDetail[]>;
+    transactionDetail(id: string): TransactionDetail | Promise<TransactionDetail>;
+    transactions(): Transaction[] | Promise<Transaction[]>;
+    transaction(id: string): Transaction | Promise<Transaction>;
     temp__(): boolean | Promise<boolean>;
 }
 
@@ -233,6 +307,29 @@ export interface ISubscription {
     locationCreated(): Location | Promise<Location>;
     organizationMemberCreated(): OrganizationMember | Promise<OrganizationMember>;
     organizationCreated(): Organization | Promise<Organization>;
+    transactionDetailCreated(): TransactionDetail | Promise<TransactionDetail>;
+    transactionCreated(): Transaction | Promise<Transaction>;
+}
+
+export interface Transaction {
+    id: string;
+    accountId: string;
+    account: Account;
+    commodityId: string;
+    commodity: Commodity;
+}
+
+export interface TransactionDetail {
+    id: string;
+    transactionId: string;
+    transaction: Transaction;
+    type: TransactionDetailType;
+    locationId: string;
+    location: Location;
+    price: number;
+    quantity: number;
+    note?: string;
+    timestamp: Date;
 }
 
 export type Date = any;

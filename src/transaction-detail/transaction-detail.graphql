@@ -1,0 +1,85 @@
+type Query {
+	transactionDetails: [TransactionDetail]
+	transactionDetail(id: ID!): TransactionDetail
+}
+
+type Mutation {
+	createTransactionDetail(createTransactionDetailInput: CreateTransactionDetailInput!): TransactionDetail!
+	createBoughtTransactionDetail(
+		createBoughtTransactionDetailInput: CreateBoughtTransactionDetailInput!
+	): TransactionDetail!
+	createSoldTransactionDetail(createSoldTransactionDetailInput: CreateSoldTransactionDetailInput!): TransactionDetail!
+	createLostTransactionDetail(
+		createBoughtTransactionDetailInput: CreateLostTransactionDetailInput!
+	): TransactionDetail!
+	createLostBasedOnTransactionDetail(
+		createLostBasedOnTransactionDetailInput: CreateLostBasedOnTransactionDetailInput!
+	): TransactionDetail!
+}
+
+type Subscription {
+	transactionDetailCreated: TransactionDetail!
+}
+
+enum TransactionDetailType {
+	BOUGHT
+	SOLD
+	LOST
+}
+
+type TransactionDetail {
+	id: ID!
+	transactionId: ID!
+	transaction: Transaction!
+	type: TransactionDetailType!
+	locationId: ID!
+	location: Location!
+	price: Float!
+	quantity: Int!
+	note: String
+	timestamp: Date!
+}
+
+input CreateTransactionDetailInput {
+	transactionId: ID!
+	type: TransactionDetailType!
+	locationId: ID
+	price: Float!
+	quantity: Int!
+	note: String
+	timestamp: Date
+}
+
+input CreateBoughtTransactionDetailInput {
+	transactionId: ID!
+	locationId: ID!
+	price: Float!
+	quantity: Int!
+	note: String
+	timestamp: Date
+}
+
+input CreateSoldTransactionDetailInput {
+	transactionId: ID!
+	locationId: ID!
+	price: Float!
+	quantity: Int!
+	note: String
+	timestamp: Date
+}
+
+input CreateLostTransactionDetailInput {
+	transactionId: ID!
+	locationId: ID
+	price: Float!
+	quantity: Int!
+	note: String
+	timestamp: Date
+}
+
+input CreateLostBasedOnTransactionDetailInput {
+	transactionDetailId: ID!
+	locationId: ID
+	note: String
+	timestamp: Date
+}
