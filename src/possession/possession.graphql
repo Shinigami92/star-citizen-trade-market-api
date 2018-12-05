@@ -1,0 +1,38 @@
+type Query {
+	possessions: [Possession]
+	possession(id: ID!): Possession
+}
+
+type Mutation {
+	createPossession(createPossessionInput: CreatePossessionInput!): Possession!
+}
+
+type Subscription {
+	possessionCreated: Possession!
+}
+
+enum PurchaseCurrency {
+	REAL_MONEY
+	A_UEC
+	REC
+	UEC
+}
+
+type Possession {
+	id: ID!
+	accountId: ID!
+	account: Account!
+	itemId: ID!
+	item: Item!
+	purchasePrice: Float!
+	purchaseCurrency: PurchaseCurrency!
+	purchaseDate: Date
+}
+
+input CreatePossessionInput {
+	accountId: ID
+	itemId: ID!
+	purchasePrice: Float!
+	purchaseCurrency: PurchaseCurrency!
+	purchaseDate: Date
+}

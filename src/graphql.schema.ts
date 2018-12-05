@@ -31,6 +31,13 @@ export enum ItemType {
     WEAPON = "WEAPON"
 }
 
+export enum PurchaseCurrency {
+    REAL_MONEY = "REAL_MONEY",
+    A_UEC = "A_UEC",
+    REC = "REC",
+    UEC = "UEC"
+}
+
 export enum Role {
     USER = "USER",
     ADVANCED = "ADVANCED",
@@ -130,6 +137,14 @@ export interface CreateLostTransactionDetailInput {
 export interface CreateOrganizationInput {
     name: string;
     spectrumId: string;
+}
+
+export interface CreatePossessionInput {
+    accountId?: string;
+    itemId: string;
+    purchasePrice: number;
+    purchaseCurrency: PurchaseCurrency;
+    purchaseDate?: Date;
 }
 
 export interface CreateSoldTransactionDetailInput {
@@ -246,6 +261,7 @@ export interface IMutation {
     createLocation(createLocationInput: CreateLocationInput): Location | Promise<Location>;
     joinOrganization(joinOrganizationInput: JoinOrganizationInput): OrganizationMember | Promise<OrganizationMember>;
     createOrganization(createOrganizationInput: CreateOrganizationInput): Organization | Promise<Organization>;
+    createPossession(createPossessionInput: CreatePossessionInput): Possession | Promise<Possession>;
     createTransactionDetail(createTransactionDetailInput: CreateTransactionDetailInput): TransactionDetail | Promise<TransactionDetail>;
     createBoughtTransactionDetail(createBoughtTransactionDetailInput: CreateBoughtTransactionDetailInput): TransactionDetail | Promise<TransactionDetail>;
     createSoldTransactionDetail(createSoldTransactionDetailInput: CreateSoldTransactionDetailInput): TransactionDetail | Promise<TransactionDetail>;
@@ -266,6 +282,17 @@ export interface OrganizationMember {
     accountId: string;
     account: Account;
     since?: Date;
+}
+
+export interface Possession {
+    id: string;
+    accountId: string;
+    account: Account;
+    itemId: string;
+    item: Item;
+    purchasePrice: number;
+    purchaseCurrency: PurchaseCurrency;
+    purchaseDate?: Date;
 }
 
 export interface IQuery {
@@ -289,6 +316,8 @@ export interface IQuery {
     organizationMember(organizationId: string, accountId: string): OrganizationMember | Promise<OrganizationMember>;
     organizations(): Organization[] | Promise<Organization[]>;
     organization(id: string): Organization | Promise<Organization>;
+    possessions(): Possession[] | Promise<Possession[]>;
+    possession(id: string): Possession | Promise<Possession>;
     transactionDetails(): TransactionDetail[] | Promise<TransactionDetail[]>;
     transactionDetail(id: string): TransactionDetail | Promise<TransactionDetail>;
     transactions(): Transaction[] | Promise<Transaction[]>;
@@ -307,6 +336,7 @@ export interface ISubscription {
     locationCreated(): Location | Promise<Location>;
     organizationMemberCreated(): OrganizationMember | Promise<OrganizationMember>;
     organizationCreated(): Organization | Promise<Organization>;
+    possessionCreated(): Possession | Promise<Possession>;
     transactionDetailCreated(): TransactionDetail | Promise<TransactionDetail>;
     transactionCreated(): Transaction | Promise<Transaction>;
 }
