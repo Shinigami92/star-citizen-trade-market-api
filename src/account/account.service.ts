@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
 import { genSalt, hash } from 'bcrypt';
 import { QueryResult } from 'pg';
 import * as postgresArray from 'postgres-array';
@@ -9,6 +9,7 @@ import { CreateAccountDto } from './dto/create-account.dto';
 
 @Injectable()
 export class AccountService {
+	private readonly logger: Logger = new Logger(AccountService.name);
 	private readonly PASSWORD_CHARS: string[] = [...'abcdefhjkmnpqrstuvwxABCDEFHJKMNPQRSTUVWX2345789'];
 
 	public async signUp(account: CreateAccountDto): Promise<Account> {
@@ -19,18 +20,35 @@ export class AccountService {
 				(_: unknown) => this.PASSWORD_CHARS[(Math.random() * this.PASSWORD_CHARS.length) | 0]
 			)
 			.join('');
+		const encryptedPassword: string = await hash(generatedPassword, salt);
+		let result: QueryResult;
+		try {
+			result = await client.query(
+				'INSERT INTO account(username, handle, email, password)' +
+					' VALUES ($1::text, $2::text, $3::text, $4::text) RETURNING *',
+				[account.username, account.handle, account.email, encryptedPassword]
+			);
+		} catch (error) {
+			this.logger.error(error);
+			switch (error.constraint) {
+				case 'account_username_key':
+					throw new ConflictException(`Username ${account.username} is already in use`);
+				case 'account_handle_key':
+					throw new ConflictException(
+						`Star Citizen Handle ${account.handle} is already taken by another user`
+					);
+				case 'account_email_key':
+					throw new ConflictException(`Email ${account.email} is already in use`);
+			}
+			throw new InternalServerErrorException();
+		}
 
 		transporter.sendMail({
 			to: account.email,
-			subject: 'Registration on Star Citizen Trademarked',
+			subject: 'Registration in Star Citizen Trademarked',
 			text: `Star Citizen Trademarked\nUsername: ${account.username}\nPassword: ${generatedPassword}`
 		});
 
-		const encryptedPassword: string = await hash(generatedPassword, salt);
-		const result: QueryResult = await client.query(
-			'INSERT INTO account(username, handle, email, password) VALUES ($1::text, $2::text, $3::text, $4::text) RETURNING *',
-			[account.username, account.handle, account.email, encryptedPassword]
-		);
 		return result.rows[0];
 	}
 
