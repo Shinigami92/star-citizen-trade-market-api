@@ -1,8 +1,10 @@
-import { UseGuards } from '@nestjs/common';
+import { BadRequestException, UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver, Subscription } from '@nestjs/graphql';
 import { PubSub } from 'graphql-subscriptions';
 import { GraphqlAuthGuard } from 'src/auth/graphql-auth.guard';
-import { TransactionDetail, TransactionDetailType } from 'src/graphql.schema';
+import { CurrentUser } from 'src/auth/user.decorator';
+import { Account, Role, Transaction, TransactionDetail, TransactionDetailType } from 'src/graphql.schema';
+import { TransactionService } from 'src/transaction/transaction.service';
 import { CreateBoughtTransactionDetailDto } from './dto/create-bought-transaction-detail.dto';
 import { CreateLostBasedOnTransactionDetailDto } from './dto/create-lost-based-on-transaction-detail.dto';
 import { CreateLostTransactionDetailDto } from './dto/create-lost-transaction-detail.dto';
@@ -14,7 +16,10 @@ const pubSub: PubSub = new PubSub();
 
 @Resolver('TransactionDetail')
 export class TransactionDetailResolvers {
-	constructor(private readonly transactionDetailService: TransactionDetailService) {}
+	constructor(
+		private readonly transactionDetailService: TransactionDetailService,
+		private readonly transactionService: TransactionService
+	) {}
 
 	@Query('transactionDetails')
 	public async transactionDetails(): Promise<TransactionDetail[]> {
@@ -29,8 +34,18 @@ export class TransactionDetailResolvers {
 	@Mutation('createTransactionDetail')
 	@UseGuards(GraphqlAuthGuard)
 	public async create(
-		@Args('createTransactionDetailInput') args: CreateTransactionDetailDto
+		@Args('createTransactionDetailInput') args: CreateTransactionDetailDto,
+		@CurrentUser() currentUser: Account
 	): Promise<TransactionDetail> {
+		const isAdmin: boolean = currentUser.roles.find((role: Role) => role === Role.ADMIN) !== undefined;
+		if (!isAdmin) {
+			const transaction: Transaction | undefined = await this.transactionService.findOneById(args.transactionId);
+			if (transaction === undefined) {
+				throw new BadRequestException(`No transaction with id ${args.transactionId} found`);
+			} else if (transaction.accountId !== currentUser.id) {
+				throw new BadRequestException('You can not post transaction details for another account');
+			}
+		}
 		const createdTransactionDetail: TransactionDetail = await this.transactionDetailService.create(args);
 		pubSub.publish('transactionDetailCreated', { transactionDetailCreated: createdTransactionDetail });
 		return createdTransactionDetail;
@@ -39,8 +54,18 @@ export class TransactionDetailResolvers {
 	@Mutation('createBoughtTransactionDetail')
 	@UseGuards(GraphqlAuthGuard)
 	public async createBoughtTransactionDetail(
-		@Args('createBoughtTransactionDetailInput') args: CreateBoughtTransactionDetailDto
+		@Args('createBoughtTransactionDetailInput') args: CreateBoughtTransactionDetailDto,
+		@CurrentUser() currentUser: Account
 	): Promise<TransactionDetail> {
+		const isAdmin: boolean = currentUser.roles.find((role: Role) => role === Role.ADMIN) !== undefined;
+		if (!isAdmin) {
+			const transaction: Transaction | undefined = await this.transactionService.findOneById(args.transactionId);
+			if (transaction === undefined) {
+				throw new BadRequestException(`No transaction with id ${args.transactionId} found`);
+			} else if (transaction.accountId !== currentUser.id) {
+				throw new BadRequestException('You can not post transaction details for another account');
+			}
+		}
 		const createdTransactionDetail: TransactionDetail = await this.transactionDetailService.create({
 			...args,
 			type: TransactionDetailType.BOUGHT
@@ -52,8 +77,18 @@ export class TransactionDetailResolvers {
 	@Mutation('createSoldTransactionDetail')
 	@UseGuards(GraphqlAuthGuard)
 	public async createSoldTransactionDetail(
-		@Args('createSoldTransactionDetailInput') args: CreateSoldTransactionDetailDto
+		@Args('createSoldTransactionDetailInput') args: CreateSoldTransactionDetailDto,
+		@CurrentUser() currentUser: Account
 	): Promise<TransactionDetail> {
+		const isAdmin: boolean = currentUser.roles.find((role: Role) => role === Role.ADMIN) !== undefined;
+		if (!isAdmin) {
+			const transaction: Transaction | undefined = await this.transactionService.findOneById(args.transactionId);
+			if (transaction === undefined) {
+				throw new BadRequestException(`No transaction with id ${args.transactionId} found`);
+			} else if (transaction.accountId !== currentUser.id) {
+				throw new BadRequestException('You can not post transaction details for another account');
+			}
+		}
 		const createdTransactionDetail: TransactionDetail = await this.transactionDetailService.create({
 			...args,
 			type: TransactionDetailType.SOLD
@@ -65,8 +100,18 @@ export class TransactionDetailResolvers {
 	@Mutation('createLostTransactionDetail')
 	@UseGuards(GraphqlAuthGuard)
 	public async createLostTransactionDetail(
-		@Args('createLostTransactionDetailInput') args: CreateLostTransactionDetailDto
+		@Args('createLostTransactionDetailInput') args: CreateLostTransactionDetailDto,
+		@CurrentUser() currentUser: Account
 	): Promise<TransactionDetail> {
+		const isAdmin: boolean = currentUser.roles.find((role: Role) => role === Role.ADMIN) !== undefined;
+		if (!isAdmin) {
+			const transaction: Transaction | undefined = await this.transactionService.findOneById(args.transactionId);
+			if (transaction === undefined) {
+				throw new BadRequestException(`No transaction with id ${args.transactionId} found`);
+			} else if (transaction.accountId !== currentUser.id) {
+				throw new BadRequestException('You can not post transaction details for another account');
+			}
+		}
 		const createdTransactionDetail: TransactionDetail = await this.transactionDetailService.create({
 			...args,
 			type: TransactionDetailType.LOST
@@ -78,8 +123,26 @@ export class TransactionDetailResolvers {
 	@Mutation('createLostBasedOnTransactionDetail')
 	@UseGuards(GraphqlAuthGuard)
 	public async createLostBasedOnTransactionDetail(
-		@Args('createLostBasedOnTransactionDetailInput') args: CreateLostBasedOnTransactionDetailDto
+		@Args('createLostBasedOnTransactionDetailInput') args: CreateLostBasedOnTransactionDetailDto,
+		@CurrentUser() currentUser: Account
 	): Promise<TransactionDetail> {
+		const isAdmin: boolean = currentUser.roles.find((role: Role) => role === Role.ADMIN) !== undefined;
+		if (!isAdmin) {
+			const transactionDetail: TransactionDetail | undefined = await this.transactionDetailService.findOneById(
+				args.transactionDetailId
+			);
+			if (transactionDetail === undefined) {
+				throw new BadRequestException(`No transactionDetail with id ${args.transactionDetailId} found`);
+			}
+			const transaction: Transaction | undefined = await this.transactionService.findOneById(
+				transactionDetail.transactionId
+			);
+			if (transaction === undefined) {
+				throw new BadRequestException(`No transaction with id ${transactionDetail.transactionId} found`);
+			} else if (transaction.accountId !== currentUser.id) {
+				throw new BadRequestException('You can not post transaction details for another account');
+			}
+		}
 		const createdTransactionDetail: TransactionDetail = await this.transactionDetailService.createLostBasedOnTransaction(
 			args
 		);
