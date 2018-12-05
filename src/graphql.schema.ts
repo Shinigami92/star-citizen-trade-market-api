@@ -93,6 +93,12 @@ export interface CreateOrganizationInput {
     spectrumId: string;
 }
 
+export interface JoinOrganizationInput {
+    organizationId: string;
+    accountId?: string;
+    since?: Date;
+}
+
 export interface Item {
     id: string;
     name: string;
@@ -174,6 +180,7 @@ export interface IMutation {
     createItem(createItemInput: CreateItemInput): Item | Promise<Item>;
     createLocationType(createLocationTypeInput: CreateLocationTypeInput): LocationType | Promise<LocationType>;
     createLocation(createLocationInput: CreateLocationInput): Location | Promise<Location>;
+    joinOrganization(joinOrganizationInput: JoinOrganizationInput): OrganizationMember | Promise<OrganizationMember>;
     createOrganization(createOrganizationInput: CreateOrganizationInput): Organization | Promise<Organization>;
 }
 
@@ -181,6 +188,14 @@ export interface Organization {
     id: string;
     name: string;
     spectrumId: string;
+}
+
+export interface OrganizationMember {
+    organizationId: string;
+    organization: Organization;
+    accountId: string;
+    account: Account;
+    since?: Date;
 }
 
 export interface IQuery {
@@ -200,6 +215,8 @@ export interface IQuery {
     locationType(id: string): LocationType | Promise<LocationType>;
     locations(): Location[] | Promise<Location[]>;
     location(id: string): Location | Promise<Location>;
+    organizationMembers(): OrganizationMember[] | Promise<OrganizationMember[]>;
+    organizationMember(organizationId: string, accountId: string): OrganizationMember | Promise<OrganizationMember>;
     organizations(): Organization[] | Promise<Organization[]>;
     organization(id: string): Organization | Promise<Organization>;
     temp__(): boolean | Promise<boolean>;
@@ -214,6 +231,7 @@ export interface ISubscription {
     itemCreated(): Item | Promise<Item>;
     locationTypeCreated(): LocationType | Promise<LocationType>;
     locationCreated(): Location | Promise<Location>;
+    organizationMemberCreated(): OrganizationMember | Promise<OrganizationMember>;
     organizationCreated(): Organization | Promise<Organization>;
 }
 

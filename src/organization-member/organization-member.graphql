@@ -1,0 +1,26 @@
+type Query {
+	organizationMembers: [OrganizationMember]
+	organizationMember(organizationId: ID!, accountId: ID!): OrganizationMember
+}
+
+type Mutation {
+	joinOrganization(joinOrganizationInput: JoinOrganizationInput!): OrganizationMember!
+}
+
+type Subscription {
+	organizationMemberCreated: OrganizationMember!
+}
+
+type OrganizationMember {
+	organizationId: ID!
+	organization: Organization!
+	accountId: ID!
+	account: Account!
+	since: Date
+}
+
+input JoinOrganizationInput {
+	organizationId: ID!
+	accountId: ID
+	since: Date
+}

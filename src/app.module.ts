@@ -14,6 +14,7 @@ import { ItemPriceModule } from './item-price/item-price.module';
 import { ItemModule } from './item/item.module';
 import { LocationTypeModule } from './location-type/location-type.module';
 import { LocationModule } from './location/location.module';
+import { OrganizationMemberModule } from './organization-member/organization-member.module';
 import { OrganizationModule } from './organization/organization.module';
 
 @Module({
@@ -22,6 +23,7 @@ import { OrganizationModule } from './organization/organization.module';
 		AccountModule,
 		AuthModule,
 		OrganizationModule,
+		OrganizationMemberModule,
 		AccessControlModule.forRoles(roles),
 		CommodityCategoryModule,
 		GameVersionModule,
