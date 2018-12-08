@@ -1,6 +1,7 @@
 type Query {
 	accounts: [Account]
 	account(id: ID!): Account
+	signIn(username: String!, password: String!): AuthToken
 }
 
 type Mutation {
@@ -26,6 +27,13 @@ type Account {
 	roles: [Role!]
 	mainOrganizationId: ID
 	mainOrganization: Organization
+}
+
+type AuthToken {
+	id: ID!
+	username: String!
+	roles: [Role!]
+	token: String!
 }
 
 input CreateAccountInput {

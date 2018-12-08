@@ -3,7 +3,7 @@ import { Args, Mutation, Parent, Query, ResolveProperty, Resolver, Subscription 
 import { PubSub } from 'graphql-subscriptions';
 import { GraphqlAuthGuard } from 'src/auth/graphql-auth.guard';
 import { CurrentUser } from 'src/auth/user.decorator';
-import { Account, Organization, Role } from 'src/graphql.schema';
+import { Account, AuthToken, Organization, Role } from 'src/graphql.schema';
 import { OrganizationService } from 'src/organization/organization.service';
 import { AccountService } from './account.service';
 import { CreateAccountDto } from './dto/create-account.dto';
@@ -32,6 +32,11 @@ export class AccountResolvers {
 		const createdAccount: Account = await this.accountService.signUp(args);
 		pubSub.publish('accountSignedUp', { accountSignedUp: createdAccount });
 		return createdAccount;
+	}
+
+	@Query('signIn')
+	public async signIn(@Args('username') username: string, @Args('password') password: string): Promise<AuthToken> {
+		return await this.accountService.signIn(username, password);
 	}
 
 	@Subscription('accountSignedUp')

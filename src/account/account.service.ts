@@ -1,10 +1,16 @@
-import { ConflictException, Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
-import { genSalt, hash } from 'bcrypt';
+import {
+	ConflictException,
+	Injectable,
+	InternalServerErrorException,
+	Logger,
+	UnauthorizedException
+} from '@nestjs/common';
+import { compare, genSalt, hash } from 'bcrypt';
 import { QueryResult } from 'pg';
 import * as postgresArray from 'postgres-array';
 import { client } from 'src/database.service';
 import { transporter } from 'src/mail.service';
-import { Account, Role } from '../graphql.schema';
+import { Account, AuthToken, Role } from '../graphql.schema';
 import { CreateAccountDto } from './dto/create-account.dto';
 
 @Injectable()
@@ -48,8 +54,27 @@ export class AccountService {
 			subject: 'Registration in Star Citizen Trademarket',
 			text: `Star Citizen Trademarket\nUsername: ${account.username}\nPassword: ${generatedPassword}`
 		});
+		// TODO: remove account if email cant be delivered
 
 		return result.rows[0];
+	}
+
+	public async signIn(username: string, password: string): Promise<AuthToken> {
+		const account: Account | undefined = await this.findOneByUsername(username);
+		// TODO: throw other exception
+		if (account === undefined) {
+			throw new UnauthorizedException();
+		}
+		const match: boolean = await compare(password, (account as any).password);
+		if (!match) {
+			throw new UnauthorizedException();
+		}
+		return {
+			id: account.id,
+			username: account.username,
+			roles: this.transformRoles(account)!.roles,
+			token: Buffer.from(`${username}:${password}`).toString('base64')
+		};
 	}
 
 	public async findAll(): Promise<Account[]> {

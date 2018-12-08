@@ -197,6 +197,13 @@ export interface Account {
     mainOrganization?: Organization;
 }
 
+export interface AuthToken {
+    id: string;
+    username: string;
+    roles: Role[];
+    token: string;
+}
+
 export interface Commodity extends Item {
     id: string;
     name: string;
@@ -298,6 +305,7 @@ export interface Possession {
 export interface IQuery {
     accounts(): Account[] | Promise<Account[]>;
     account(id: string): Account | Promise<Account>;
+    signIn(username: string, password: string): AuthToken | Promise<AuthToken>;
     commodityCategories(): CommodityCategory[] | Promise<CommodityCategory[]>;
     commodityCategory(id: string): CommodityCategory | Promise<CommodityCategory>;
     gameVersions(): GameVersion[] | Promise<GameVersion[]>;
