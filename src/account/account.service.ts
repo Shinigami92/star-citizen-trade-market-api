@@ -45,8 +45,8 @@ export class AccountService {
 
 		transporter.sendMail({
 			to: account.email,
-			subject: 'Registration in Star Citizen Trademarked',
-			text: `Star Citizen Trademarked\nUsername: ${account.username}\nPassword: ${generatedPassword}`
+			subject: 'Registration in Star Citizen Trademarket',
+			text: `Star Citizen Trademarket\nUsername: ${account.username}\nPassword: ${generatedPassword}`
 		});
 
 		return result.rows[0];
