@@ -38,6 +38,7 @@ import { TransactionModule } from './transaction/transaction.module';
 		TransactionModule,
 		PossessionModule,
 		GraphQLModule.forRoot({
+			debug: false,
 			typePaths: ['./**/*.graphql'],
 			definitions: {
 				path: join(process.cwd(), 'src/graphql.schema.ts'),
