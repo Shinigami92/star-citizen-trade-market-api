@@ -45,34 +45,7 @@ export class ItemPriceService {
 	}
 
 	public async findAllWithSignedInUser({ id }: Account): Promise<ItemPrice[]> {
-		const result: QueryResult = await client.query(
-			'SELECT ip.* FROM item_price ip' +
-				" WHERE ip.visibility = 'PUBLIC'" +
-				' UNION' +
-				' SELECT ip.* FROM item_price ip' +
-				" WHERE ip.visibility = 'PRIVATE' AND ip.scanned_by_id = $1::uuid" +
-				' UNION' +
-				' SELECT ip.* FROM item_price ip' +
-				" WHERE ip.visibility = 'MAIN_ORGANIZATION' AND ip.scanned_by_id::text = any((" +
-				' SELECT array_agg(om.account_id)' +
-				' FROM organization_member om' +
-				' JOIN organization o ON o.id = om.organization_id' +
-				' JOIN account a ON a.main_organization_id = o.id' +
-				' WHERE a.id = $1::uuid' +
-				' GROUP BY om.account_id' +
-				' )::text[])' +
-				' UNION' +
-				' SELECT ip.* FROM item_price ip' +
-				" WHERE ip.visibility = 'MEMBER_ORGANIZATION' AND ip.scanned_by_id::text = any((" +
-				' SELECT array_agg(om.account_id)' +
-				' FROM organization_member om' +
-				' JOIN organization o ON o.id = om.organization_id' +
-				' JOIN organization_member aom ON o.id = aom.organization_id' +
-				' WHERE aom.account_id = $1::uuid' +
-				' GROUP BY om.account_id' +
-				' )::text[])',
-			[id]
-		);
+		const result: QueryResult = await client.query('SELECT * FROM f_item_price_visible($1::uuid)', [id]);
 		return result.rows;
 	}
 
@@ -93,38 +66,10 @@ export class ItemPriceService {
 	}
 
 	public async findOneByIdWithSignedInUser(id: string, currentUser: Account): Promise<ItemPrice | undefined> {
-		const result: QueryResult = await client.query(
-			'SELECT ip.* FROM item_price ip' +
-				" WHERE ip.visibility = 'PUBLIC'" +
-				' AND id = $1::uuid' +
-				' UNION' +
-				' SELECT ip.* FROM item_price ip' +
-				" WHERE ip.visibility = 'PRIVATE' AND ip.scanned_by_id = $2::uuid" +
-				' AND id = $1::uuid' +
-				' UNION' +
-				' SELECT ip.* FROM item_price ip' +
-				" WHERE ip.visibility = 'MAIN_ORGANIZATION' AND ip.scanned_by_id::text = any((" +
-				' SELECT array_agg(om.account_id)' +
-				' FROM organization_member om' +
-				' JOIN organization o ON o.id = om.organization_id' +
-				' JOIN account a ON a.main_organization_id = o.id' +
-				' WHERE a.id = $2::uuid' +
-				' GROUP BY om.account_id' +
-				' )::text[])' +
-				' AND id = $1::uuid' +
-				' UNION' +
-				' SELECT ip.* FROM item_price ip' +
-				" WHERE ip.visibility = 'MEMBER_ORGANIZATION' AND ip.scanned_by_id::text = any((" +
-				' SELECT array_agg(om.account_id)' +
-				' FROM organization_member om' +
-				' JOIN organization o ON o.id = om.organization_id' +
-				' JOIN organization_member aom ON o.id = aom.organization_id' +
-				' WHERE aom.account_id = $2::uuid' +
-				' GROUP BY om.account_id' +
-				' )::text[])' +
-				' AND id = $1::uuid',
-			[id, currentUser.id]
-		);
+		const result: QueryResult = await client.query('SELECT * FROM f_item_price_visible($1::uuid, $2::uuid)', [
+			currentUser.id,
+			id
+		]);
 		return result.rows[0];
 	}
 }
