@@ -9,6 +9,9 @@
 
 <p align="center">A progressive <a href="http://nodejs.org" target="blank">Node.js</a> API for Star Citizen to track the market with the help of the community.</p>
 
+## Discord
+[![Discord Chat](https://img.shields.io/discord/522792182256500766.svg)](https://discord.gg/FxJmUYT)
+
 ## Installation
 
 ```bash
