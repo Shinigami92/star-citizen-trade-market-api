@@ -1,18 +1,18 @@
 <p align="center">
-  <a href="https://robertsspaceindustries.com" target="blank"><img src="https://robertsspaceindustries.com/rsi/static/css/common/svg/cig/logo-star-citizen--fullcolor.svg" width="320" alt="Star Citizen Logo" /></a>
+  <a href="https://robertsspaceindustries.com" target="_blank"><img src="https://robertsspaceindustries.com/rsi/static/css/common/svg/cig/logo-star-citizen--fullcolor.svg" width="320" alt="Star Citizen Logo" /></a>
 </p>
 
-<p align="center">A progressive <a href="http://nodejs.org" target="blank">Node.js</a> API for Star Citizen to track the market with the help of the community.</p>
+<p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> API for Star Citizen to track the market with the help of the community.</p>
 
 ## Frontend
 
-- <a href="https://github.com/Shinigami92/star-citizen-trade-market-frontend" target="blank">Repository</a>
-- <a href="https://shinigami92.github.io/star-citizen-trade-market-frontend" target="blank">Website</a>
+- <a href="https://github.com/Shinigami92/star-citizen-trade-market-frontend" target="_blank">Repository</a>
+- <a href="https://shinigami92.github.io/star-citizen-trade-market-frontend" target="_blank">Website</a>
 
 ## Discord
 [![Discord Chat](https://img.shields.io/discord/522792182256500766.svg)](https://discord.gg/FxJmUYT)
 
-## Why dont you use <a href="https://www.versemate.com" target="blank">VerseMate</a>?
+## Why dont you use <a href="https://www.versemate.com" target="_blank">VerseMate</a>?
 
 I really like VerseMate!
 However, there are a few things that VerseMate (currently) does not support
