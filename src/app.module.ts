@@ -17,6 +17,7 @@ import { LocationModule } from './location/location.module';
 import { OrganizationMemberModule } from './organization-member/organization-member.module';
 import { OrganizationModule } from './organization/organization.module';
 import { PossessionModule } from './possession/possession.module';
+import { TradeModule } from './trade/trade.module';
 import { TransactionDetailModule } from './transaction-detail/transaction-detail.module';
 import { TransactionModule } from './transaction/transaction.module';
 
@@ -37,6 +38,7 @@ import { TransactionModule } from './transaction/transaction.module';
 		TransactionDetailModule,
 		TransactionModule,
 		PossessionModule,
+		TradeModule,
 		GraphQLModule.forRoot({
 			debug: false,
 			typePaths: ['./**/*.graphql'],

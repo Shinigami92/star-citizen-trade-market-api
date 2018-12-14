@@ -178,6 +178,13 @@ export interface JoinOrganizationInput {
     since?: Date;
 }
 
+export interface TradeSearchInput {
+    startLocationId?: string;
+    endLocationId?: string;
+    maxScu?: number;
+    startCurrency?: number;
+}
+
 export interface Item {
     id: string;
     name: string;
@@ -326,6 +333,7 @@ export interface IQuery {
     organization(id: string): Organization | Promise<Organization>;
     possessions(): Possession[] | Promise<Possession[]>;
     possession(id: string): Possession | Promise<Possession>;
+    trades(searchInput?: TradeSearchInput): Trade[] | Promise<Trade[]>;
     transactionDetails(): TransactionDetail[] | Promise<TransactionDetail[]>;
     transactionDetail(id: string): TransactionDetail | Promise<TransactionDetail>;
     transactions(): Transaction[] | Promise<Transaction[]>;
@@ -347,6 +355,11 @@ export interface ISubscription {
     possessionCreated(): Possession | Promise<Possession>;
     transactionDetailCreated(): TransactionDetail | Promise<TransactionDetail>;
     transactionCreated(): Transaction | Promise<Transaction>;
+}
+
+export interface Trade {
+    buyItemPrice: ItemPrice;
+    sellItemPrice: ItemPrice;
 }
 
 export interface Transaction {

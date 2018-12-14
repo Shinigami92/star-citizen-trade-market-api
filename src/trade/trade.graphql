@@ -1,0 +1,15 @@
+type Query {
+	trades(searchInput: TradeSearchInput): [Trade]
+}
+
+type Trade {
+	buyItemPrice: ItemPrice!
+	sellItemPrice: ItemPrice!
+}
+
+input TradeSearchInput {
+	startLocationId: ID
+	endLocationId: ID
+	maxScu: Int
+	startCurrency: Float
+}
