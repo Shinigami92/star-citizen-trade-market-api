@@ -75,4 +75,9 @@ export class ItemPriceResolvers {
 	public async location(@Parent() itemPrice: ItemPrice): Promise<Location> {
 		return (await this.locationService.findOneById(itemPrice.locationId))!;
 	}
+
+	@ResolveProperty('unitPrice')
+	public unitPrice(@Parent() itemPrice: ItemPrice): number {
+		return itemPrice.price / itemPrice.quantity;
+	}
 }

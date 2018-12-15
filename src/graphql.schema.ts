@@ -242,6 +242,7 @@ export interface ItemPrice {
     location: Location;
     price: number;
     quantity: number;
+    unitPrice: number;
     scanTime: Date;
     type: ItemPriceType;
     visibility: ItemPriceVisibility;
