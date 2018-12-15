@@ -20,4 +20,7 @@ export class CreateItemPriceDto implements CreateItemPriceInput {
 	public scanTime?: Date;
 	public type!: ItemPriceType;
 	public visibility?: ItemPriceVisibility;
+	@IsOptional()
+	@IsUUID('4')
+	public scannedInGameVersionId?: string;
 }

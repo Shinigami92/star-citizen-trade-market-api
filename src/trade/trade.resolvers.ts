@@ -1,6 +1,7 @@
 import { Args, Parent, Query, ResolveProperty, Resolver } from '@nestjs/graphql';
 import { CurrentUser } from 'src/auth/user.decorator';
-import { Account, Item, Location, Trade } from 'src/graphql.schema';
+import { GameVersionService } from 'src/game-version/game-version.service';
+import { Account, GameVersion, Item, Location, Trade } from 'src/graphql.schema';
 import { ItemService } from 'src/item/item.service';
 import { LocationService } from 'src/location/location.service';
 import { TradeService } from './trade.service';
@@ -10,7 +11,8 @@ export class TradeResolvers {
 	constructor(
 		private readonly tradeService: TradeService,
 		private readonly itemService: ItemService,
-		private readonly locationService: LocationService
+		private readonly locationService: LocationService,
+		private readonly gameVersionService: GameVersionService
 	) {}
 
 	@Query('trades')
@@ -39,5 +41,10 @@ export class TradeResolvers {
 	@ResolveProperty()
 	public async endLocation(@Parent() parent: Trade): Promise<Location> {
 		return (await this.locationService.findOneById(parent.sellItemPrice.locationId))!;
+	}
+
+	@ResolveProperty()
+	public async scannedInGameVersion(@Parent() parent: Trade): Promise<GameVersion> {
+		return (await this.gameVersionService.findOneById(parent.scannedInGameVersionId))!;
 	}
 }

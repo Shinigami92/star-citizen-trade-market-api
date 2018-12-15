@@ -29,6 +29,7 @@ interface TradeResult {
 	itemId: string;
 	profit: number;
 	margin: number;
+	scannedInGameVersionId: string;
 }
 
 @Injectable()
@@ -68,7 +69,8 @@ export class TradeService {
 			profit: tradeResult.profit,
 			margin: tradeResult.margin,
 			scanTime:
-				tradeResult.buyScanTime > tradeResult.sellScanTime ? tradeResult.sellScanTime : tradeResult.buyScanTime
+				tradeResult.buyScanTime > tradeResult.sellScanTime ? tradeResult.sellScanTime : tradeResult.buyScanTime,
+			scannedInGameVersionId: tradeResult.scannedInGameVersionId
 		} as Trade;
 	}
 }

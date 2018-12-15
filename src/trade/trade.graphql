@@ -11,6 +11,8 @@ type Trade {
 	profit: Float!
 	margin: Float!
 	scanTime: Date!
+	scannedInGameVersionId: ID!
+	scannedInGameVersion: GameVersion!
 }
 
 input TradeSearchInput {
@@ -18,4 +20,5 @@ input TradeSearchInput {
 	endLocationId: ID
 	maxScu: Int
 	startCurrency: Float
+	gameVersionId: ID
 }

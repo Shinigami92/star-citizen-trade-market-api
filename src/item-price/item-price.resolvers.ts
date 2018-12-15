@@ -4,7 +4,8 @@ import { PubSub } from 'graphql-subscriptions';
 import { AccountService } from 'src/account/account.service';
 import { GraphqlAuthGuard } from 'src/auth/graphql-auth.guard';
 import { CurrentUser } from 'src/auth/user.decorator';
-import { Account, Item, ItemPrice, ItemPriceVisibility, Location } from 'src/graphql.schema';
+import { GameVersionService } from 'src/game-version/game-version.service';
+import { Account, GameVersion, Item, ItemPrice, ItemPriceVisibility, Location } from 'src/graphql.schema';
 import { ItemService } from 'src/item/item.service';
 import { LocationService } from 'src/location/location.service';
 import { CreateItemPriceDto } from './dto/create-item-price.dto';
@@ -18,7 +19,8 @@ export class ItemPriceResolvers {
 		private readonly itemPriceService: ItemPriceService,
 		private readonly accountService: AccountService,
 		private readonly itemService: ItemService,
-		private readonly locationService: LocationService
+		private readonly locationService: LocationService,
+		private readonly gameVersionService: GameVersionService
 	) {}
 
 	@Query('itemPrices')
@@ -79,5 +81,10 @@ export class ItemPriceResolvers {
 	@ResolveProperty('unitPrice')
 	public unitPrice(@Parent() itemPrice: ItemPrice): number {
 		return itemPrice.price / itemPrice.quantity;
+	}
+
+	@ResolveProperty('scannedInGameVersion')
+	public async scannedInGameVersion(@Parent() itemPrice: ItemPrice): Promise<GameVersion> {
+		return (await this.gameVersionService.findOneById(itemPrice.scannedInGameVersionId))!;
 	}
 }

@@ -104,6 +104,7 @@ export interface CreateItemPriceInput {
     scanTime?: Date;
     type: ItemPriceType;
     visibility?: ItemPriceVisibility;
+    scannedInGameVersionId?: string;
 }
 
 export interface CreateLocationInput {
@@ -183,6 +184,7 @@ export interface TradeSearchInput {
     endLocationId?: string;
     maxScu?: number;
     startCurrency?: number;
+    gameVersionId?: string;
 }
 
 export interface Item {
@@ -246,6 +248,8 @@ export interface ItemPrice {
     scanTime: Date;
     type: ItemPriceType;
     visibility: ItemPriceVisibility;
+    scannedInGameVersionId: string;
+    scannedInGameVersion: GameVersion;
 }
 
 export interface Location {
@@ -367,6 +371,8 @@ export interface Trade {
     profit: number;
     margin: number;
     scanTime: Date;
+    scannedInGameVersionId: string;
+    scannedInGameVersion: GameVersion;
 }
 
 export interface Transaction {

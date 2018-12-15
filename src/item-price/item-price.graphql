@@ -37,6 +37,8 @@ type ItemPrice {
 	scanTime: Date!
 	type: ItemPriceType!
 	visibility: ItemPriceVisibility!
+	scannedInGameVersionId: ID!
+	scannedInGameVersion: GameVersion!
 }
 
 input CreateItemPriceInput {
@@ -48,4 +50,5 @@ input CreateItemPriceInput {
 	scanTime: Date
 	type: ItemPriceType!
 	visibility: ItemPriceVisibility
+	scannedInGameVersionId: ID
 }
