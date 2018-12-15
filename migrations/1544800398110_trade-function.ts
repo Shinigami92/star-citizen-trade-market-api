@@ -15,10 +15,10 @@ export function up(pgm: MigrationBuilder): void {
 			language: 'plpgsql',
 			returns:
 				'TABLE(buy_id uuid, buy_scanned_by_id uuid, buy_location_id uuid, buy_price numeric,' +
-				' buy_quantity bigint, buy_unit_price numeric, buy_scan_time timestamp with time zone,' +
+				' buy_quantity bigint, buy_unit_price numeric, buy_scan_time timestamptz,' +
 				' buy_visibility item_price_visibility, sell_id uuid, sell_scanned_by_id uuid,' +
 				' sell_location_id uuid, sell_price numeric, sell_quantity bigint, sell_unit_price numeric,' +
-				' sell_scan_time timestamp with time zone, sell_visibility item_price_visibility, item_id uuid,' +
+				' sell_scan_time timestamptz, sell_visibility item_price_visibility, item_id uuid,' +
 				' profit numeric, margin numeric)'
 		},
 		/*sql*/ `BEGIN
@@ -44,12 +44,9 @@ export function up(pgm: MigrationBuilder): void {
 				s.price / s.quantity::numeric - b.price / b.quantity::numeric AS profit,
 				s.price / s.quantity::numeric / (b.price / b.quantity::numeric) * 100::numeric - 100::numeric AS margin
 		FROM f_item_price_visible(p_account_id) b
-		JOIN item bi ON bi.id = b.item_id
 		JOIN f_item_price_visible(p_account_id) s ON s.type = 'SELL'::item_price_type
-		JOIN item si ON si.id = s.item_id
 		WHERE b.type = 'BUY'::item_price_type
-		AND b.id <> s.id AND b.item_id = s.item_id
-		AND bi.in_game_since_version_id = si.in_game_since_version_id;
+		AND b.id <> s.id AND b.item_id = s.item_id;
 	END;`
 	);
 }
