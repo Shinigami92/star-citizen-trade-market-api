@@ -1,0 +1,21 @@
+type Query {
+	manufacturers: [Manufacturer]
+	manufacturer(id: ID!): Manufacturer
+}
+
+type Mutation {
+	createManufacturer(createManufacturerInput: CreateManufacturerInput!): Manufacturer!
+}
+
+type Subscription {
+	manufacturerCreated: Manufacturer!
+}
+
+type Manufacturer {
+	id: ID!
+	name: String!
+}
+
+input CreateManufacturerInput {
+	name: String!
+}

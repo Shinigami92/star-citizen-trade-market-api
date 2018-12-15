@@ -1,0 +1,36 @@
+type Query {
+	ships: [Ship]
+	ship(id: ID!): Ship
+}
+
+type Mutation {
+	createShip(createShipInput: CreateShipInput!): Ship!
+}
+
+type Subscription {
+	shipCreated: Ship!
+}
+
+type Ship implements Item {
+	id: ID!
+	name: String!
+	inGameSinceVersionId: ID!
+	inGameSinceVersion: GameVersion!
+	inGameSince: Date
+	type: ItemType!
+	scu: Int!
+	manufacturerId: ID!
+	manufacturer: Manufacturer!
+	focus: String!
+	size: Int!
+}
+
+input CreateShipInput {
+	name: String!
+	inGameSinceVersionId: ID!
+	inGameSince: Date
+	scu: Int!
+	manufacturerId: ID!
+	focus: String!
+	size: Int!
+}

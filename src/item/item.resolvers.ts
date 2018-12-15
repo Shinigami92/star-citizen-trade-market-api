@@ -1,9 +1,12 @@
-import { Parent, Query, ResolveProperty, Resolver } from '@nestjs/graphql';
+import { Logger } from '@nestjs/common';
+import { Args, Parent, Query, ResolveProperty, Resolver } from '@nestjs/graphql';
 import { Item } from 'src/graphql.schema';
 import { ItemService } from './item.service';
 
 @Resolver('Item')
 export class ItemResolvers {
+	private readonly logger: Logger = new Logger(ItemResolvers.name);
+
 	constructor(private readonly itemService: ItemService) {}
 
 	@Query('items')
@@ -11,12 +14,20 @@ export class ItemResolvers {
 		return await this.itemService.findAll();
 	}
 
+	@Query('item')
+	public async findOneById(@Args('id') id: string): Promise<Item | undefined> {
+		return await this.itemService.findOneById(id);
+	}
+
 	@ResolveProperty('__resolveType')
-	public async resolveType(@Parent() item: any): Promise<string | undefined> {
+	public async resolveType(@Parent() item: Item): Promise<string | undefined> {
 		switch (item.type) {
 			case 'COMMODITY':
 				return 'Commodity';
+			case 'SHIP':
+				return 'Ship';
 		}
-		return undefined;
+		this.logger.warn(`Found unsupported item type ${item.type}, using fallback`);
+		return 'FallbackItem';
 	}
 }
