@@ -360,6 +360,12 @@ export interface ISubscription {
 export interface Trade {
     buyItemPrice: ItemPrice;
     sellItemPrice: ItemPrice;
+    item: Item;
+    startLocation: Location;
+    endLocation: Location;
+    profit: number;
+    margin: number;
+    scanTime: Date;
 }
 
 export interface Transaction {

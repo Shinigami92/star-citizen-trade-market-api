@@ -5,6 +5,12 @@ type Query {
 type Trade {
 	buyItemPrice: ItemPrice!
 	sellItemPrice: ItemPrice!
+	item: Item!
+	startLocation: Location!
+	endLocation: Location!
+	profit: Float!
+	margin: Float!
+	scanTime: Date!
 }
 
 input TradeSearchInput {

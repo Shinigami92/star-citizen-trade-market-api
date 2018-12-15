@@ -64,7 +64,11 @@ export class TradeService {
 				scanTime: tradeResult.sellScanTime,
 				type: ItemPriceType.SELL,
 				visibility: tradeResult.sellVisibility
-			} as ItemPrice
-		};
+			} as ItemPrice,
+			profit: tradeResult.profit,
+			margin: tradeResult.margin,
+			scanTime:
+				tradeResult.buyScanTime > tradeResult.sellScanTime ? tradeResult.sellScanTime : tradeResult.buyScanTime
+		} as Trade;
 	}
 }
