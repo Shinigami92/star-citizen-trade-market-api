@@ -42,8 +42,14 @@ export class ItemPriceResolvers {
 
 	@Mutation('createItemPrice')
 	@UseGuards(GraphqlAuthGuard)
-	public async create(@Args('createItemPriceInput') args: CreateItemPriceDto): Promise<ItemPrice> {
-		const createdItemPrice: ItemPrice = await this.itemPriceService.create(args);
+	public async create(
+		@Args('createItemPriceInput') args: CreateItemPriceDto,
+		@CurrentUser() currentUser: Account
+	): Promise<ItemPrice> {
+		const createdItemPrice: ItemPrice = await this.itemPriceService.create({
+			scannedById: currentUser.id,
+			...args
+		});
 		pubSub.publish('itemPriceCreated', { itemPriceCreated: createdItemPrice });
 		return createdItemPrice;
 	}
