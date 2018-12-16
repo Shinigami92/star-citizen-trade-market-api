@@ -13,10 +13,16 @@ export class ItemPriceService {
 		if (itemPrice.visibility === undefined) {
 			itemPrice.visibility = ItemPriceVisibility.PUBLIC;
 		}
+		if (itemPrice.scannedInGameVersionId === undefined) {
+			itemPrice.scannedInGameVersionId = (await client.query(
+				'SELECT id FROM game_version ORDER BY identifier DESC LIMIT 1'
+			)).rows[0].id;
+		}
 		const result: QueryResult = await client.query(
-			'INSERT INTO item_price(scanned_by_id, item_id, location_id, price, quantity, scan_time, type, visibility)' +
+			'INSERT INTO item_price(scanned_by_id, item_id, location_id, price, quantity, scan_time, type, visibility,' +
+				' scanned_in_game_version_id)' +
 				' VALUES ($1::uuid, $2::uuid, $3::uuid, $4::numeric,' +
-				' $5::bigint, $6::timestamptz, $7::item_price_type, $8::item_price_visibility) RETURNING *',
+				' $5::bigint, $6::timestamptz, $7::item_price_type, $8::item_price_visibility, $9::uuid) RETURNING *',
 			[
 				itemPrice.scannedById,
 				itemPrice.itemId,
@@ -25,7 +31,8 @@ export class ItemPriceService {
 				itemPrice.quantity,
 				itemPrice.scanTime,
 				itemPrice.type,
-				itemPrice.visibility
+				itemPrice.visibility,
+				itemPrice.scannedInGameVersionId
 			]
 		);
 		return result.rows[0];

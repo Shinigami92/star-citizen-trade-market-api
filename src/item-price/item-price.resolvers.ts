@@ -4,7 +4,8 @@ import { PubSub } from 'graphql-subscriptions';
 import { AccountService } from 'src/account/account.service';
 import { GraphqlAuthGuard } from 'src/auth/graphql-auth.guard';
 import { CurrentUser } from 'src/auth/user.decorator';
-import { Account, Item, ItemPrice, ItemPriceVisibility, Location } from 'src/graphql.schema';
+import { GameVersionService } from 'src/game-version/game-version.service';
+import { Account, GameVersion, Item, ItemPrice, ItemPriceVisibility, Location } from 'src/graphql.schema';
 import { ItemService } from 'src/item/item.service';
 import { LocationService } from 'src/location/location.service';
 import { CreateItemPriceDto } from './dto/create-item-price.dto';
@@ -18,7 +19,8 @@ export class ItemPriceResolvers {
 		private readonly itemPriceService: ItemPriceService,
 		private readonly accountService: AccountService,
 		private readonly itemService: ItemService,
-		private readonly locationService: LocationService
+		private readonly locationService: LocationService,
+		private readonly gameVersionService: GameVersionService
 	) {}
 
 	@Query('itemPrices')
@@ -42,8 +44,14 @@ export class ItemPriceResolvers {
 
 	@Mutation('createItemPrice')
 	@UseGuards(GraphqlAuthGuard)
-	public async create(@Args('createItemPriceInput') args: CreateItemPriceDto): Promise<ItemPrice> {
-		const createdItemPrice: ItemPrice = await this.itemPriceService.create(args);
+	public async create(
+		@Args('createItemPriceInput') args: CreateItemPriceDto,
+		@CurrentUser() currentUser: Account
+	): Promise<ItemPrice> {
+		const createdItemPrice: ItemPrice = await this.itemPriceService.create({
+			scannedById: currentUser.id,
+			...args
+		});
 		pubSub.publish('itemPriceCreated', { itemPriceCreated: createdItemPrice });
 		return createdItemPrice;
 	}
@@ -68,5 +76,15 @@ export class ItemPriceResolvers {
 	@ResolveProperty('location')
 	public async location(@Parent() itemPrice: ItemPrice): Promise<Location> {
 		return (await this.locationService.findOneById(itemPrice.locationId))!;
+	}
+
+	@ResolveProperty('unitPrice')
+	public unitPrice(@Parent() itemPrice: ItemPrice): number {
+		return itemPrice.price / itemPrice.quantity;
+	}
+
+	@ResolveProperty('scannedInGameVersion')
+	public async scannedInGameVersion(@Parent() itemPrice: ItemPrice): Promise<GameVersion> {
+		return (await this.gameVersionService.findOneById(itemPrice.scannedInGameVersionId))!;
 	}
 }
