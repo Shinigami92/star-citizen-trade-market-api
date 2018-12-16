@@ -16,7 +16,7 @@ export class CommodityService {
 	}
 
 	public async findAll(): Promise<Commodity[]> {
-		const result: QueryResult = await client.query("SELECT * FROM item WHERE type = 'COMMODITY'");
+		const result: QueryResult = await client.query("SELECT * FROM item WHERE type = 'COMMODITY' ORDER BY name");
 		return result.rows;
 	}
 

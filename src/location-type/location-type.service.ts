@@ -15,7 +15,7 @@ export class LocationTypeService {
 	}
 
 	public async findAll(): Promise<LocationType[]> {
-		const result: QueryResult = await client.query('SELECT * FROM location_type');
+		const result: QueryResult = await client.query('SELECT * FROM location_type ORDER BY name');
 		return result.rows;
 	}
 

@@ -14,7 +14,7 @@ export class ManufacturerService {
 	}
 
 	public async findAll(): Promise<Manufacturer[]> {
-		const result: QueryResult = await client.query('SELECT * FROM manufacturer');
+		const result: QueryResult = await client.query('SELECT * FROM manufacturer ORDER BY name');
 		return result.rows;
 	}
 

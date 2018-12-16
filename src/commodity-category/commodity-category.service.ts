@@ -15,7 +15,7 @@ export class CommodityCategoryService {
 	}
 
 	public async findAll(): Promise<CommodityCategory[]> {
-		const result: QueryResult = await client.query('SELECT * FROM commodity_category');
+		const result: QueryResult = await client.query('SELECT * FROM commodity_category ORDER BY name');
 		return result.rows;
 	}
 

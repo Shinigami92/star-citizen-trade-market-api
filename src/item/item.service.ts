@@ -6,7 +6,7 @@ import { Item } from 'src/graphql.schema';
 @Injectable()
 export class ItemService {
 	public async findAll(): Promise<Item[]> {
-		const result: QueryResult = await client.query('SELECT * FROM item');
+		const result: QueryResult = await client.query('SELECT * FROM item ORDER BY name');
 		return result.rows;
 	}
 

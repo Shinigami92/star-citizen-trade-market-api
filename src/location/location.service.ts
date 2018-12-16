@@ -22,7 +22,7 @@ export class LocationService {
 	}
 
 	public async findAll(): Promise<Location[]> {
-		const result: QueryResult = await client.query('SELECT * FROM location');
+		const result: QueryResult = await client.query('SELECT * FROM location ORDER BY name');
 		return result.rows;
 	}
 

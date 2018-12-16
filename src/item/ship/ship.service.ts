@@ -24,7 +24,7 @@ export class ShipService {
 	}
 
 	public async findAll(): Promise<Ship[]> {
-		const result: QueryResult = await client.query("SELECT * FROM item WHERE type = 'SHIP'");
+		const result: QueryResult = await client.query("SELECT * FROM item WHERE type = 'SHIP' ORDER BY name");
 		return result.rows;
 	}
 

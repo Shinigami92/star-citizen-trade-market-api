@@ -15,7 +15,7 @@ export class GameVersionService {
 	}
 
 	public async findAll(): Promise<GameVersion[]> {
-		const result: QueryResult = await client.query('SELECT * FROM game_version');
+		const result: QueryResult = await client.query('SELECT * FROM game_version ORDER BY identifier DESC');
 		return result.rows;
 	}
 
