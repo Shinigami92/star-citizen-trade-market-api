@@ -60,7 +60,6 @@ export class TradeService {
 				}
 			}
 		}
-		console.log(sql);
 		const result: QueryResult = await client.query(sql, values);
 		if (result.rowCount === 0) {
 			return [];
