@@ -1,7 +1,7 @@
 import { Args, Parent, Query, ResolveProperty, Resolver } from '@nestjs/graphql';
 import { CurrentUser } from 'src/auth/user.decorator';
 import { GameVersionService } from 'src/game-version/game-version.service';
-import { Account, GameVersion, Item, Location, Trade } from 'src/graphql.schema';
+import { Account, GameVersion, Item, Location, Trade, TradeSearchInput } from 'src/graphql.schema';
 import { ItemService } from 'src/item/item.service';
 import { LocationService } from 'src/location/location.service';
 import { TradeService } from './trade.service';
@@ -18,13 +18,12 @@ export class TradeResolvers {
 	@Query('trades')
 	public async trades(
 		@CurrentUser() currentUser: Account | undefined,
-		@Args('startLocationId') startLocationId: string,
-		@Args('endLocationId') endLocationId: string
+		@Args('searchInput') searchInput?: TradeSearchInput
 	): Promise<Trade[]> {
 		return this.tradeService.findAllWhere({
-			accountId: currentUser !== undefined ? currentUser.id : undefined,
-			startLocationId,
-			endLocationId
+			accountId: currentUser !== undefined ? currentUser.id : null,
+			startLocationId: searchInput !== undefined ? searchInput.startLocationId : undefined,
+			endLocationId: searchInput !== undefined ? searchInput.endLocationId : undefined
 		});
 	}
 
