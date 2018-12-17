@@ -1,5 +1,9 @@
 import { Injectable } from '@nestjs/common';
+import { and, cast, eq, GLOBAL_STAR, QueryBuilder, select, UUID } from '@shinigami92/pg-query-builder';
+import { ComparisonOperator } from '@shinigami92/pg-query-builder/lib/operators/comparison/comparison-operator';
+import { FromQueryBuilder } from '@shinigami92/pg-query-builder/lib/query/from';
 import { QueryResult } from 'pg';
+import { f_trade } from 'src/database-definition/f_trade';
 import { client } from 'src/database.service';
 import { ItemPrice, ItemPriceType, ItemPriceVisibility, Trade } from 'src/graphql.schema';
 
@@ -39,28 +43,16 @@ export class TradeService {
 		startLocationId,
 		endLocationId
 	}: TradeSearchOptions): Promise<Trade[]> {
-		let sql: string = 'SELECT * FROM f_trade($1::uuid)';
-		const values: Array<string | null> = [accountId];
-		const clause: string[][] = [];
+		const from: FromQueryBuilder = select(GLOBAL_STAR).from(f_trade, [cast(accountId, UUID)]);
+		const clause: ComparisonOperator[] = [];
 		if (startLocationId !== undefined) {
-			values.push(startLocationId);
-			clause.push(['buy_location_id', '=', startLocationId]);
+			clause.push(eq(f_trade.buy_location_id, cast(startLocationId, UUID)));
 		}
 		if (endLocationId !== undefined) {
-			values.push(endLocationId);
-			clause.push(['sell_location_id', '=', endLocationId]);
+			clause.push(eq(f_trade.sell_location_id, cast(endLocationId, UUID)));
 		}
-		if (clause.length > 0) {
-			sql += ' WHERE';
-			for (let index: number = 0; index < clause.length; index++) {
-				const element: string[] = clause[index];
-				sql += ` ${element[0]} ${element[1]} $${index + 2}::uuid`;
-				if (index !== clause.length - 1) {
-					sql += ' AND';
-				}
-			}
-		}
-		const result: QueryResult = await client.query(sql, values);
+		const query: QueryBuilder = clause.length > 0 ? from.where(and(clause)) : from;
+		const result: QueryResult = await client.query(query.toQuery());
 		if (result.rowCount === 0) {
 			return [];
 		}
