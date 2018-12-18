@@ -30,6 +30,7 @@ interface TradeResult {
 	profit: number;
 	margin: number;
 	scannedInGameVersionId: string;
+	scanTime: Date;
 }
 
 @Injectable()
@@ -39,7 +40,9 @@ export class TradeService {
 		startLocationId,
 		endLocationId
 	}: TradeSearchOptions): Promise<Trade[]> {
-		let sql: string = 'SELECT * FROM f_trade($1::uuid)';
+		let sql: string =
+			'SELECT DISTINCT ON (buy_location_id, sell_location_id, item_id, scanned_in_game_version_id)' +
+			' * FROM f_trade($1::uuid)';
 		const values: Array<string | null> = [accountId];
 		const clause: string[][] = [];
 		if (startLocationId !== undefined) {
@@ -60,6 +63,7 @@ export class TradeService {
 				}
 			}
 		}
+		sql += ' ORDER BY buy_location_id, sell_location_id, item_id, scanned_in_game_version_id, scan_time DESC';
 		const result: QueryResult = await client.query(sql, values);
 		if (result.rowCount === 0) {
 			return [];
@@ -92,8 +96,7 @@ export class TradeService {
 			} as ItemPrice,
 			profit: tradeResult.profit,
 			margin: tradeResult.margin,
-			scanTime:
-				tradeResult.buyScanTime > tradeResult.sellScanTime ? tradeResult.sellScanTime : tradeResult.buyScanTime,
+			scanTime: tradeResult.scanTime,
 			scannedInGameVersionId: tradeResult.scannedInGameVersionId
 		} as Trade;
 	}
