@@ -7,6 +7,7 @@ export interface TradeSearchOptions {
 	accountId: string | null;
 	startLocationId?: string;
 	endLocationId?: string;
+	gameVersionId?: string;
 }
 
 interface TradeResult {
@@ -38,7 +39,8 @@ export class TradeService {
 	public async findAllWhere({
 		accountId = null,
 		startLocationId,
-		endLocationId
+		endLocationId,
+		gameVersionId
 	}: TradeSearchOptions): Promise<Trade[]> {
 		let sql: string =
 			'SELECT DISTINCT ON (buy_location_id, sell_location_id, item_id, scanned_in_game_version_id)' +
@@ -52,6 +54,10 @@ export class TradeService {
 		if (endLocationId !== undefined) {
 			values.push(endLocationId);
 			clause.push(['sell_location_id', '=', endLocationId]);
+		}
+		if (gameVersionId !== undefined) {
+			values.push(gameVersionId);
+			clause.push(['scanned_in_game_version_id', '=', gameVersionId]);
 		}
 		if (clause.length > 0) {
 			sql += ' WHERE';
