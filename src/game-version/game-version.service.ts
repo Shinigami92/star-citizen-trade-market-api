@@ -6,10 +6,10 @@ import { CreateGameVersionDto } from './dto/create-game-version.dto';
 
 @Injectable()
 export class GameVersionService {
-	public async create(gameVersion: CreateGameVersionDto): Promise<GameVersion> {
+	public async create({ identifier, release }: CreateGameVersionDto): Promise<GameVersion> {
 		const result: QueryResult = await client.query(
-			'INSERT INTO game_version(identifier) VALUES ($1::text) RETURNING *',
-			[gameVersion.identifier]
+			'INSERT INTO game_version(identifier, release) VALUES ($1::text, $2::timestamptz) RETURNING *',
+			[identifier, release]
 		);
 		return result.rows[0];
 	}

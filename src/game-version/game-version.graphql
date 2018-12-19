@@ -14,10 +14,10 @@ type Subscription {
 type GameVersion {
 	id: ID!
 	identifier: String!
-	# releaseTimestamp: Date
+	release: Date
 }
 
 input CreateGameVersionInput {
 	identifier: String!
-	# releaseTimestamp: Date
+	release: Date
 }
