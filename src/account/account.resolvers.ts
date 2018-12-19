@@ -1,6 +1,7 @@
 import { UnauthorizedException, UseGuards } from '@nestjs/common';
 import { Args, Mutation, Parent, Query, ResolveProperty, Resolver, Subscription } from '@nestjs/graphql';
 import { PubSub } from 'graphql-subscriptions';
+import { CurrentAuthUser } from 'src/auth/current-user';
 import { GraphqlAuthGuard } from 'src/auth/graphql-auth.guard';
 import { CurrentUser } from 'src/auth/user.decorator';
 import { Account, AuthToken, Organization, Role } from 'src/graphql.schema';
@@ -48,11 +49,11 @@ export class AccountResolvers {
 
 	@ResolveProperty('email')
 	@UseGuards(GraphqlAuthGuard)
-	public email(@Parent() account: Account, @CurrentUser() user: Account): string {
-		if (account.id === user.id) {
+	public email(@Parent() account: Account, @CurrentUser() currentUser: CurrentAuthUser): string {
+		if (account.id === currentUser.id) {
 			return account.email!;
 		}
-		if (user.roles.find((r: Role) => r === Role.USERADMIN || r === Role.ADMIN) !== undefined) {
+		if (currentUser.hasAnyRole([Role.USERADMIN, Role.ADMIN])) {
 			return account.email!;
 		}
 		throw new UnauthorizedException();

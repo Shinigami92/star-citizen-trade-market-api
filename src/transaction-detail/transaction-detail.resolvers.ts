@@ -1,9 +1,10 @@
 import { BadRequestException, UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver, Subscription } from '@nestjs/graphql';
 import { PubSub } from 'graphql-subscriptions';
+import { CurrentAuthUser } from 'src/auth/current-user';
 import { GraphqlAuthGuard } from 'src/auth/graphql-auth.guard';
 import { CurrentUser } from 'src/auth/user.decorator';
-import { Account, Role, Transaction, TransactionDetail, TransactionDetailType } from 'src/graphql.schema';
+import { Role, Transaction, TransactionDetail, TransactionDetailType } from 'src/graphql.schema';
 import { TransactionService } from 'src/transaction/transaction.service';
 import { CreateBoughtTransactionDetailDto } from './dto/create-bought-transaction-detail.dto';
 import { CreateLostBasedOnTransactionDetailDto } from './dto/create-lost-based-on-transaction-detail.dto';
@@ -35,10 +36,9 @@ export class TransactionDetailResolvers {
 	@UseGuards(GraphqlAuthGuard)
 	public async create(
 		@Args('createTransactionDetailInput') args: CreateTransactionDetailDto,
-		@CurrentUser() currentUser: Account
+		@CurrentUser() currentUser: CurrentAuthUser
 	): Promise<TransactionDetail> {
-		const isAdmin: boolean = currentUser.roles.find((role: Role) => role === Role.ADMIN) !== undefined;
-		if (!isAdmin) {
+		if (!currentUser.hasRole(Role.ADMIN)) {
 			const transaction: Transaction | undefined = await this.transactionService.findOneById(args.transactionId);
 			if (transaction === undefined) {
 				throw new BadRequestException(`No transaction with id ${args.transactionId} found`);
@@ -55,10 +55,9 @@ export class TransactionDetailResolvers {
 	@UseGuards(GraphqlAuthGuard)
 	public async createBoughtTransactionDetail(
 		@Args('createBoughtTransactionDetailInput') args: CreateBoughtTransactionDetailDto,
-		@CurrentUser() currentUser: Account
+		@CurrentUser() currentUser: CurrentAuthUser
 	): Promise<TransactionDetail> {
-		const isAdmin: boolean = currentUser.roles.find((role: Role) => role === Role.ADMIN) !== undefined;
-		if (!isAdmin) {
+		if (!currentUser.hasRole(Role.ADMIN)) {
 			const transaction: Transaction | undefined = await this.transactionService.findOneById(args.transactionId);
 			if (transaction === undefined) {
 				throw new BadRequestException(`No transaction with id ${args.transactionId} found`);
@@ -78,10 +77,9 @@ export class TransactionDetailResolvers {
 	@UseGuards(GraphqlAuthGuard)
 	public async createSoldTransactionDetail(
 		@Args('createSoldTransactionDetailInput') args: CreateSoldTransactionDetailDto,
-		@CurrentUser() currentUser: Account
+		@CurrentUser() currentUser: CurrentAuthUser
 	): Promise<TransactionDetail> {
-		const isAdmin: boolean = currentUser.roles.find((role: Role) => role === Role.ADMIN) !== undefined;
-		if (!isAdmin) {
+		if (!currentUser.hasRole(Role.ADMIN)) {
 			const transaction: Transaction | undefined = await this.transactionService.findOneById(args.transactionId);
 			if (transaction === undefined) {
 				throw new BadRequestException(`No transaction with id ${args.transactionId} found`);
@@ -101,10 +99,9 @@ export class TransactionDetailResolvers {
 	@UseGuards(GraphqlAuthGuard)
 	public async createLostTransactionDetail(
 		@Args('createLostTransactionDetailInput') args: CreateLostTransactionDetailDto,
-		@CurrentUser() currentUser: Account
+		@CurrentUser() currentUser: CurrentAuthUser
 	): Promise<TransactionDetail> {
-		const isAdmin: boolean = currentUser.roles.find((role: Role) => role === Role.ADMIN) !== undefined;
-		if (!isAdmin) {
+		if (!currentUser.hasRole(Role.ADMIN)) {
 			const transaction: Transaction | undefined = await this.transactionService.findOneById(args.transactionId);
 			if (transaction === undefined) {
 				throw new BadRequestException(`No transaction with id ${args.transactionId} found`);
@@ -124,10 +121,9 @@ export class TransactionDetailResolvers {
 	@UseGuards(GraphqlAuthGuard)
 	public async createLostBasedOnTransactionDetail(
 		@Args('createLostBasedOnTransactionDetailInput') args: CreateLostBasedOnTransactionDetailDto,
-		@CurrentUser() currentUser: Account
+		@CurrentUser() currentUser: CurrentAuthUser
 	): Promise<TransactionDetail> {
-		const isAdmin: boolean = currentUser.roles.find((role: Role) => role === Role.ADMIN) !== undefined;
-		if (!isAdmin) {
+		if (!currentUser.hasRole(Role.ADMIN)) {
 			const transactionDetail: TransactionDetail | undefined = await this.transactionDetailService.findOneById(
 				args.transactionDetailId
 			);

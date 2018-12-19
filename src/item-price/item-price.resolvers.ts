@@ -2,6 +2,7 @@ import { UnauthorizedException, UseGuards } from '@nestjs/common';
 import { Args, Mutation, Parent, Query, ResolveProperty, Resolver, Subscription } from '@nestjs/graphql';
 import { PubSub } from 'graphql-subscriptions';
 import { AccountService } from 'src/account/account.service';
+import { CurrentAuthUser } from 'src/auth/current-user';
 import { GraphqlAuthGuard } from 'src/auth/graphql-auth.guard';
 import { CurrentUser } from 'src/auth/user.decorator';
 import { GameVersionService } from 'src/game-version/game-version.service';
@@ -62,9 +63,9 @@ export class ItemPriceResolvers {
 	public async updateItemPrice(
 		@Args('id') id: string,
 		@Args('input') args: UpdateItemPriceDto,
-		@CurrentUser() currentUser: Account
+		@CurrentUser() currentUser: CurrentAuthUser
 	): Promise<ItemPrice> {
-		if (currentUser.roles.find((r: Role) => r === Role.ADMIN) === undefined) {
+		if (currentUser.hasRole(Role.ADMIN)) {
 			const itemPrice: ItemPrice = (await this.itemPriceService.findOneById(id))!;
 			if (itemPrice.scannedById !== currentUser.id) {
 				throw new UnauthorizedException('You can only update your own reported prices');

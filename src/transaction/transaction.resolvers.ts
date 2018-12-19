@@ -1,9 +1,10 @@
 import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver, Subscription } from '@nestjs/graphql';
 import { PubSub } from 'graphql-subscriptions';
+import { CurrentAuthUser } from 'src/auth/current-user';
 import { GraphqlAuthGuard } from 'src/auth/graphql-auth.guard';
 import { CurrentUser } from 'src/auth/user.decorator';
-import { Account, Role, Transaction } from 'src/graphql.schema';
+import { Role, Transaction } from 'src/graphql.schema';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
 import { TransactionService } from './transaction.service';
 
@@ -27,12 +28,11 @@ export class TransactionResolvers {
 	@UseGuards(GraphqlAuthGuard)
 	public async create(
 		@Args('createTransactionInput') args: CreateTransactionDto,
-		@CurrentUser() currentUser: Account
+		@CurrentUser() currentUser: CurrentAuthUser
 	): Promise<Transaction> {
-		const isAdmin: boolean = currentUser.roles.find((role: Role) => role === Role.ADMIN) !== undefined;
 		const createdTransaction: Transaction = await this.transactionService.create({
 			...args,
-			accountId: isAdmin && args.accountId !== undefined ? args.accountId : currentUser.id
+			accountId: currentUser.hasRole(Role.ADMIN) && args.accountId !== undefined ? args.accountId : currentUser.id
 		});
 		pubSub.publish('transactionCreated', { transactionCreated: createdTransaction });
 		return createdTransaction;

@@ -1,9 +1,10 @@
 import { BadRequestException, UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver, Subscription } from '@nestjs/graphql';
 import { PubSub } from 'graphql-subscriptions';
+import { CurrentAuthUser } from 'src/auth/current-user';
 import { GraphqlAuthGuard } from 'src/auth/graphql-auth.guard';
 import { CurrentUser } from 'src/auth/user.decorator';
-import { Account, Possession, Role } from 'src/graphql.schema';
+import { Possession, Role } from 'src/graphql.schema';
 import { CreatePossessionDto } from './dto/create-possession.dto';
 import { PossessionService } from './possession.service';
 
@@ -27,10 +28,9 @@ export class PossessionResolvers {
 	@UseGuards(GraphqlAuthGuard)
 	public async create(
 		@Args('createPossessionInput') args: CreatePossessionDto,
-		@CurrentUser() currentUser: Account
+		@CurrentUser() currentUser: CurrentAuthUser
 	): Promise<Possession> {
-		const isAdmin: boolean = currentUser.roles.find((role: Role) => role === Role.ADMIN) !== undefined;
-		if (!isAdmin && args.accountId !== currentUser.id) {
+		if (!currentUser.hasRole(Role.ADMIN) && args.accountId !== currentUser.id) {
 			throw new BadRequestException('You do not have permission to add possession to another account');
 		}
 		const createdPossession: Possession = await this.possessionService.create(args);
