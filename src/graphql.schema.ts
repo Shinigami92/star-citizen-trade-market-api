@@ -327,7 +327,7 @@ export interface IMutation {
     createItem(createItemInput: CreateItemInput): Item | Promise<Item>;
     createShip(createShipInput: CreateShipInput): Ship | Promise<Ship>;
     createLocationType(createLocationTypeInput: CreateLocationTypeInput): LocationType | Promise<LocationType>;
-    createLocation(createLocationInput: CreateLocationInput): Location | Promise<Location>;
+    createLocation(input: CreateLocationInput): Location | Promise<Location>;
     createManufacturer(createManufacturerInput: CreateManufacturerInput): Manufacturer | Promise<Manufacturer>;
     joinOrganization(joinOrganizationInput: JoinOrganizationInput): OrganizationMember | Promise<OrganizationMember>;
     createOrganization(createOrganizationInput: CreateOrganizationInput): Organization | Promise<Organization>;
