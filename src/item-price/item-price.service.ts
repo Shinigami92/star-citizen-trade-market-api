@@ -1,12 +1,17 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { QueryResult } from 'pg';
 import { client } from 'src/database.service';
+import { TABLENAME as GAME_VERSION_TABLENAME } from 'src/game-version/game-version.service';
 import { Account, ItemPrice, ItemPriceVisibility } from 'src/graphql.schema';
 import { CreateItemPriceDto } from './dto/create-item-price.dto';
 import { UpdateItemPriceDto } from './dto/update-item-price.dto';
 
+export const TABLENAME: string = 'item_price';
+
 @Injectable()
 export class ItemPriceService {
+	private readonly logger: Logger = new Logger(ItemPriceService.name);
+
 	public async create({
 		scannedById,
 		itemId,
@@ -20,17 +25,19 @@ export class ItemPriceService {
 	}: CreateItemPriceDto): Promise<ItemPrice> {
 		if (scannedInGameVersionId === undefined) {
 			scannedInGameVersionId = (await client.query(
-				'SELECT id FROM game_version ORDER BY identifier DESC LIMIT 1'
+				`SELECT id FROM ${GAME_VERSION_TABLENAME} ORDER BY identifier DESC LIMIT 1`
 			)).rows[0].id;
 		}
 		const result: QueryResult = await client.query(
-			'INSERT INTO item_price(scanned_by_id, item_id, location_id, price, quantity, scan_time, type, visibility,' +
+			`INSERT INTO ${TABLENAME}(scanned_by_id, item_id, location_id, price, quantity, scan_time, type, visibility,` +
 				' scanned_in_game_version_id)' +
 				' VALUES ($1::uuid, $2::uuid, $3::uuid, $4::numeric,' +
 				' $5::bigint, $6::timestamptz, $7::item_price_type, $8::item_price_visibility, $9::uuid) RETURNING *',
 			[scannedById, itemId, locationId, price, quantity, scanTime, type, visibility, scannedInGameVersionId]
 		);
-		return result.rows[0];
+		const created: ItemPrice = result.rows[0];
+		this.logger.log(`Created ${TABLENAME} with id ${created.id}`);
+		return created;
 	}
 
 	public async update(
@@ -99,21 +106,22 @@ export class ItemPriceService {
 			return (await this.findOneById(id))!;
 		}
 		const result: QueryResult = await client.query(
-			`UPDATE item_price SET${updates.join(', ')} WHERE id = $1::uuid RETURNING *`,
+			`UPDATE ${TABLENAME} SET${updates.join(', ')} WHERE id = $1::uuid RETURNING *`,
 			[id, ...values]
 		);
 		const updated: ItemPrice = result.rows[0];
+		this.logger.log(`Updated ${TABLENAME} with id ${updated.id}`);
 		return updated;
 	}
 
 	public async findAll(): Promise<ItemPrice[]> {
-		const result: QueryResult = await client.query('SELECT * FROM item_price ORDER BY scan_time DESC');
+		const result: QueryResult = await client.query(`SELECT * FROM ${TABLENAME} ORDER BY scan_time DESC`);
 		return result.rows;
 	}
 
 	public async findAllByVisibilityInList(visibility: ItemPriceVisibility[]): Promise<ItemPrice[]> {
 		const result: QueryResult = await client.query(
-			'SELECT * FROM item_price WHERE visibility = ANY($1::item_price_visibility[]) ORDER BY scan_time DESC',
+			`SELECT * FROM ${TABLENAME} WHERE visibility = ANY($1::item_price_visibility[]) ORDER BY scan_time DESC`,
 			[visibility]
 		);
 		return result.rows;
@@ -128,7 +136,7 @@ export class ItemPriceService {
 	}
 
 	public async findOneById(id: string): Promise<ItemPrice | undefined> {
-		const result: QueryResult = await client.query('SELECT * FROM item_price WHERE id = $1::uuid', [id]);
+		const result: QueryResult = await client.query(`SELECT * FROM ${TABLENAME} WHERE id = $1::uuid`, [id]);
 		return result.rows[0];
 	}
 
@@ -137,7 +145,7 @@ export class ItemPriceService {
 		visibility: ItemPriceVisibility[]
 	): Promise<ItemPrice | undefined> {
 		const result: QueryResult = await client.query(
-			'SELECT * FROM item_price WHERE id = $1::uuid AND visibility = ANY($2::item_price_visibility[])',
+			`SELECT * FROM ${TABLENAME} WHERE id = $1::uuid AND visibility = ANY($2::item_price_visibility[])`,
 			[id, visibility]
 		);
 		return result.rows[0];
