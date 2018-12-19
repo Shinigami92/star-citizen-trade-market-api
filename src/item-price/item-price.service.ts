@@ -6,15 +6,19 @@ import { CreateItemPriceDto } from './dto/create-item-price.dto';
 
 @Injectable()
 export class ItemPriceService {
-	public async create(itemPrice: CreateItemPriceDto): Promise<ItemPrice> {
-		if (!itemPrice.scanTime) {
-			itemPrice.scanTime = new Date();
-		}
-		if (itemPrice.visibility === undefined) {
-			itemPrice.visibility = ItemPriceVisibility.PUBLIC;
-		}
-		if (itemPrice.scannedInGameVersionId === undefined) {
-			itemPrice.scannedInGameVersionId = (await client.query(
+	public async create({
+		scannedById,
+		itemId,
+		locationId,
+		price,
+		quantity,
+		scanTime = new Date(),
+		type,
+		visibility = ItemPriceVisibility.PUBLIC,
+		scannedInGameVersionId
+	}: CreateItemPriceDto): Promise<ItemPrice> {
+		if (scannedInGameVersionId === undefined) {
+			scannedInGameVersionId = (await client.query(
 				'SELECT id FROM game_version ORDER BY identifier DESC LIMIT 1'
 			)).rows[0].id;
 		}
@@ -23,36 +27,29 @@ export class ItemPriceService {
 				' scanned_in_game_version_id)' +
 				' VALUES ($1::uuid, $2::uuid, $3::uuid, $4::numeric,' +
 				' $5::bigint, $6::timestamptz, $7::item_price_type, $8::item_price_visibility, $9::uuid) RETURNING *',
-			[
-				itemPrice.scannedById,
-				itemPrice.itemId,
-				itemPrice.locationId,
-				itemPrice.price,
-				itemPrice.quantity,
-				itemPrice.scanTime,
-				itemPrice.type,
-				itemPrice.visibility,
-				itemPrice.scannedInGameVersionId
-			]
+			[scannedById, itemId, locationId, price, quantity, scanTime, type, visibility, scannedInGameVersionId]
 		);
 		return result.rows[0];
 	}
 
 	public async findAll(): Promise<ItemPrice[]> {
-		const result: QueryResult = await client.query('SELECT * FROM item_price');
+		const result: QueryResult = await client.query('SELECT * FROM item_price ORDER BY scan_time DESC');
 		return result.rows;
 	}
 
 	public async findAllByVisibilityInList(visibility: ItemPriceVisibility[]): Promise<ItemPrice[]> {
 		const result: QueryResult = await client.query(
-			'SELECT * FROM item_price WHERE visibility = ANY($1::item_price_visibility[])',
+			'SELECT * FROM item_price WHERE visibility = ANY($1::item_price_visibility[]) ORDER BY scan_time DESC',
 			[visibility]
 		);
 		return result.rows;
 	}
 
 	public async findAllWithSignedInUser({ id }: Account): Promise<ItemPrice[]> {
-		const result: QueryResult = await client.query('SELECT * FROM f_item_price_visible($1::uuid)', [id]);
+		const result: QueryResult = await client.query(
+			'SELECT * FROM f_item_price_visible($1::uuid) ORDER BY scan_time DESC',
+			[id]
+		);
 		return result.rows;
 	}
 
