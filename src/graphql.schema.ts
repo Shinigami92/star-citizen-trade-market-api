@@ -87,6 +87,7 @@ export interface CreateFirstTransactionDetailInput {
 
 export interface CreateGameVersionInput {
     identifier: string;
+    release?: Date;
 }
 
 export interface CreateItemInput {
@@ -255,6 +256,7 @@ export interface FallbackItem extends Item {
 export interface GameVersion {
     id: string;
     identifier: string;
+    release?: Date;
 }
 
 export interface ItemPrice {
