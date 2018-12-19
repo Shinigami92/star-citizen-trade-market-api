@@ -24,7 +24,7 @@ export class ItemPriceResolvers {
 		private readonly gameVersionService: GameVersionService
 	) {}
 
-	@Query('itemPrices')
+	@Query()
 	public async itemPrices(@CurrentUser() currentUser: Account | undefined): Promise<ItemPrice[]> {
 		if (currentUser === undefined) {
 			return await this.itemPriceService.findAllByVisibilityInList([ItemPriceVisibility.PUBLIC]);
@@ -32,8 +32,8 @@ export class ItemPriceResolvers {
 		return await this.itemPriceService.findAllWithSignedInUser(currentUser);
 	}
 
-	@Query('itemPrice')
-	public async findOneById(
+	@Query()
+	public async itemPrice(
 		@Args('id') id: string,
 		@CurrentUser() currentUser: Account | undefined
 	): Promise<ItemPrice | undefined> {
@@ -43,23 +43,23 @@ export class ItemPriceResolvers {
 		return await this.itemPriceService.findOneByIdWithSignedInUser(id, currentUser);
 	}
 
-	@Mutation('createItemPrice')
+	@Mutation()
 	@UseGuards(GraphqlAuthGuard)
-	public async create(
+	public async createItemPrice(
 		@Args('input') args: CreateItemPriceDto,
 		@CurrentUser() currentUser: Account
 	): Promise<ItemPrice> {
-		const createdItemPrice: ItemPrice = await this.itemPriceService.create({
+		const created: ItemPrice = await this.itemPriceService.create({
 			scannedById: currentUser.id,
 			...args
 		});
-		pubSub.publish('itemPriceCreated', { itemPriceCreated: createdItemPrice });
-		return createdItemPrice;
+		pubSub.publish('itemPriceCreated', { itemPriceCreated: created });
+		return created;
 	}
 
-	@Mutation('updateItemPrice')
+	@Mutation()
 	@UseGuards(GraphqlAuthGuard)
-	public async update(
+	public async updateItemPrice(
 		@Args('id') id: string,
 		@Args('input') args: UpdateItemPriceDto,
 		@CurrentUser() currentUser: Account
@@ -70,47 +70,47 @@ export class ItemPriceResolvers {
 				throw new UnauthorizedException('You can only update your own reported prices');
 			}
 		}
-		const updatedItemPrice: ItemPrice = await this.itemPriceService.update(id, args);
-		pubSub.publish('itemPriceUpdated', { itemPriceUpdated: updatedItemPrice });
-		return updatedItemPrice;
+		const updated: ItemPrice = await this.itemPriceService.update(id, args);
+		pubSub.publish('itemPriceUpdated', { itemPriceUpdated: updated });
+		return updated;
 	}
 
-	@Subscription('itemPriceCreated')
+	@Subscription()
 	public itemPriceCreated(): { subscribe: () => any } {
 		return {
 			subscribe: (): any => pubSub.asyncIterator('itemPriceCreated')
 		};
 	}
 
-	@Subscription('itemPriceUpdated')
+	@Subscription()
 	public itemPriceUpdated(): { subscribe: () => any } {
 		return {
 			subscribe: (): any => pubSub.asyncIterator('itemPriceUpdated')
 		};
 	}
 
-	@ResolveProperty('scannedBy')
-	public async scannedBy(@Parent() itemPrice: ItemPrice): Promise<Account> {
-		return (await this.accountService.findOneById(itemPrice.scannedById))!;
+	@ResolveProperty()
+	public async scannedBy(@Parent() parent: ItemPrice): Promise<Account> {
+		return (await this.accountService.findOneById(parent.scannedById))!;
 	}
 
-	@ResolveProperty('item')
-	public async item(@Parent() itemPrice: ItemPrice): Promise<Item> {
-		return (await this.itemService.findOneById(itemPrice.itemId))!;
+	@ResolveProperty()
+	public async item(@Parent() parent: ItemPrice): Promise<Item> {
+		return (await this.itemService.findOneById(parent.itemId))!;
 	}
 
-	@ResolveProperty('location')
-	public async location(@Parent() itemPrice: ItemPrice): Promise<Location> {
-		return (await this.locationService.findOneById(itemPrice.locationId))!;
+	@ResolveProperty()
+	public async location(@Parent() parent: ItemPrice): Promise<Location> {
+		return (await this.locationService.findOneById(parent.locationId))!;
 	}
 
-	@ResolveProperty('unitPrice')
-	public unitPrice(@Parent() itemPrice: ItemPrice): number {
-		return itemPrice.price / itemPrice.quantity;
+	@ResolveProperty()
+	public unitPrice(@Parent() parent: ItemPrice): number {
+		return parent.price / parent.quantity;
 	}
 
-	@ResolveProperty('scannedInGameVersion')
-	public async scannedInGameVersion(@Parent() itemPrice: ItemPrice): Promise<GameVersion> {
-		return (await this.gameVersionService.findOneById(itemPrice.scannedInGameVersionId))!;
+	@ResolveProperty()
+	public async scannedInGameVersion(@Parent() parent: ItemPrice): Promise<GameVersion> {
+		return (await this.gameVersionService.findOneById(parent.scannedInGameVersionId))!;
 	}
 }
