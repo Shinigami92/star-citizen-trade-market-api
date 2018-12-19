@@ -4,11 +4,13 @@ type Query {
 }
 
 type Mutation {
-	createItemPrice(createItemPriceInput: CreateItemPriceInput!): ItemPrice!
+	createItemPrice(input: CreateItemPriceInput!): ItemPrice!
+	updateItemPrice(id: ID!, input: UpdateItemPriceInput!): ItemPrice!
 }
 
 type Subscription {
 	itemPriceCreated: ItemPrice!
+	itemPriceUpdated: ItemPrice!
 }
 
 enum ItemPriceType {
@@ -49,6 +51,18 @@ input CreateItemPriceInput {
 	quantity: Int!
 	scanTime: Date
 	type: ItemPriceType!
+	visibility: ItemPriceVisibility
+	scannedInGameVersionId: ID
+}
+
+input UpdateItemPriceInput {
+	scannedById: ID
+	itemId: ID
+	locationId: ID
+	price: Float
+	quantity: Int
+	scanTime: Date
+	type: ItemPriceType
 	visibility: ItemPriceVisibility
 	scannedInGameVersionId: ID
 }

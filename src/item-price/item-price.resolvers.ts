@@ -1,14 +1,15 @@
-import { UseGuards } from '@nestjs/common';
+import { UnauthorizedException, UseGuards } from '@nestjs/common';
 import { Args, Mutation, Parent, Query, ResolveProperty, Resolver, Subscription } from '@nestjs/graphql';
 import { PubSub } from 'graphql-subscriptions';
 import { AccountService } from 'src/account/account.service';
 import { GraphqlAuthGuard } from 'src/auth/graphql-auth.guard';
 import { CurrentUser } from 'src/auth/user.decorator';
 import { GameVersionService } from 'src/game-version/game-version.service';
-import { Account, GameVersion, Item, ItemPrice, ItemPriceVisibility, Location } from 'src/graphql.schema';
+import { Account, GameVersion, Item, ItemPrice, ItemPriceVisibility, Location, Role } from 'src/graphql.schema';
 import { ItemService } from 'src/item/item.service';
 import { LocationService } from 'src/location/location.service';
 import { CreateItemPriceDto } from './dto/create-item-price.dto';
+import { UpdateItemPriceDto } from './dto/update-item-price.dto';
 import { ItemPriceService } from './item-price.service';
 
 const pubSub: PubSub = new PubSub();
@@ -45,7 +46,7 @@ export class ItemPriceResolvers {
 	@Mutation('createItemPrice')
 	@UseGuards(GraphqlAuthGuard)
 	public async create(
-		@Args('createItemPriceInput') args: CreateItemPriceDto,
+		@Args('input') args: CreateItemPriceDto,
 		@CurrentUser() currentUser: Account
 	): Promise<ItemPrice> {
 		const createdItemPrice: ItemPrice = await this.itemPriceService.create({
@@ -56,10 +57,35 @@ export class ItemPriceResolvers {
 		return createdItemPrice;
 	}
 
+	@Mutation('updateItemPrice')
+	@UseGuards(GraphqlAuthGuard)
+	public async update(
+		@Args('id') id: string,
+		@Args('input') args: UpdateItemPriceDto,
+		@CurrentUser() currentUser: Account
+	): Promise<ItemPrice> {
+		if (currentUser.roles.find((r: Role) => r === Role.ADMIN) === undefined) {
+			const itemPrice: ItemPrice = (await this.itemPriceService.findOneById(id))!;
+			if (itemPrice.scannedById !== currentUser.id) {
+				throw new UnauthorizedException('You can only update your own reported prices');
+			}
+		}
+		const updatedItemPrice: ItemPrice = await this.itemPriceService.update(id, args);
+		pubSub.publish('itemPriceUpdated', { itemPriceUpdated: updatedItemPrice });
+		return updatedItemPrice;
+	}
+
 	@Subscription('itemPriceCreated')
 	public itemPriceCreated(): { subscribe: () => any } {
 		return {
 			subscribe: (): any => pubSub.asyncIterator('itemPriceCreated')
+		};
+	}
+
+	@Subscription('itemPriceUpdated')
+	public itemPriceUpdated(): { subscribe: () => any } {
+		return {
+			subscribe: (): any => pubSub.asyncIterator('itemPriceUpdated')
 		};
 	}
 

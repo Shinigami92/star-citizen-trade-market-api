@@ -207,6 +207,18 @@ export interface UpdateGameVersionInput {
     release?: Date;
 }
 
+export interface UpdateItemPriceInput {
+    scannedById?: string;
+    itemId?: string;
+    locationId?: string;
+    price?: number;
+    quantity?: number;
+    scanTime?: Date;
+    type?: ItemPriceType;
+    visibility?: ItemPriceVisibility;
+    scannedInGameVersionId?: string;
+}
+
 export interface Item {
     id: string;
     name: string;
@@ -309,7 +321,8 @@ export interface IMutation {
     createCommodityCategory(createCommodityCategoryInput: CreateCommodityCategoryInput): CommodityCategory | Promise<CommodityCategory>;
     createGameVersion(input: CreateGameVersionInput): GameVersion | Promise<GameVersion>;
     updateGameVersion(id: string, input: UpdateGameVersionInput): GameVersion | Promise<GameVersion>;
-    createItemPrice(createItemPriceInput: CreateItemPriceInput): ItemPrice | Promise<ItemPrice>;
+    createItemPrice(input: CreateItemPriceInput): ItemPrice | Promise<ItemPrice>;
+    updateItemPrice(id: string, input: UpdateItemPriceInput): ItemPrice | Promise<ItemPrice>;
     createCommodity(createCommodityInput: CreateCommodityInput): Commodity | Promise<Commodity>;
     createItem(createItemInput: CreateItemInput): Item | Promise<Item>;
     createShip(createShipInput: CreateShipInput): Ship | Promise<Ship>;
@@ -408,6 +421,7 @@ export interface ISubscription {
     gameVersionCreated(): GameVersion | Promise<GameVersion>;
     gameVersionUpdated(): GameVersion | Promise<GameVersion>;
     itemPriceCreated(): ItemPrice | Promise<ItemPrice>;
+    itemPriceUpdated(): ItemPrice | Promise<ItemPrice>;
     commodityCreated(): Commodity | Promise<Commodity>;
     itemCreated(): Item | Promise<Item>;
     shipCreated(): Ship | Promise<Ship>;
