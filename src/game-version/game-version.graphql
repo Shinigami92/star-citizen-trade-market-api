@@ -4,11 +4,13 @@ type Query {
 }
 
 type Mutation {
-	createGameVersion(createGameVersionInput: CreateGameVersionInput!): GameVersion!
+	createGameVersion(input: CreateGameVersionInput!): GameVersion!
+	updateGameVersion(id: ID!, input: UpdateGameVersionInput!): GameVersion!
 }
 
 type Subscription {
 	gameVersionCreated: GameVersion!
+	gameVersionUpdated: GameVersion!
 }
 
 type GameVersion {
@@ -19,5 +21,10 @@ type GameVersion {
 
 input CreateGameVersionInput {
 	identifier: String!
+	release: Date
+}
+
+input UpdateGameVersionInput {
+	identifier: String
 	release: Date
 }
