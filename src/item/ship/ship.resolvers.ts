@@ -8,6 +8,7 @@ import { GameVersionService } from 'src/game-version/game-version.service';
 import { GameVersion, Manufacturer, Role, Ship } from 'src/graphql.schema';
 import { ManufacturerService } from 'src/manufacturer/manufacturer.service';
 import { CreateShipDto } from './dto/create-ship.dto';
+import { UpdateShipDto } from './dto/update-ship.dto';
 import { ShipService } from './ship.service';
 
 const pubSub: PubSub = new PubSub();
@@ -20,39 +21,55 @@ export class ShipResolvers {
 		private readonly manufacturerService: ManufacturerService
 	) {}
 
-	@Query('ships')
+	@Query()
 	public async ships(): Promise<Ship[]> {
 		return await this.shipService.findAll();
 	}
 
-	@Query('ship')
-	public async findOneById(@Args('id') id: string): Promise<Ship | undefined> {
+	@Query()
+	public async ship(@Args('id') id: string): Promise<Ship | undefined> {
 		return await this.shipService.findOneById(id);
 	}
 
-	@Mutation('createShip')
+	@Mutation()
 	@UseGuards(GraphqlAuthGuard, RoleGuard)
 	@HasAnyRole(Role.ADVANCED, Role.ADMIN)
-	public async create(@Args('createShipInput') args: CreateShipDto): Promise<Ship> {
-		const createdShip: Ship = await this.shipService.create(args);
-		pubSub.publish('shipCreated', { shipCreated: createdShip });
-		return createdShip;
+	public async createShip(@Args('input') args: CreateShipDto): Promise<Ship> {
+		const created: Ship = await this.shipService.create(args);
+		pubSub.publish('shipCreated', { shipCreated: created });
+		return created;
 	}
 
-	@Subscription('shipCreated')
+	@Mutation()
+	@UseGuards(GraphqlAuthGuard, RoleGuard)
+	@HasAnyRole(Role.ADVANCED, Role.ADMIN)
+	public async updateShip(@Args('id') id: string, @Args('input') args: UpdateShipDto): Promise<Ship> {
+		const updated: Ship = await this.shipService.update(id, args);
+		pubSub.publish('shipUpdated', { shipUpdated: updated });
+		return updated;
+	}
+
+	@Subscription()
 	public shipCreated(): { subscribe: () => any } {
 		return {
 			subscribe: (): any => pubSub.asyncIterator('shipCreated')
 		};
 	}
 
-	@ResolveProperty('inGameSinceVersion')
-	public async inGameSinceVersion(@Parent() ship: Ship): Promise<GameVersion> {
-		return (await this.gameVersionService.findOneById(ship.inGameSinceVersionId))!;
+	@Subscription()
+	public shipUpdated(): { subscribe: () => any } {
+		return {
+			subscribe: (): any => pubSub.asyncIterator('shipUpdated')
+		};
 	}
 
-	@ResolveProperty('manufacturer')
-	public async manufacturer(@Parent() ship: Ship): Promise<Manufacturer> {
-		return (await this.manufacturerService.findOneById(ship.manufacturerId))!;
+	@ResolveProperty()
+	public async inGameSinceVersion(@Parent() parent: Ship): Promise<GameVersion> {
+		return (await this.gameVersionService.findOneById(parent.inGameSinceVersionId))!;
+	}
+
+	@ResolveProperty()
+	public async manufacturer(@Parent() parent: Ship): Promise<Manufacturer> {
+		return (await this.manufacturerService.findOneById(parent.manufacturerId))!;
 	}
 }

@@ -5,7 +5,7 @@ type Query {
 
 type Mutation {
 	createCommodityCategory(input: CreateCommodityCategoryInput!): CommodityCategory!
-	updateCommodityCategory(input: UpdateCommodityCategoryInput!): CommodityCategory!
+	updateCommodityCategory(id: ID!, input: UpdateCommodityCategoryInput!): CommodityCategory!
 }
 
 type Subscription {

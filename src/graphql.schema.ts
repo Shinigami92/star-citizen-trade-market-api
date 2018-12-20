@@ -230,6 +230,16 @@ export interface UpdateItemPriceInput {
     scannedInGameVersionId?: string;
 }
 
+export interface UpdateShipInput {
+    name?: string;
+    inGameSinceVersionId?: string;
+    inGameSince?: Date;
+    scu?: number;
+    manufacturerId?: string;
+    focus?: string;
+    size?: number;
+}
+
 export interface Item {
     id: string;
     name: string;
@@ -330,7 +340,7 @@ export interface Manufacturer {
 export interface IMutation {
     signUp(input: CreateAccountInput): Account | Promise<Account>;
     createCommodityCategory(input: CreateCommodityCategoryInput): CommodityCategory | Promise<CommodityCategory>;
-    updateCommodityCategory(input: UpdateCommodityCategoryInput): CommodityCategory | Promise<CommodityCategory>;
+    updateCommodityCategory(id: string, input: UpdateCommodityCategoryInput): CommodityCategory | Promise<CommodityCategory>;
     createGameVersion(input: CreateGameVersionInput): GameVersion | Promise<GameVersion>;
     updateGameVersion(id: string, input: UpdateGameVersionInput): GameVersion | Promise<GameVersion>;
     createItemPrice(input: CreateItemPriceInput): ItemPrice | Promise<ItemPrice>;
@@ -338,7 +348,8 @@ export interface IMutation {
     createCommodity(input: CreateCommodityInput): Commodity | Promise<Commodity>;
     updateCommodity(id: string, input: UpdateCommodityInput): Commodity | Promise<Commodity>;
     createItem(input: CreateItemInput): Item | Promise<Item>;
-    createShip(createShipInput: CreateShipInput): Ship | Promise<Ship>;
+    createShip(input: CreateShipInput): Ship | Promise<Ship>;
+    updateShip(id: string, input: UpdateShipInput): Ship | Promise<Ship>;
     createLocationType(input: CreateLocationTypeInput): LocationType | Promise<LocationType>;
     createLocation(input: CreateLocationInput): Location | Promise<Location>;
     createManufacturer(input: CreateManufacturerInput): Manufacturer | Promise<Manufacturer>;
@@ -440,6 +451,7 @@ export interface ISubscription {
     commodityUpdated(): Commodity | Promise<Commodity>;
     itemCreated(): Item | Promise<Item>;
     shipCreated(): Ship | Promise<Ship>;
+    shipUpdated(): Ship | Promise<Ship>;
     locationTypeCreated(): LocationType | Promise<LocationType>;
     locationCreated(): Location | Promise<Location>;
     manufacturerCreated(): Manufacturer | Promise<Manufacturer>;

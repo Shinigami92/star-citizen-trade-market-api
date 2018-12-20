@@ -4,11 +4,13 @@ type Query {
 }
 
 type Mutation {
-	createShip(createShipInput: CreateShipInput!): Ship!
+	createShip(input: CreateShipInput!): Ship!
+	updateShip(id: ID!, input: UpdateShipInput!): Ship!
 }
 
 type Subscription {
 	shipCreated: Ship!
+	shipUpdated: Ship!
 }
 
 type Ship implements Item {
@@ -33,4 +35,14 @@ input CreateShipInput {
 	manufacturerId: ID!
 	focus: String!
 	size: Int!
+}
+
+input UpdateShipInput {
+	name: String
+	inGameSinceVersionId: ID
+	inGameSince: Date
+	scu: Int
+	manufacturerId: ID
+	focus: String
+	size: Int
 }
