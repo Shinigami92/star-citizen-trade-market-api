@@ -24,7 +24,8 @@ export class TradeResolvers {
 			accountId: currentUser !== undefined ? currentUser.id : null,
 			startLocationId: searchInput !== undefined ? searchInput.startLocationId : undefined,
 			endLocationId: searchInput !== undefined ? searchInput.endLocationId : undefined,
-			gameVersionId: searchInput !== undefined ? searchInput.gameVersionId : undefined
+			gameVersionId: searchInput !== undefined ? searchInput.gameVersionId : undefined,
+			itemIds: searchInput !== undefined ? searchInput.itemIds : undefined
 		});
 	}
 

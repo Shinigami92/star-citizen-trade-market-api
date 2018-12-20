@@ -197,8 +197,7 @@ export interface JoinOrganizationInput {
 export interface TradeSearchInput {
     startLocationId?: string;
     endLocationId?: string;
-    maxScu?: number;
-    startCurrency?: number;
+    itemIds?: string[];
     gameVersionId?: string;
 }
 

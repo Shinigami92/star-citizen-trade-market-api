@@ -18,7 +18,6 @@ type Trade {
 input TradeSearchInput {
 	startLocationId: ID
 	endLocationId: ID
-	maxScu: Int
-	startCurrency: Float
+	itemIds: [ID]
 	gameVersionId: ID
 }

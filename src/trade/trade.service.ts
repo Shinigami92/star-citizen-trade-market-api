@@ -8,6 +8,7 @@ export interface TradeSearchOptions {
 	startLocationId?: string;
 	endLocationId?: string;
 	gameVersionId?: string;
+	itemIds?: string[];
 }
 
 interface TradeResult {
@@ -40,12 +41,13 @@ export class TradeService {
 		accountId = null,
 		startLocationId,
 		endLocationId,
-		gameVersionId
+		gameVersionId,
+		itemIds
 	}: TradeSearchOptions): Promise<Trade[]> {
 		let sql: string =
 			'SELECT DISTINCT ON (buy_location_id, sell_location_id, item_id, scanned_in_game_version_id)' +
 			' * FROM f_trade($1::uuid)';
-		const values: Array<string | null> = [accountId];
+		const values: Array<string | string[] | null> = [accountId];
 		const clause: string[][] = [];
 		if (startLocationId !== undefined) {
 			values.push(startLocationId);
@@ -68,6 +70,11 @@ export class TradeService {
 					sql += ' AND';
 				}
 			}
+		}
+		if (itemIds !== undefined) {
+			values.push(itemIds);
+			sql += clause.length === 0 ? ' WHERE' : ' AND';
+			sql += ` item_id = ANY($${values.length}::uuid[])`;
 		}
 		sql += ' ORDER BY buy_location_id, sell_location_id, item_id, scanned_in_game_version_id, scan_time DESC';
 		const result: QueryResult = await client.query(sql, values);
