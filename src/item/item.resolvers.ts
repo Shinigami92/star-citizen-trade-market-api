@@ -9,13 +9,13 @@ export class ItemResolvers {
 
 	constructor(private readonly itemService: ItemService) {}
 
-	@Query('items')
+	@Query()
 	public async items(): Promise<Item[]> {
 		return await this.itemService.findAll();
 	}
 
-	@Query('item')
-	public async findOneById(@Args('id') id: string): Promise<Item | undefined> {
+	@Query()
+	public async item(@Args('id') id: string): Promise<Item | undefined> {
 		return await this.itemService.findOneById(id);
 	}
 
