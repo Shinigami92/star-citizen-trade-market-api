@@ -246,6 +246,11 @@ export interface UpdateManufacturerInput {
     name?: string;
 }
 
+export interface UpdateOrganizationInput {
+    name?: string;
+    spectrumId?: string;
+}
+
 export interface UpdateShipInput {
     name?: string;
     inGameSinceVersionId?: string;
@@ -374,6 +379,7 @@ export interface IMutation {
     updateManufacturer(id: string, input: UpdateManufacturerInput): Manufacturer | Promise<Manufacturer>;
     joinOrganization(input: JoinOrganizationInput): OrganizationMember | Promise<OrganizationMember>;
     createOrganization(input: CreateOrganizationInput): Organization | Promise<Organization>;
+    updateOrganization(id: string, input: UpdateOrganizationInput): Organization | Promise<Organization>;
     createPossession(input: CreatePossessionInput): Possession | Promise<Possession>;
     createTransactionDetail(input: CreateTransactionDetailInput): TransactionDetail | Promise<TransactionDetail>;
     createBoughtTransactionDetail(input: CreateBoughtTransactionDetailInput): TransactionDetail | Promise<TransactionDetail>;
@@ -479,6 +485,7 @@ export interface ISubscription {
     manufacturerUpdated(): Manufacturer | Promise<Manufacturer>;
     organizationMemberCreated(): OrganizationMember | Promise<OrganizationMember>;
     organizationCreated(): Organization | Promise<Organization>;
+    organizationUpdated(): Organization | Promise<Organization>;
     possessionCreated(): Possession | Promise<Possession>;
     transactionDetailCreated(): TransactionDetail | Promise<TransactionDetail>;
     transactionCreated(): Transaction | Promise<Transaction>;

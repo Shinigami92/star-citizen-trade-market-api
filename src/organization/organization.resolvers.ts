@@ -33,10 +33,29 @@ export class OrganizationResolvers {
 		return created;
 	}
 
+	@Mutation()
+	@UseGuards(GraphqlAuthGuard, RoleGuard)
+	@HasAnyRole(Role.USER, Role.ADVANCED, Role.ADMIN)
+	public async updateOrganization(
+		@Args('id') id: string,
+		@Args('input') args: CreateOrganizationDto
+	): Promise<Organization> {
+		const updated: Organization = await this.organizationService.update(id, args);
+		pubSub.publish('organizationUpdated', { organizationUpdated: updated });
+		return updated;
+	}
+
 	@Subscription()
 	public organizationCreated(): { subscribe: () => any } {
 		return {
 			subscribe: (): any => pubSub.asyncIterator('organizationCreated')
+		};
+	}
+
+	@Subscription()
+	public organizationUpdated(): { subscribe: () => any } {
+		return {
+			subscribe: (): any => pubSub.asyncIterator('organizationUpdated')
 		};
 	}
 }

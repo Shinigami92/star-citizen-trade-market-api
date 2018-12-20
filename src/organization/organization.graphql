@@ -5,10 +5,12 @@ type Query {
 
 type Mutation {
 	createOrganization(input: CreateOrganizationInput!): Organization!
+	updateOrganization(id: ID!, input: UpdateOrganizationInput!): Organization!
 }
 
 type Subscription {
 	organizationCreated: Organization!
+	organizationUpdated: Organization!
 }
 
 type Organization {
@@ -20,4 +22,9 @@ type Organization {
 input CreateOrganizationInput {
 	name: String!
 	spectrumId: String!
+}
+
+input UpdateOrganizationInput {
+	name: String
+	spectrumId: String
 }
