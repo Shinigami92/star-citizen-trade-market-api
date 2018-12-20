@@ -5,10 +5,12 @@ type Query {
 
 type Mutation {
 	createLocation(input: CreateLocationInput!): Location!
+	updateLocation(id: ID!, input: UpdateLocationInput!): Location!
 }
 
 type Subscription {
 	locationCreated: Location!
+	locationUpdated: Location!
 }
 
 type Location {
@@ -28,5 +30,13 @@ input CreateLocationInput {
 	parentLocationId: ID
 	typeId: ID!
 	inGameSinceVersionId: ID!
+	inGameSince: Date
+}
+
+input UpdateLocationInput {
+	name: String
+	parentLocationId: ID
+	typeId: ID
+	inGameSinceVersionId: ID
 	inGameSince: Date
 }

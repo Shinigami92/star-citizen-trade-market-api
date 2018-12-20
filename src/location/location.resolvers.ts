@@ -39,10 +39,26 @@ export class LocationResolvers {
 		return created;
 	}
 
+	@Mutation()
+	@UseGuards(GraphqlAuthGuard, RoleGuard)
+	@HasAnyRole(Role.ADVANCED, Role.ADMIN)
+	public async updateLocation(@Args('id') id: string, @Args('input') args: CreateLocationDto): Promise<Location> {
+		const updated: Location = await this.locationService.update(id, args);
+		pubSub.publish('locationUpdated', { locationUpdated: updated });
+		return updated;
+	}
+
 	@Subscription()
 	public locationCreated(): { subscribe: () => any } {
 		return {
 			subscribe: (): any => pubSub.asyncIterator('locationCreated')
+		};
+	}
+
+	@Subscription()
+	public locationUpdated(): { subscribe: () => any } {
+		return {
+			subscribe: (): any => pubSub.asyncIterator('locationUpdated')
 		};
 	}
 

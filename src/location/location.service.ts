@@ -3,6 +3,7 @@ import { QueryResult } from 'pg';
 import { client } from 'src/database.service';
 import { Location } from 'src/graphql.schema';
 import { CreateLocationDto } from './dto/create-location.dto';
+import { UpdateLocationDto } from './dto/update-location.dto';
 
 export const TABLENAME: string = 'location';
 
@@ -25,6 +26,50 @@ export class LocationService {
 		const created: Location = result.rows[0];
 		this.logger.log(`Created ${TABLENAME} with id ${created.id}`);
 		return created;
+	}
+
+	public async update(
+		id: string,
+		{ name, inGameSince, inGameSinceVersionId, parentLocationId, typeId }: UpdateLocationDto
+	): Promise<Location> {
+		const updates: any[] = [];
+		const values: any[] = [];
+		let updateIndex: number = 2;
+		if (name !== undefined) {
+			updates.push(` name = $${updateIndex}::text`);
+			values.push(name);
+			updateIndex++;
+		}
+		if (inGameSince !== undefined) {
+			updates.push(` in_game_since = $${updateIndex}::text`);
+			values.push(inGameSince);
+			updateIndex++;
+		}
+		if (inGameSinceVersionId !== undefined) {
+			updates.push(` in_game_since_version_id = $${updateIndex}::text`);
+			values.push(inGameSinceVersionId);
+			updateIndex++;
+		}
+		if (parentLocationId !== undefined) {
+			updates.push(` parent_location_id = $${updateIndex}::text`);
+			values.push(parentLocationId);
+			updateIndex++;
+		}
+		if (typeId !== undefined) {
+			updates.push(` type_id = $${updateIndex}::text`);
+			values.push(typeId);
+			updateIndex++;
+		}
+		if (updates.length === 0) {
+			return (await this.findOneById(id))!;
+		}
+		const result: QueryResult = await client.query(
+			`UPDATE ${TABLENAME} SET${updates.join(', ')} WHERE id = $1::uuid RETURNING *`,
+			[id, ...values]
+		);
+		const updated: Location = result.rows[0];
+		this.logger.log(`Updated ${TABLENAME} with id ${updated.id}`);
+		return updated;
 	}
 
 	public async findAll(): Promise<Location[]> {
