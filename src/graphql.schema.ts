@@ -324,7 +324,7 @@ export interface IMutation {
     createItemPrice(input: CreateItemPriceInput): ItemPrice | Promise<ItemPrice>;
     updateItemPrice(id: string, input: UpdateItemPriceInput): ItemPrice | Promise<ItemPrice>;
     createCommodity(createCommodityInput: CreateCommodityInput): Commodity | Promise<Commodity>;
-    createItem(createItemInput: CreateItemInput): Item | Promise<Item>;
+    createItem(input: CreateItemInput): Item | Promise<Item>;
     createShip(createShipInput: CreateShipInput): Ship | Promise<Ship>;
     createLocationType(createLocationTypeInput: CreateLocationTypeInput): LocationType | Promise<LocationType>;
     createLocation(input: CreateLocationInput): Location | Promise<Location>;

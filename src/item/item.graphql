@@ -4,7 +4,7 @@ type Query {
 }
 
 type Mutation {
-	createItem(createItemInput: CreateItemInput!): Item!
+	createItem(input: CreateItemInput!): Item!
 }
 
 type Subscription {
