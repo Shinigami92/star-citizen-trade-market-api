@@ -7,6 +7,7 @@ import { GameVersionService } from 'src/game-version/game-version.service';
 import { Commodity, CommodityCategory, GameVersion } from 'src/graphql.schema';
 import { CommodityService } from './commodity.service';
 import { CreateCommodityDto } from './dto/create-commodity.dto';
+import { UpdateCommodityDto } from './dto/update-commodity.dto';
 
 const pubSub: PubSub = new PubSub();
 
@@ -36,10 +37,25 @@ export class CommodityResolvers {
 		return created;
 	}
 
+	@Mutation()
+	@UseGuards(GraphqlAuthGuard)
+	public async updateCommodity(@Args('id') id: string, @Args('input') args: UpdateCommodityDto): Promise<Commodity> {
+		const updated: Commodity = await this.commodityService.update(id, args);
+		pubSub.publish('commodityUpdated', { commodityUpdated: updated });
+		return updated;
+	}
+
 	@Subscription()
 	public commodityCreated(): { subscribe: () => any } {
 		return {
 			subscribe: (): any => pubSub.asyncIterator('commodityCreated')
+		};
+	}
+
+	@Subscription()
+	public commodityUpdated(): { subscribe: () => any } {
+		return {
+			subscribe: (): any => pubSub.asyncIterator('commodityUpdated')
 		};
 	}
 

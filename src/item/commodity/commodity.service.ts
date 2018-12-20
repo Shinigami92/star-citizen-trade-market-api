@@ -4,6 +4,7 @@ import { client } from 'src/database.service';
 import { Commodity } from 'src/graphql.schema';
 import { TABLENAME } from '../item.service';
 import { CreateCommodityDto } from './dto/create-commodity.dto';
+import { UpdateCommodityDto } from './dto/update-commodity.dto';
 
 @Injectable()
 export class CommodityService {
@@ -33,6 +34,45 @@ export class CommodityService {
 		const created: Commodity = result.rows[0];
 		this.logger.log(`Created ${TABLENAME} with id ${created.id}`);
 		return created;
+	}
+
+	public async update(
+		id: string,
+		{ name, commodityCategoryId, inGameSinceVersionId, inGameSince }: UpdateCommodityDto
+	): Promise<Commodity> {
+		const updates: any[] = [];
+		const values: any[] = [];
+		let updateIndex: number = 2;
+		if (name !== undefined) {
+			updates.push(` name = $${updateIndex}::text`);
+			values.push(name);
+			updateIndex++;
+		}
+		if (commodityCategoryId !== undefined) {
+			updates.push(` commodity_category_id = $${updateIndex}::uuid`);
+			values.push(commodityCategoryId);
+			updateIndex++;
+		}
+		if (inGameSinceVersionId !== undefined) {
+			updates.push(` in_game_since_version_id = $${updateIndex}::uuid`);
+			values.push(inGameSinceVersionId);
+			updateIndex++;
+		}
+		if (inGameSince !== undefined) {
+			updates.push(` in_game_since = $${updateIndex}::timestamptz`);
+			values.push(inGameSince);
+			updateIndex++;
+		}
+		if (updates.length === 0) {
+			return (await this.findOneById(id))!;
+		}
+		const result: QueryResult = await client.query(
+			`UPDATE ${TABLENAME} SET${updates.join(', ')} WHERE id = $1::uuid RETURNING *`,
+			[id, ...values]
+		);
+		const updated: Commodity = result.rows[0];
+		this.logger.log(`Updated ${TABLENAME} with id ${updated.id}`);
+		return updated;
 	}
 
 	public async findAll(): Promise<Commodity[]> {

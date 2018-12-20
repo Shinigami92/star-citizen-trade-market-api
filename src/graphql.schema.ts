@@ -202,6 +202,13 @@ export interface TradeSearchInput {
     gameVersionId?: string;
 }
 
+export interface UpdateCommodityInput {
+    name?: string;
+    inGameSinceVersionId?: string;
+    inGameSince?: Date;
+    commodityCategoryId?: string;
+}
+
 export interface UpdateGameVersionInput {
     identifier?: string;
     release?: Date;
@@ -324,6 +331,7 @@ export interface IMutation {
     createItemPrice(input: CreateItemPriceInput): ItemPrice | Promise<ItemPrice>;
     updateItemPrice(id: string, input: UpdateItemPriceInput): ItemPrice | Promise<ItemPrice>;
     createCommodity(input: CreateCommodityInput): Commodity | Promise<Commodity>;
+    updateCommodity(id: string, input: UpdateCommodityInput): Commodity | Promise<Commodity>;
     createItem(input: CreateItemInput): Item | Promise<Item>;
     createShip(createShipInput: CreateShipInput): Ship | Promise<Ship>;
     createLocationType(createLocationTypeInput: CreateLocationTypeInput): LocationType | Promise<LocationType>;
@@ -423,6 +431,7 @@ export interface ISubscription {
     itemPriceCreated(): ItemPrice | Promise<ItemPrice>;
     itemPriceUpdated(): ItemPrice | Promise<ItemPrice>;
     commodityCreated(): Commodity | Promise<Commodity>;
+    commodityUpdated(): Commodity | Promise<Commodity>;
     itemCreated(): Item | Promise<Item>;
     shipCreated(): Ship | Promise<Ship>;
     locationTypeCreated(): LocationType | Promise<LocationType>;

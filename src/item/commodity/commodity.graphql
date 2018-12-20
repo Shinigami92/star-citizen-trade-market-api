@@ -5,10 +5,12 @@ type Query {
 
 type Mutation {
 	createCommodity(input: CreateCommodityInput!): Commodity!
+	updateCommodity(id: ID!, input: UpdateCommodityInput!): Commodity!
 }
 
 type Subscription {
 	commodityCreated: Commodity!
+	commodityUpdated: Commodity!
 }
 
 type Commodity implements Item {
@@ -27,4 +29,11 @@ input CreateCommodityInput {
 	inGameSinceVersionId: ID!
 	inGameSince: Date
 	commodityCategoryId: ID!
+}
+
+input UpdateCommodityInput {
+	name: String
+	inGameSinceVersionId: ID
+	inGameSince: Date
+	commodityCategoryId: ID
 }
