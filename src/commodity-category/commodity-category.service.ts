@@ -1,26 +1,31 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { QueryResult } from 'pg';
 import { client } from 'src/database.service';
 import { CommodityCategory } from '../graphql.schema';
 import { CreateCommodityCategoryDto } from './dto/create-commodity-category.dto';
 
+export const TABLENAME: string = 'commodity_category';
+
 @Injectable()
 export class CommodityCategoryService {
-	public async create(commodityCategory: CreateCommodityCategoryDto): Promise<CommodityCategory> {
-		const result: QueryResult = await client.query(
-			'INSERT INTO commodity_category(name) VALUES ($1::text) RETURNING *',
-			[commodityCategory.name]
-		);
-		return result.rows[0];
+	private readonly logger: Logger = new Logger(CommodityCategoryService.name);
+
+	public async create({ name }: CreateCommodityCategoryDto): Promise<CommodityCategory> {
+		const result: QueryResult = await client.query(`INSERT INTO ${TABLENAME}(name) VALUES ($1::text) RETURNING *`, [
+			name
+		]);
+		const created: CommodityCategory = result.rows[0];
+		this.logger.log(`Created ${TABLENAME} with id ${created.id}`);
+		return created;
 	}
 
 	public async findAll(): Promise<CommodityCategory[]> {
-		const result: QueryResult = await client.query('SELECT * FROM commodity_category ORDER BY name');
+		const result: QueryResult = await client.query(`SELECT * FROM ${TABLENAME} ORDER BY name`);
 		return result.rows;
 	}
 
 	public async findOneById(id: string): Promise<CommodityCategory | undefined> {
-		const result: QueryResult = await client.query('SELECT * FROM commodity_category WHERE id = $1::uuid', [id]);
+		const result: QueryResult = await client.query(`SELECT * FROM ${TABLENAME} WHERE id = $1::uuid`, [id]);
 		return result.rows[0];
 	}
 }

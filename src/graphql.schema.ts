@@ -325,7 +325,7 @@ export interface Manufacturer {
 
 export interface IMutation {
     signUp(createAccountInput: CreateAccountInput): Account | Promise<Account>;
-    createCommodityCategory(createCommodityCategoryInput: CreateCommodityCategoryInput): CommodityCategory | Promise<CommodityCategory>;
+    createCommodityCategory(input: CreateCommodityCategoryInput): CommodityCategory | Promise<CommodityCategory>;
     createGameVersion(input: CreateGameVersionInput): GameVersion | Promise<GameVersion>;
     updateGameVersion(id: string, input: UpdateGameVersionInput): GameVersion | Promise<GameVersion>;
     createItemPrice(input: CreateItemPriceInput): ItemPrice | Promise<ItemPrice>;
