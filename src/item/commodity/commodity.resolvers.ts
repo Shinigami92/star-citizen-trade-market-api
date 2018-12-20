@@ -18,38 +18,38 @@ export class CommodityResolvers {
 		private readonly commodityCategoryService: CommodityCategoryService
 	) {}
 
-	@Query('commodities')
+	@Query()
 	public async commodities(): Promise<Commodity[]> {
 		return await this.commodityService.findAll();
 	}
 
-	@Query('commodity')
-	public async findOneById(@Args('id') id: string): Promise<Commodity | undefined> {
+	@Query()
+	public async commodity(@Args('id') id: string): Promise<Commodity | undefined> {
 		return await this.commodityService.findOneById(id);
 	}
 
-	@Mutation('createCommodity')
+	@Mutation()
 	@UseGuards(GraphqlAuthGuard)
-	public async create(@Args('createCommodityInput') args: CreateCommodityDto): Promise<Commodity> {
-		const createdCommodity: Commodity = await this.commodityService.create(args);
-		pubSub.publish('commodityCreated', { commodityCreated: createdCommodity });
-		return createdCommodity;
+	public async createCommodity(@Args('input') args: CreateCommodityDto): Promise<Commodity> {
+		const created: Commodity = await this.commodityService.create(args);
+		pubSub.publish('commodityCreated', { commodityCreated: created });
+		return created;
 	}
 
-	@Subscription('commodityCreated')
+	@Subscription()
 	public commodityCreated(): { subscribe: () => any } {
 		return {
 			subscribe: (): any => pubSub.asyncIterator('commodityCreated')
 		};
 	}
 
-	@ResolveProperty('inGameSinceVersion')
-	public async inGameSinceVersion(@Parent() commodity: Commodity): Promise<GameVersion> {
-		return (await this.gameVersionService.findOneById(commodity.inGameSinceVersionId))!;
+	@ResolveProperty()
+	public async inGameSinceVersion(@Parent() parent: Commodity): Promise<GameVersion> {
+		return (await this.gameVersionService.findOneById(parent.inGameSinceVersionId))!;
 	}
 
-	@ResolveProperty('commodityCategory')
-	public async commodityCategory(@Parent() commodity: Commodity): Promise<CommodityCategory> {
-		return (await this.commodityCategoryService.findOneById(commodity.commodityCategoryId))!;
+	@ResolveProperty()
+	public async commodityCategory(@Parent() parent: Commodity): Promise<CommodityCategory> {
+		return (await this.commodityCategoryService.findOneById(parent.commodityCategoryId))!;
 	}
 }
