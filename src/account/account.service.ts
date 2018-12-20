@@ -13,12 +13,14 @@ import { transporter } from 'src/mail.service';
 import { Account, AuthToken, Role } from '../graphql.schema';
 import { CreateAccountDto } from './dto/create-account.dto';
 
+export const TABLENAME: string = 'account';
+
 @Injectable()
 export class AccountService {
 	private readonly logger: Logger = new Logger(AccountService.name);
 	private readonly PASSWORD_CHARS: string[] = [...'abcdefhjkmnpqrstuvwxABCDEFHJKMNPQRSTUVWX2345789'];
 
-	public async signUp(account: CreateAccountDto): Promise<Account> {
+	public async signUp({ username, handle, email }: CreateAccountDto): Promise<Account> {
 		const salt: string = await genSalt();
 		const generatedPassword: string = [...Array(Math.floor(Math.random() * 9) + 12)]
 			.map(
@@ -30,33 +32,33 @@ export class AccountService {
 		let result: QueryResult;
 		try {
 			result = await client.query(
-				'INSERT INTO account(username, handle, email, password)' +
+				`INSERT INTO ${TABLENAME}(username, handle, email, password)` +
 					' VALUES ($1::text, $2::text, $3::text, $4::text) RETURNING *',
-				[account.username, account.handle, account.email, encryptedPassword]
+				[username, handle, email, encryptedPassword]
 			);
 		} catch (error) {
 			this.logger.error(error);
 			switch (error.constraint) {
 				case 'account_username_key':
-					throw new ConflictException(`Username ${account.username} is already in use`);
+					throw new ConflictException(`Username ${username} is already in use`);
 				case 'account_handle_key':
-					throw new ConflictException(
-						`Star Citizen Handle ${account.handle} is already taken by another user`
-					);
+					throw new ConflictException(`Star Citizen Handle ${handle} is already taken by another user`);
 				case 'account_email_key':
-					throw new ConflictException(`Email ${account.email} is already in use`);
+					throw new ConflictException(`Email ${email} is already in use`);
 			}
 			throw new InternalServerErrorException();
 		}
 
 		transporter.sendMail({
-			to: account.email,
+			to: email,
 			subject: 'Registration in Star Citizen Trademarket',
-			text: `Star Citizen Trademarket\nUsername: ${account.username}\nPassword: ${generatedPassword}`
+			text: `Star Citizen Trademarket\nUsername: ${username}\nPassword: ${generatedPassword}`
 		});
 		// TODO: remove account if email cant be delivered
 
-		return result.rows[0];
+		const created: Account = result.rows[0];
+		this.logger.log(`Created ${TABLENAME} with id ${created.id}`);
+		return created;
 	}
 
 	public async signIn(username: string, password: string): Promise<AuthToken> {
@@ -78,17 +80,19 @@ export class AccountService {
 	}
 
 	public async findAll(): Promise<Account[]> {
-		const result: QueryResult = await client.query('SELECT * FROM account');
+		const result: QueryResult = await client.query(`SELECT * FROM ${TABLENAME}`);
 		return result.rows.map((row: any) => this.transformRoles(row)!);
 	}
 
 	public async findOneById(id: string): Promise<Account | undefined> {
-		const result: QueryResult = await client.query('SELECT * FROM account WHERE id = $1::uuid', [id]);
+		const result: QueryResult = await client.query(`SELECT * FROM ${TABLENAME} WHERE id = $1::uuid`, [id]);
 		return this.transformRoles(result.rows[0]);
 	}
 
 	public async findOneByUsername(username: string): Promise<Account | undefined> {
-		const result: QueryResult = await client.query('SELECT * FROM account WHERE username = $1::text', [username]);
+		const result: QueryResult = await client.query(`SELECT * FROM ${TABLENAME} WHERE username = $1::text`, [
+			username
+		]);
 		return this.transformRoles(result.rows[0]);
 	}
 

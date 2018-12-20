@@ -20,29 +20,29 @@ export class AccountResolvers {
 		private readonly organizationService: OrganizationService
 	) {}
 
-	@Query('accounts')
+	@Query()
 	public async accounts(): Promise<Account[]> {
 		return await this.accountService.findAll();
 	}
 
-	@Query('account')
-	public async findOneById(@Args('id') id: string): Promise<Account | undefined> {
+	@Query()
+	public async account(@Args('id') id: string): Promise<Account | undefined> {
 		return await this.accountService.findOneById(id);
 	}
 
-	@Mutation('signUp')
-	public async signUp(@Args('createAccountInput') args: CreateAccountDto): Promise<Account> {
-		const createdAccount: Account = await this.accountService.signUp(args);
-		pubSub.publish('accountSignedUp', { accountSignedUp: createdAccount });
-		return createdAccount;
+	@Mutation()
+	public async signUp(@Args('input') args: CreateAccountDto): Promise<Account> {
+		const created: Account = await this.accountService.signUp(args);
+		pubSub.publish('accountSignedUp', { accountSignedUp: created });
+		return created;
 	}
 
-	@Query('signIn')
+	@Query()
 	public async signIn(@Args('username') username: string, @Args('password') password: string): Promise<AuthToken> {
 		return await this.accountService.signIn(username, password);
 	}
 
-	@Subscription('accountSignedUp')
+	@Subscription()
 	@UseGuards(GraphqlAuthGuard, RoleGuard)
 	@HasAnyRole(Role.USERADMIN, Role.ADMIN)
 	public accountSignedUp(): { subscribe: () => any } {
@@ -51,23 +51,23 @@ export class AccountResolvers {
 		};
 	}
 
-	@ResolveProperty('email')
+	@ResolveProperty()
 	@UseGuards(GraphqlAuthGuard, RoleGuard)
 	@HasAnyRole(Role.USER, Role.USERADMIN, Role.ADMIN)
-	public email(@Parent() account: Account, @CurrentUser() currentUser: CurrentAuthUser): string {
-		if (account.id === currentUser.id) {
-			return account.email!;
+	public email(@Parent() parent: Account, @CurrentUser() currentUser: CurrentAuthUser): string {
+		if (parent.id === currentUser.id) {
+			return parent.email!;
 		}
 		if (currentUser.hasAnyRole([Role.USERADMIN, Role.ADMIN])) {
-			return account.email!;
+			return parent.email!;
 		}
 		throw new UnauthorizedException();
 	}
 
-	@ResolveProperty('mainOrganization')
-	public async location(@Parent() account: Account): Promise<Organization | null> {
-		if (account.mainOrganizationId !== undefined) {
-			return (await this.organizationService.findOneById(account.mainOrganizationId))!;
+	@ResolveProperty()
+	public async mainOrganization(@Parent() parent: Account): Promise<Organization | null> {
+		if (parent.mainOrganizationId !== undefined) {
+			return (await this.organizationService.findOneById(parent.mainOrganizationId))!;
 		}
 		return null;
 	}

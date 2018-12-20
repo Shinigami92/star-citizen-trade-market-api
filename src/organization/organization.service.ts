@@ -1,26 +1,32 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { QueryResult } from 'pg';
 import { client } from 'src/database.service';
 import { Organization } from 'src/graphql.schema';
 import { CreateOrganizationDto } from './dto/create-organization.dto';
 
+export const TABLENAME: string = 'organization';
+
 @Injectable()
 export class OrganizationService {
-	public async create(organization: CreateOrganizationDto): Promise<Organization> {
+	private readonly logger: Logger = new Logger(OrganizationService.name);
+
+	public async create({ name, spectrumId }: CreateOrganizationDto): Promise<Organization> {
 		const result: QueryResult = await client.query(
-			'INSERT INTO organization(name, spectrum_id) VALUES ($1::text, $2::text) RETURNING *',
-			[organization.name, organization.spectrumId]
+			`INSERT INTO ${TABLENAME}(name, spectrum_id) VALUES ($1::text, $2::text) RETURNING *`,
+			[name, spectrumId]
 		);
-		return result.rows[0];
+		const created: Organization = result.rows[0];
+		this.logger.log(`Created ${TABLENAME} with id ${created.id}`);
+		return created;
 	}
 
 	public async findAll(): Promise<Organization[]> {
-		const result: QueryResult = await client.query('SELECT * FROM organization');
+		const result: QueryResult = await client.query(`SELECT * FROM ${TABLENAME}`);
 		return result.rows;
 	}
 
 	public async findOneById(id: string): Promise<Organization | undefined> {
-		const result: QueryResult = await client.query('SELECT * FROM organization WHERE id = $1::uuid', [id]);
+		const result: QueryResult = await client.query(`SELECT * FROM ${TABLENAME} WHERE id = $1::uuid`, [id]);
 		return result.rows[0];
 	}
 }

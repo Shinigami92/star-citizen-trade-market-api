@@ -14,26 +14,26 @@ const pubSub: PubSub = new PubSub();
 export class OrganizationResolvers {
 	constructor(private readonly organizationService: OrganizationService) {}
 
-	@Query('organizations')
+	@Query()
 	public async organizations(): Promise<Organization[]> {
 		return await this.organizationService.findAll();
 	}
 
-	@Query('organization')
-	public async findOneById(@Args('id') id: string): Promise<Organization | undefined> {
+	@Query()
+	public async organization(@Args('id') id: string): Promise<Organization | undefined> {
 		return await this.organizationService.findOneById(id);
 	}
 
-	@Mutation('createOrganization')
+	@Mutation()
 	@UseGuards(GraphqlAuthGuard, RoleGuard)
 	@HasAnyRole(Role.USER, Role.ADVANCED, Role.ADMIN)
-	public async create(@Args('createOrganizationInput') args: CreateOrganizationDto): Promise<Organization> {
-		const createdOrganization: Organization = await this.organizationService.create(args);
-		pubSub.publish('organizationCreated', { organizationCreated: createdOrganization });
-		return createdOrganization;
+	public async createOrganization(@Args('input') args: CreateOrganizationDto): Promise<Organization> {
+		const created: Organization = await this.organizationService.create(args);
+		pubSub.publish('organizationCreated', { organizationCreated: created });
+		return created;
 	}
 
-	@Subscription('organizationCreated')
+	@Subscription()
 	public organizationCreated(): { subscribe: () => any } {
 		return {
 			subscribe: (): any => pubSub.asyncIterator('organizationCreated')

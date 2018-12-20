@@ -14,26 +14,26 @@ const pubSub: PubSub = new PubSub();
 export class ManufacturerResolvers {
 	constructor(private readonly manufacturerService: ManufacturerService) {}
 
-	@Query('manufacturers')
+	@Query()
 	public async manufacturers(): Promise<Manufacturer[]> {
 		return await this.manufacturerService.findAll();
 	}
 
-	@Query('manufacturer')
-	public async findOneById(@Args('id') id: string): Promise<Manufacturer | undefined> {
+	@Query()
+	public async manufacturer(@Args('id') id: string): Promise<Manufacturer | undefined> {
 		return await this.manufacturerService.findOneById(id);
 	}
 
-	@Mutation('createManufacturer')
+	@Mutation()
 	@UseGuards(GraphqlAuthGuard, RoleGuard)
 	@HasAnyRole(Role.ADVANCED, Role.ADMIN)
-	public async create(@Args('createManufacturerInput') args: CreateManufacturerDto): Promise<Manufacturer> {
-		const createdManufacturer: Manufacturer = await this.manufacturerService.create(args);
-		pubSub.publish('manufacturerCreated', { manufacturerCreated: createdManufacturer });
-		return createdManufacturer;
+	public async createManufacturer(@Args('input') args: CreateManufacturerDto): Promise<Manufacturer> {
+		const created: Manufacturer = await this.manufacturerService.create(args);
+		pubSub.publish('manufacturerCreated', { manufacturerCreated: created });
+		return created;
 	}
 
-	@Subscription('manufacturerCreated')
+	@Subscription()
 	public manufacturerCreated(): { subscribe: () => any } {
 		return {
 			subscribe: (): any => pubSub.asyncIterator('manufacturerCreated')

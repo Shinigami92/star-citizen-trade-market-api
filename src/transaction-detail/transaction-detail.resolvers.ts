@@ -24,23 +24,23 @@ export class TransactionDetailResolvers {
 		private readonly transactionService: TransactionService
 	) {}
 
-	@Query('transactionDetails')
+	@Query()
 	@UseGuards(GraphqlAuthGuard)
 	public async transactionDetails(): Promise<TransactionDetail[]> {
 		return await this.transactionDetailService.findAll();
 	}
 
-	@Query('transactionDetail')
+	@Query()
 	@UseGuards(GraphqlAuthGuard)
-	public async findOneById(@Args('id') id: string): Promise<TransactionDetail | undefined> {
+	public async transactionDetail(@Args('id') id: string): Promise<TransactionDetail | undefined> {
 		return await this.transactionDetailService.findOneById(id);
 	}
 
-	@Mutation('createTransactionDetail')
+	@Mutation()
 	@UseGuards(GraphqlAuthGuard, RoleGuard)
 	@HasAnyRole(Role.USER, Role.ADVANCED, Role.ADMIN)
-	public async create(
-		@Args('createTransactionDetailInput') args: CreateTransactionDetailDto,
+	public async createTransactionDetail(
+		@Args('input') args: CreateTransactionDetailDto,
 		@CurrentUser() currentUser: CurrentAuthUser
 	): Promise<TransactionDetail> {
 		if (!currentUser.hasRole(Role.ADMIN)) {
@@ -51,16 +51,16 @@ export class TransactionDetailResolvers {
 				throw new BadRequestException('You can not post transaction details for another account');
 			}
 		}
-		const createdTransactionDetail: TransactionDetail = await this.transactionDetailService.create(args);
-		pubSub.publish('transactionDetailCreated', { transactionDetailCreated: createdTransactionDetail });
-		return createdTransactionDetail;
+		const created: TransactionDetail = await this.transactionDetailService.create(args);
+		pubSub.publish('transactionDetailCreated', { transactionDetailCreated: created });
+		return created;
 	}
 
-	@Mutation('createBoughtTransactionDetail')
+	@Mutation()
 	@UseGuards(GraphqlAuthGuard, RoleGuard)
 	@HasAnyRole(Role.USER, Role.ADVANCED, Role.ADMIN)
 	public async createBoughtTransactionDetail(
-		@Args('createBoughtTransactionDetailInput') args: CreateBoughtTransactionDetailDto,
+		@Args('input') args: CreateBoughtTransactionDetailDto,
 		@CurrentUser() currentUser: CurrentAuthUser
 	): Promise<TransactionDetail> {
 		if (!currentUser.hasRole(Role.ADMIN)) {
@@ -71,19 +71,19 @@ export class TransactionDetailResolvers {
 				throw new BadRequestException('You can not post transaction details for another account');
 			}
 		}
-		const createdTransactionDetail: TransactionDetail = await this.transactionDetailService.create({
+		const created: TransactionDetail = await this.transactionDetailService.create({
 			...args,
 			type: TransactionDetailType.BOUGHT
 		});
-		pubSub.publish('transactionDetailCreated', { transactionDetailCreated: createdTransactionDetail });
-		return createdTransactionDetail;
+		pubSub.publish('transactionDetailCreated', { transactionDetailCreated: created });
+		return created;
 	}
 
-	@Mutation('createSoldTransactionDetail')
+	@Mutation()
 	@UseGuards(GraphqlAuthGuard, RoleGuard)
 	@HasAnyRole(Role.USER, Role.ADVANCED, Role.ADMIN)
 	public async createSoldTransactionDetail(
-		@Args('createSoldTransactionDetailInput') args: CreateSoldTransactionDetailDto,
+		@Args('input') args: CreateSoldTransactionDetailDto,
 		@CurrentUser() currentUser: CurrentAuthUser
 	): Promise<TransactionDetail> {
 		if (!currentUser.hasRole(Role.ADMIN)) {
@@ -94,19 +94,19 @@ export class TransactionDetailResolvers {
 				throw new BadRequestException('You can not post transaction details for another account');
 			}
 		}
-		const createdTransactionDetail: TransactionDetail = await this.transactionDetailService.create({
+		const created: TransactionDetail = await this.transactionDetailService.create({
 			...args,
 			type: TransactionDetailType.SOLD
 		});
-		pubSub.publish('transactionDetailCreated', { transactionDetailCreated: createdTransactionDetail });
-		return createdTransactionDetail;
+		pubSub.publish('transactionDetailCreated', { transactionDetailCreated: created });
+		return created;
 	}
 
-	@Mutation('createLostTransactionDetail')
+	@Mutation()
 	@UseGuards(GraphqlAuthGuard, RoleGuard)
 	@HasAnyRole(Role.USER, Role.ADVANCED, Role.ADMIN)
 	public async createLostTransactionDetail(
-		@Args('createLostTransactionDetailInput') args: CreateLostTransactionDetailDto,
+		@Args('input') args: CreateLostTransactionDetailDto,
 		@CurrentUser() currentUser: CurrentAuthUser
 	): Promise<TransactionDetail> {
 		if (!currentUser.hasRole(Role.ADMIN)) {
@@ -117,19 +117,19 @@ export class TransactionDetailResolvers {
 				throw new BadRequestException('You can not post transaction details for another account');
 			}
 		}
-		const createdTransactionDetail: TransactionDetail = await this.transactionDetailService.create({
+		const created: TransactionDetail = await this.transactionDetailService.create({
 			...args,
 			type: TransactionDetailType.LOST
 		});
-		pubSub.publish('transactionDetailCreated', { transactionDetailCreated: createdTransactionDetail });
-		return createdTransactionDetail;
+		pubSub.publish('transactionDetailCreated', { transactionDetailCreated: created });
+		return created;
 	}
 
-	@Mutation('createLostBasedOnTransactionDetail')
+	@Mutation()
 	@UseGuards(GraphqlAuthGuard, RoleGuard)
 	@HasAnyRole(Role.USER, Role.ADVANCED, Role.ADMIN)
 	public async createLostBasedOnTransactionDetail(
-		@Args('createLostBasedOnTransactionDetailInput') args: CreateLostBasedOnTransactionDetailDto,
+		@Args('input') args: CreateLostBasedOnTransactionDetailDto,
 		@CurrentUser() currentUser: CurrentAuthUser
 	): Promise<TransactionDetail> {
 		if (!currentUser.hasRole(Role.ADMIN)) {
@@ -148,14 +148,12 @@ export class TransactionDetailResolvers {
 				throw new BadRequestException('You can not post transaction details for another account');
 			}
 		}
-		const createdTransactionDetail: TransactionDetail = await this.transactionDetailService.createLostBasedOnTransaction(
-			args
-		);
-		pubSub.publish('transactionDetailCreated', { transactionDetailCreated: createdTransactionDetail });
-		return createdTransactionDetail;
+		const created: TransactionDetail = await this.transactionDetailService.createLostBasedOnTransaction(args);
+		pubSub.publish('transactionDetailCreated', { transactionDetailCreated: created });
+		return created;
 	}
 
-	@Subscription('transactionDetailCreated')
+	@Subscription()
 	@UseGuards(GraphqlAuthGuard)
 	public transactionDetailCreated(): { subscribe: () => any } {
 		return {

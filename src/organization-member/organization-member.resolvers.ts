@@ -20,41 +20,43 @@ export class OrganizationMemberResolvers {
 		private readonly accountService: AccountService
 	) {}
 
-	@Query('organizationMembers')
+	@Query()
 	public async organizationMembers(): Promise<OrganizationMember[]> {
 		return await this.organizationMemberService.findAll();
 	}
 
-	@Query('organizationMember')
-	public async findOneByOrganizationIdAndAccountId(
+	@Query()
+	public async organizationMember(
 		@Args('organizationId') organizationId: string,
 		@Args('accountId') accountId: string
 	): Promise<OrganizationMember | undefined> {
 		return await this.organizationMemberService.findOneByOrganizationIdAndAccountId(organizationId, accountId);
 	}
 
-	@Mutation('joinOrganization')
+	@Mutation()
 	@UseGuards(GraphqlAuthGuard, RoleGuard)
 	@HasAnyRole(Role.USER, Role.ADVANCED, Role.ADMIN)
-	public async join(@Args('joinOrganizationInput') args: JoinOrganizationDto): Promise<OrganizationMember> {
-		const joinedOrganization: OrganizationMember = await this.organizationMemberService.join(args);
-		pubSub.publish('organizationMemberCreated', { organizationMemberCreated: joinedOrganization });
-		return joinedOrganization;
+	public async joinOrganization(
+		@Args('joinOrganizationInput') args: JoinOrganizationDto
+	): Promise<OrganizationMember> {
+		const joined: OrganizationMember = await this.organizationMemberService.join(args);
+		pubSub.publish('organizationMemberCreated', { organizationMemberCreated: joined });
+		return joined;
 	}
 
-	@Subscription('organizationMemberCreated')
+	@Subscription()
 	public organizationMemberCreated(): { subscribe: () => any } {
 		return {
 			subscribe: (): any => pubSub.asyncIterator('organizationMemberCreated')
 		};
 	}
 
-	@ResolveProperty('organization')
+	@ResolveProperty()
 	public async organization(@Parent() organizationMember: OrganizationMember): Promise<Organization> {
 		return (await this.organizationService.findOneById(organizationMember.organizationId))!;
 	}
 
-	@ResolveProperty('account')
+	@ResolveProperty()
 	public async account(@Parent() organizationMember: OrganizationMember): Promise<Account> {
 		return (await this.accountService.findOneById(organizationMember.accountId))!;
 	}

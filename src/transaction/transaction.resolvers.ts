@@ -16,34 +16,34 @@ const pubSub: PubSub = new PubSub();
 export class TransactionResolvers {
 	constructor(private readonly transactionService: TransactionService) {}
 
-	@Query('transactions')
+	@Query()
 	@UseGuards(GraphqlAuthGuard)
 	public async transactions(): Promise<Transaction[]> {
 		return await this.transactionService.findAll();
 	}
 
-	@Query('transaction')
+	@Query()
 	@UseGuards(GraphqlAuthGuard)
-	public async findOneById(@Args('id') id: string): Promise<Transaction | undefined> {
+	public async transaction(@Args('id') id: string): Promise<Transaction | undefined> {
 		return await this.transactionService.findOneById(id);
 	}
 
-	@Mutation('createTransaction')
+	@Mutation()
 	@UseGuards(GraphqlAuthGuard, RoleGuard)
 	@HasAnyRole(Role.USER, Role.ADVANCED, Role.ADMIN)
-	public async create(
-		@Args('createTransactionInput') args: CreateTransactionDto,
+	public async createTransaction(
+		@Args('input') args: CreateTransactionDto,
 		@CurrentUser() currentUser: CurrentAuthUser
 	): Promise<Transaction> {
-		const createdTransaction: Transaction = await this.transactionService.create({
+		const created: Transaction = await this.transactionService.create({
 			...args,
 			accountId: currentUser.hasRole(Role.ADMIN) && args.accountId !== undefined ? args.accountId : currentUser.id
 		});
-		pubSub.publish('transactionCreated', { transactionCreated: createdTransaction });
-		return createdTransaction;
+		pubSub.publish('transactionCreated', { transactionCreated: created });
+		return created;
 	}
 
-	@Subscription('transactionCreated')
+	@Subscription()
 	@UseGuards(GraphqlAuthGuard)
 	public transactionCreated(): { subscribe: () => any } {
 		return {

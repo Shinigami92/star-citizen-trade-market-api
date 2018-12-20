@@ -4,7 +4,7 @@ type Query {
 }
 
 type Mutation {
-	createPossession(createPossessionInput: CreatePossessionInput!): Possession!
+	createPossession(input: CreatePossessionInput!): Possession!
 }
 
 type Subscription {

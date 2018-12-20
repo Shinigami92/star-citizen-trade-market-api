@@ -1,12 +1,16 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { QueryResult } from 'pg';
 import { client } from 'src/database.service';
 import { TransactionDetail, TransactionDetailType } from 'src/graphql.schema';
 import { CreateLostBasedOnTransactionDetailDto } from './dto/create-lost-based-on-transaction-detail.dto';
 import { CreateTransactionDetailDto } from './dto/create-transaction-detail.dto';
 
+export const TABLENAME: string = 'transaction_detail';
+
 @Injectable()
 export class TransactionDetailService {
+	private readonly logger: Logger = new Logger(TransactionDetailService.name);
+
 	public async create({
 		transactionId,
 		type,
@@ -17,12 +21,14 @@ export class TransactionDetailService {
 		timestamp = new Date()
 	}: CreateTransactionDetailDto): Promise<TransactionDetail> {
 		const result: QueryResult = await client.query(
-			'INSERT INTO transaction_detail(transaction_id, type, location_id, price, quantity, note, "timestamp")' +
+			`INSERT INTO ${TABLENAME}(transaction_id, type, location_id, price, quantity, note, "timestamp")` +
 				' VALUES ($1::uuid, $2::transaction_detail_type, $3::uuid, $4::numeric, $5::bigint, $6::text, $7::timestamptz)' +
 				' RETURNING *',
 			[transactionId, type, locationId, price, quantity, note, timestamp]
 		);
-		return result.rows[0];
+		const created: TransactionDetail = result.rows[0];
+		this.logger.log(`Created ${TABLENAME} with id ${created.id}`);
+		return created;
 	}
 	public async createLostBasedOnTransaction({
 		transactionDetailId,
@@ -41,12 +47,12 @@ export class TransactionDetailService {
 	}
 
 	public async findAll(): Promise<TransactionDetail[]> {
-		const result: QueryResult = await client.query('SELECT * FROM transaction_detail');
+		const result: QueryResult = await client.query(`SELECT * FROM ${TABLENAME}`);
 		return result.rows;
 	}
 
 	public async findOneById(id: string): Promise<TransactionDetail | undefined> {
-		const result: QueryResult = await client.query('SELECT * FROM transaction_detail WHERE id = $1::uuid', [id]);
+		const result: QueryResult = await client.query(`SELECT * FROM ${TABLENAME} WHERE id = $1::uuid`, [id]);
 		return result.rows[0];
 	}
 }

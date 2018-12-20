@@ -324,7 +324,7 @@ export interface Manufacturer {
 }
 
 export interface IMutation {
-    signUp(createAccountInput: CreateAccountInput): Account | Promise<Account>;
+    signUp(input: CreateAccountInput): Account | Promise<Account>;
     createCommodityCategory(input: CreateCommodityCategoryInput): CommodityCategory | Promise<CommodityCategory>;
     createGameVersion(input: CreateGameVersionInput): GameVersion | Promise<GameVersion>;
     updateGameVersion(id: string, input: UpdateGameVersionInput): GameVersion | Promise<GameVersion>;
@@ -334,18 +334,18 @@ export interface IMutation {
     updateCommodity(id: string, input: UpdateCommodityInput): Commodity | Promise<Commodity>;
     createItem(input: CreateItemInput): Item | Promise<Item>;
     createShip(createShipInput: CreateShipInput): Ship | Promise<Ship>;
-    createLocationType(createLocationTypeInput: CreateLocationTypeInput): LocationType | Promise<LocationType>;
+    createLocationType(input: CreateLocationTypeInput): LocationType | Promise<LocationType>;
     createLocation(input: CreateLocationInput): Location | Promise<Location>;
-    createManufacturer(createManufacturerInput: CreateManufacturerInput): Manufacturer | Promise<Manufacturer>;
-    joinOrganization(joinOrganizationInput: JoinOrganizationInput): OrganizationMember | Promise<OrganizationMember>;
-    createOrganization(createOrganizationInput: CreateOrganizationInput): Organization | Promise<Organization>;
-    createPossession(createPossessionInput: CreatePossessionInput): Possession | Promise<Possession>;
-    createTransactionDetail(createTransactionDetailInput: CreateTransactionDetailInput): TransactionDetail | Promise<TransactionDetail>;
-    createBoughtTransactionDetail(createBoughtTransactionDetailInput: CreateBoughtTransactionDetailInput): TransactionDetail | Promise<TransactionDetail>;
-    createSoldTransactionDetail(createSoldTransactionDetailInput: CreateSoldTransactionDetailInput): TransactionDetail | Promise<TransactionDetail>;
-    createLostTransactionDetail(createBoughtTransactionDetailInput: CreateLostTransactionDetailInput): TransactionDetail | Promise<TransactionDetail>;
-    createLostBasedOnTransactionDetail(createLostBasedOnTransactionDetailInput: CreateLostBasedOnTransactionDetailInput): TransactionDetail | Promise<TransactionDetail>;
-    createTransaction(createTransactionInput: CreateTransactionInput): Transaction | Promise<Transaction>;
+    createManufacturer(input: CreateManufacturerInput): Manufacturer | Promise<Manufacturer>;
+    joinOrganization(input: JoinOrganizationInput): OrganizationMember | Promise<OrganizationMember>;
+    createOrganization(input: CreateOrganizationInput): Organization | Promise<Organization>;
+    createPossession(input: CreatePossessionInput): Possession | Promise<Possession>;
+    createTransactionDetail(input: CreateTransactionDetailInput): TransactionDetail | Promise<TransactionDetail>;
+    createBoughtTransactionDetail(input: CreateBoughtTransactionDetailInput): TransactionDetail | Promise<TransactionDetail>;
+    createSoldTransactionDetail(input: CreateSoldTransactionDetailInput): TransactionDetail | Promise<TransactionDetail>;
+    createLostTransactionDetail(input: CreateLostTransactionDetailInput): TransactionDetail | Promise<TransactionDetail>;
+    createLostBasedOnTransactionDetail(input: CreateLostBasedOnTransactionDetailInput): TransactionDetail | Promise<TransactionDetail>;
+    createTransaction(input: CreateTransactionInput): Transaction | Promise<Transaction>;
 }
 
 export interface Organization {

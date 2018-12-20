@@ -4,7 +4,7 @@ type Query {
 }
 
 type Mutation {
-	createManufacturer(createManufacturerInput: CreateManufacturerInput!): Manufacturer!
+	createManufacturer(input: CreateManufacturerInput!): Manufacturer!
 }
 
 type Subscription {

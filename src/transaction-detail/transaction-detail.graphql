@@ -4,17 +4,11 @@ type Query {
 }
 
 type Mutation {
-	createTransactionDetail(createTransactionDetailInput: CreateTransactionDetailInput!): TransactionDetail!
-	createBoughtTransactionDetail(
-		createBoughtTransactionDetailInput: CreateBoughtTransactionDetailInput!
-	): TransactionDetail!
-	createSoldTransactionDetail(createSoldTransactionDetailInput: CreateSoldTransactionDetailInput!): TransactionDetail!
-	createLostTransactionDetail(
-		createBoughtTransactionDetailInput: CreateLostTransactionDetailInput!
-	): TransactionDetail!
-	createLostBasedOnTransactionDetail(
-		createLostBasedOnTransactionDetailInput: CreateLostBasedOnTransactionDetailInput!
-	): TransactionDetail!
+	createTransactionDetail(input: CreateTransactionDetailInput!): TransactionDetail!
+	createBoughtTransactionDetail(input: CreateBoughtTransactionDetailInput!): TransactionDetail!
+	createSoldTransactionDetail(input: CreateSoldTransactionDetailInput!): TransactionDetail!
+	createLostTransactionDetail(input: CreateLostTransactionDetailInput!): TransactionDetail!
+	createLostBasedOnTransactionDetail(input: CreateLostBasedOnTransactionDetailInput!): TransactionDetail!
 }
 
 type Subscription {

@@ -4,7 +4,7 @@ type Query {
 }
 
 type Mutation {
-	createLocationType(createLocationTypeInput: CreateLocationTypeInput!): LocationType!
+	createLocationType(input: CreateLocationTypeInput!): LocationType!
 }
 
 type Subscription {

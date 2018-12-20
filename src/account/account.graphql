@@ -5,7 +5,7 @@ type Query {
 }
 
 type Mutation {
-	signUp(createAccountInput: CreateAccountInput!): Account!
+	signUp(input: CreateAccountInput!): Account!
 }
 
 type Subscription {

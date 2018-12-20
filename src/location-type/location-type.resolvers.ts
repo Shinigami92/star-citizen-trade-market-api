@@ -14,26 +14,26 @@ const pubSub: PubSub = new PubSub();
 export class LocationTypeResolvers {
 	constructor(private readonly locationTypeService: LocationTypeService) {}
 
-	@Query('locationTypes')
+	@Query()
 	public async locationTypes(): Promise<LocationType[]> {
 		return await this.locationTypeService.findAll();
 	}
 
-	@Query('locationType')
-	public async findOneById(@Args('id') id: string): Promise<LocationType | undefined> {
+	@Query()
+	public async locationType(@Args('id') id: string): Promise<LocationType | undefined> {
 		return await this.locationTypeService.findOneById(id);
 	}
 
-	@Mutation('createLocationType')
+	@Mutation()
 	@UseGuards(GraphqlAuthGuard, RoleGuard)
 	@HasAnyRole(Role.ADVANCED, Role.ADMIN)
-	public async create(@Args('createLocationTypeInput') args: CreateLocationTypeDto): Promise<LocationType> {
-		const createdLocationType: LocationType = await this.locationTypeService.create(args);
-		pubSub.publish('locationTypeCreated', { locationTypeCreated: createdLocationType });
-		return createdLocationType;
+	public async createLocationType(@Args('input') args: CreateLocationTypeDto): Promise<LocationType> {
+		const created: LocationType = await this.locationTypeService.create(args);
+		pubSub.publish('locationTypeCreated', { locationTypeCreated: created });
+		return created;
 	}
 
-	@Subscription('locationTypeCreated')
+	@Subscription()
 	public locationTypeCreated(): { subscribe: () => any } {
 		return {
 			subscribe: (): any => pubSub.asyncIterator('locationTypeCreated')

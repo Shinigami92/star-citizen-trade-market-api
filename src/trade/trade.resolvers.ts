@@ -15,7 +15,7 @@ export class TradeResolvers {
 		private readonly gameVersionService: GameVersionService
 	) {}
 
-	@Query('trades')
+	@Query()
 	public async trades(
 		@CurrentUser() currentUser: Account | undefined,
 		@Args('searchInput') searchInput?: TradeSearchInput

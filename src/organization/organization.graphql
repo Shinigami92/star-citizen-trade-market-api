@@ -4,7 +4,7 @@ type Query {
 }
 
 type Mutation {
-	createOrganization(createOrganizationInput: CreateOrganizationInput!): Organization!
+	createOrganization(input: CreateOrganizationInput!): Organization!
 }
 
 type Subscription {
