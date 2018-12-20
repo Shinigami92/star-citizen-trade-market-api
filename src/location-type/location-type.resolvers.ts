@@ -33,10 +33,29 @@ export class LocationTypeResolvers {
 		return created;
 	}
 
+	@Mutation()
+	@UseGuards(GraphqlAuthGuard, RoleGuard)
+	@HasAnyRole(Role.ADVANCED, Role.ADMIN)
+	public async updateLocationType(
+		@Args('id') id: string,
+		@Args('input') args: CreateLocationTypeDto
+	): Promise<LocationType> {
+		const updated: LocationType = await this.locationTypeService.update(id, args);
+		pubSub.publish('locationTypeUpdated', { locationTypeUpdated: updated });
+		return updated;
+	}
+
 	@Subscription()
 	public locationTypeCreated(): { subscribe: () => any } {
 		return {
 			subscribe: (): any => pubSub.asyncIterator('locationTypeCreated')
+		};
+	}
+
+	@Subscription()
+	public locationTypeUpdated(): { subscribe: () => any } {
+		return {
+			subscribe: (): any => pubSub.asyncIterator('locationTypeUpdated')
 		};
 	}
 }

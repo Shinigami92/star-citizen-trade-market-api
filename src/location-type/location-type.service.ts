@@ -3,6 +3,7 @@ import { QueryResult } from 'pg';
 import { client } from 'src/database.service';
 import { LocationType } from 'src/graphql.schema';
 import { CreateLocationTypeDto } from './dto/create-location-type.dto';
+import { UpdateLocationTypeDto } from './dto/update-location.dto';
 
 export const TABLENAME: string = 'location_type';
 
@@ -17,6 +18,27 @@ export class LocationTypeService {
 		const created: LocationType = result.rows[0];
 		this.logger.log(`Created ${TABLENAME} with id ${created.id}`);
 		return created;
+	}
+
+	public async update(id: string, { name }: UpdateLocationTypeDto): Promise<LocationType> {
+		const updates: any[] = [];
+		const values: any[] = [];
+		let updateIndex: number = 2;
+		if (name !== undefined) {
+			updates.push(` name = $${updateIndex}::text`);
+			values.push(name);
+			updateIndex++;
+		}
+		if (updates.length === 0) {
+			return (await this.findOneById(id))!;
+		}
+		const result: QueryResult = await client.query(
+			`UPDATE ${TABLENAME} SET${updates.join(', ')} WHERE id = $1::uuid RETURNING *`,
+			[id, ...values]
+		);
+		const updated: LocationType = result.rows[0];
+		this.logger.log(`Updated ${TABLENAME} with id ${updated.id}`);
+		return updated;
 	}
 
 	public async findAll(): Promise<LocationType[]> {

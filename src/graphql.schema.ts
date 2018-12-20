@@ -238,6 +238,10 @@ export interface UpdateLocationInput {
     inGameSince?: Date;
 }
 
+export interface UpdateLocationTypeInput {
+    name?: string;
+}
+
 export interface UpdateShipInput {
     name?: string;
     inGameSinceVersionId?: string;
@@ -359,6 +363,7 @@ export interface IMutation {
     createShip(input: CreateShipInput): Ship | Promise<Ship>;
     updateShip(id: string, input: UpdateShipInput): Ship | Promise<Ship>;
     createLocationType(input: CreateLocationTypeInput): LocationType | Promise<LocationType>;
+    updateLocationType(id: string, input: UpdateLocationTypeInput): LocationType | Promise<LocationType>;
     createLocation(input: CreateLocationInput): Location | Promise<Location>;
     updateLocation(id: string, input: UpdateLocationInput): Location | Promise<Location>;
     createManufacturer(input: CreateManufacturerInput): Manufacturer | Promise<Manufacturer>;
@@ -462,6 +467,7 @@ export interface ISubscription {
     shipCreated(): Ship | Promise<Ship>;
     shipUpdated(): Ship | Promise<Ship>;
     locationTypeCreated(): LocationType | Promise<LocationType>;
+    locationTypeUpdated(): LocationType | Promise<LocationType>;
     locationCreated(): Location | Promise<Location>;
     locationUpdated(): Location | Promise<Location>;
     manufacturerCreated(): Manufacturer | Promise<Manufacturer>;

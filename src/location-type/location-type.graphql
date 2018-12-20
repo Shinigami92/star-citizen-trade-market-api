@@ -5,10 +5,12 @@ type Query {
 
 type Mutation {
 	createLocationType(input: CreateLocationTypeInput!): LocationType!
+	updateLocationType(id: ID!, input: UpdateLocationTypeInput!): LocationType!
 }
 
 type Subscription {
 	locationTypeCreated: LocationType!
+	locationTypeUpdated: LocationType!
 }
 
 type LocationType {
@@ -18,4 +20,8 @@ type LocationType {
 
 input CreateLocationTypeInput {
 	name: String!
+}
+
+input UpdateLocationTypeInput {
+	name: String
 }
