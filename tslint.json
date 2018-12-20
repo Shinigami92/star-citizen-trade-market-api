@@ -1,6 +1,7 @@
 {
 	"defaultSeverity": "error",
 	"extends": ["tslint:recommended", "tslint-eslint-rules"],
+	"linterOptions": { "exclude": ["src/graphql.schema.ts"] },
 	"rules": {
 		"array-bracket-spacing": [true, "never"],
 		"block-spacing": [true, "always"],
