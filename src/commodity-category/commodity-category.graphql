@@ -5,10 +5,12 @@ type Query {
 
 type Mutation {
 	createCommodityCategory(input: CreateCommodityCategoryInput!): CommodityCategory!
+	updateCommodityCategory(input: UpdateCommodityCategoryInput!): CommodityCategory!
 }
 
 type Subscription {
 	commodityCategoryCreated: CommodityCategory!
+	commodityCategoryUpdated: CommodityCategory!
 }
 
 type CommodityCategory {
@@ -18,4 +20,8 @@ type CommodityCategory {
 
 input CreateCommodityCategoryInput {
 	name: String!
+}
+
+input UpdateCommodityCategoryInput {
+	name: String
 }

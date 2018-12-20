@@ -33,10 +33,29 @@ export class CommodityCategoryResolvers {
 		return created;
 	}
 
+	@Mutation()
+	@UseGuards(GraphqlAuthGuard, RoleGuard)
+	@HasAnyRole(Role.ADVANCED, Role.ADMIN)
+	public async updateCommodityCategory(
+		@Args('id') id: string,
+		@Args('input') args: CreateCommodityCategoryDto
+	): Promise<CommodityCategory> {
+		const updated: CommodityCategory = await this.commodityCategoryService.update(id, args);
+		pubSub.publish('commodityCategoryUpdated', { commodityCategoryUpdated: updated });
+		return updated;
+	}
+
 	@Subscription()
 	public commodityCategoryCreated(): { subscribe: () => any } {
 		return {
 			subscribe: (): any => pubSub.asyncIterator('commodityCategoryCreated')
+		};
+	}
+
+	@Subscription()
+	public commodityCategoryUpdated(): { subscribe: () => any } {
+		return {
+			subscribe: (): any => pubSub.asyncIterator('commodityCategoryUpdated')
 		};
 	}
 }
