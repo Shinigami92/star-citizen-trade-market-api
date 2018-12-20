@@ -5,10 +5,12 @@ type Query {
 
 type Mutation {
 	createManufacturer(input: CreateManufacturerInput!): Manufacturer!
+	updateManufacturer(id: ID!, input: UpdateManufacturerInput!): Manufacturer!
 }
 
 type Subscription {
 	manufacturerCreated: Manufacturer!
+	manufacturerUpdated: Manufacturer!
 }
 
 type Manufacturer {
@@ -18,4 +20,8 @@ type Manufacturer {
 
 input CreateManufacturerInput {
 	name: String!
+}
+
+input UpdateManufacturerInput {
+	name: String
 }

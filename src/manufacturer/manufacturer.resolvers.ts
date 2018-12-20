@@ -33,10 +33,29 @@ export class ManufacturerResolvers {
 		return created;
 	}
 
+	@Mutation()
+	@UseGuards(GraphqlAuthGuard, RoleGuard)
+	@HasAnyRole(Role.ADVANCED, Role.ADMIN)
+	public async updateManufacturer(
+		@Args('id') id: string,
+		@Args('input') args: CreateManufacturerDto
+	): Promise<Manufacturer> {
+		const updated: Manufacturer = await this.manufacturerService.update(id, args);
+		pubSub.publish('manufacturerUpdated', { manufacturerUpdated: updated });
+		return updated;
+	}
+
 	@Subscription()
 	public manufacturerCreated(): { subscribe: () => any } {
 		return {
 			subscribe: (): any => pubSub.asyncIterator('manufacturerCreated')
+		};
+	}
+
+	@Subscription()
+	public manufacturerUpdated(): { subscribe: () => any } {
+		return {
+			subscribe: (): any => pubSub.asyncIterator('manufacturerUpdated')
 		};
 	}
 }
