@@ -4,7 +4,7 @@ type Query {
 }
 
 type Mutation {
-	createCommodity(createCommodityInput: CreateCommodityInput!): Commodity!
+	createCommodity(input: CreateCommodityInput!): Commodity!
 }
 
 type Subscription {

@@ -323,7 +323,7 @@ export interface IMutation {
     updateGameVersion(id: string, input: UpdateGameVersionInput): GameVersion | Promise<GameVersion>;
     createItemPrice(input: CreateItemPriceInput): ItemPrice | Promise<ItemPrice>;
     updateItemPrice(id: string, input: UpdateItemPriceInput): ItemPrice | Promise<ItemPrice>;
-    createCommodity(createCommodityInput: CreateCommodityInput): Commodity | Promise<Commodity>;
+    createCommodity(input: CreateCommodityInput): Commodity | Promise<Commodity>;
     createItem(input: CreateItemInput): Item | Promise<Item>;
     createShip(createShipInput: CreateShipInput): Ship | Promise<Ship>;
     createLocationType(createLocationTypeInput: CreateLocationTypeInput): LocationType | Promise<LocationType>;
