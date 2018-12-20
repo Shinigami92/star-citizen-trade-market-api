@@ -4,6 +4,8 @@ import { PubSub } from 'graphql-subscriptions';
 import { AccountService } from 'src/account/account.service';
 import { CurrentAuthUser } from 'src/auth/current-user';
 import { GraphqlAuthGuard } from 'src/auth/graphql-auth.guard';
+import { HasAnyRole } from 'src/auth/has-any-role.decorator';
+import { RoleGuard } from 'src/auth/role.guard';
 import { CurrentUser } from 'src/auth/user.decorator';
 import { GameVersionService } from 'src/game-version/game-version.service';
 import { Account, GameVersion, Item, ItemPrice, ItemPriceVisibility, Location, Role } from 'src/graphql.schema';
@@ -45,7 +47,8 @@ export class ItemPriceResolvers {
 	}
 
 	@Mutation()
-	@UseGuards(GraphqlAuthGuard)
+	@UseGuards(GraphqlAuthGuard, RoleGuard)
+	@HasAnyRole(Role.USER, Role.ADVANCED, Role.ADMIN)
 	public async createItemPrice(
 		@Args('input') args: CreateItemPriceDto,
 		@CurrentUser() currentUser: Account
@@ -59,7 +62,8 @@ export class ItemPriceResolvers {
 	}
 
 	@Mutation()
-	@UseGuards(GraphqlAuthGuard)
+	@UseGuards(GraphqlAuthGuard, RoleGuard)
+	@HasAnyRole(Role.USER, Role.ADVANCED, Role.ADMIN)
 	public async updateItemPrice(
 		@Args('id') id: string,
 		@Args('input') args: UpdateItemPriceDto,

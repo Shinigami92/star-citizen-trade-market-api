@@ -2,7 +2,9 @@ import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver, Subscription } from '@nestjs/graphql';
 import { PubSub } from 'graphql-subscriptions';
 import { GraphqlAuthGuard } from 'src/auth/graphql-auth.guard';
-import { CommodityCategory } from '../graphql.schema';
+import { HasAnyRole } from 'src/auth/has-any-role.decorator';
+import { RoleGuard } from 'src/auth/role.guard';
+import { CommodityCategory, Role } from '../graphql.schema';
 import { CommodityCategoryService } from './commodity-category.service';
 import { CreateCommodityCategoryDto } from './dto/create-commodity-category.dto';
 
@@ -23,7 +25,8 @@ export class CommodityCategoryResolvers {
 	}
 
 	@Mutation()
-	@UseGuards(GraphqlAuthGuard)
+	@UseGuards(GraphqlAuthGuard, RoleGuard)
+	@HasAnyRole(Role.ADVANCED, Role.ADMIN)
 	public async createCommodityCategory(@Args('input') args: CreateCommodityCategoryDto): Promise<CommodityCategory> {
 		const created: CommodityCategory = await this.commodityCategoryService.create(args);
 		pubSub.publish('commodityCategoryCreated', { commodityCategoryCreated: created });

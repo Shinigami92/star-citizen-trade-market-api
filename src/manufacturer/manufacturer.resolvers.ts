@@ -2,7 +2,9 @@ import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver, Subscription } from '@nestjs/graphql';
 import { PubSub } from 'graphql-subscriptions';
 import { GraphqlAuthGuard } from 'src/auth/graphql-auth.guard';
-import { Manufacturer } from '../graphql.schema';
+import { HasAnyRole } from 'src/auth/has-any-role.decorator';
+import { RoleGuard } from 'src/auth/role.guard';
+import { Manufacturer, Role } from '../graphql.schema';
 import { CreateManufacturerDto } from './dto/create-manufacturer.dto';
 import { ManufacturerService } from './manufacturer.service';
 
@@ -23,7 +25,8 @@ export class ManufacturerResolvers {
 	}
 
 	@Mutation('createManufacturer')
-	@UseGuards(GraphqlAuthGuard)
+	@UseGuards(GraphqlAuthGuard, RoleGuard)
+	@HasAnyRole(Role.ADVANCED, Role.ADMIN)
 	public async create(@Args('createManufacturerInput') args: CreateManufacturerDto): Promise<Manufacturer> {
 		const createdManufacturer: Manufacturer = await this.manufacturerService.create(args);
 		pubSub.publish('manufacturerCreated', { manufacturerCreated: createdManufacturer });

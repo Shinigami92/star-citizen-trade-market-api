@@ -3,6 +3,8 @@ import { Args, Mutation, Query, Resolver, Subscription } from '@nestjs/graphql';
 import { PubSub } from 'graphql-subscriptions';
 import { CurrentAuthUser } from 'src/auth/current-user';
 import { GraphqlAuthGuard } from 'src/auth/graphql-auth.guard';
+import { HasAnyRole } from 'src/auth/has-any-role.decorator';
+import { RoleGuard } from 'src/auth/role.guard';
 import { CurrentUser } from 'src/auth/user.decorator';
 import { Role, Transaction, TransactionDetail, TransactionDetailType } from 'src/graphql.schema';
 import { TransactionService } from 'src/transaction/transaction.service';
@@ -23,17 +25,20 @@ export class TransactionDetailResolvers {
 	) {}
 
 	@Query('transactionDetails')
+	@UseGuards(GraphqlAuthGuard)
 	public async transactionDetails(): Promise<TransactionDetail[]> {
 		return await this.transactionDetailService.findAll();
 	}
 
 	@Query('transactionDetail')
+	@UseGuards(GraphqlAuthGuard)
 	public async findOneById(@Args('id') id: string): Promise<TransactionDetail | undefined> {
 		return await this.transactionDetailService.findOneById(id);
 	}
 
 	@Mutation('createTransactionDetail')
-	@UseGuards(GraphqlAuthGuard)
+	@UseGuards(GraphqlAuthGuard, RoleGuard)
+	@HasAnyRole(Role.USER, Role.ADVANCED, Role.ADMIN)
 	public async create(
 		@Args('createTransactionDetailInput') args: CreateTransactionDetailDto,
 		@CurrentUser() currentUser: CurrentAuthUser
@@ -52,7 +57,8 @@ export class TransactionDetailResolvers {
 	}
 
 	@Mutation('createBoughtTransactionDetail')
-	@UseGuards(GraphqlAuthGuard)
+	@UseGuards(GraphqlAuthGuard, RoleGuard)
+	@HasAnyRole(Role.USER, Role.ADVANCED, Role.ADMIN)
 	public async createBoughtTransactionDetail(
 		@Args('createBoughtTransactionDetailInput') args: CreateBoughtTransactionDetailDto,
 		@CurrentUser() currentUser: CurrentAuthUser
@@ -74,7 +80,8 @@ export class TransactionDetailResolvers {
 	}
 
 	@Mutation('createSoldTransactionDetail')
-	@UseGuards(GraphqlAuthGuard)
+	@UseGuards(GraphqlAuthGuard, RoleGuard)
+	@HasAnyRole(Role.USER, Role.ADVANCED, Role.ADMIN)
 	public async createSoldTransactionDetail(
 		@Args('createSoldTransactionDetailInput') args: CreateSoldTransactionDetailDto,
 		@CurrentUser() currentUser: CurrentAuthUser
@@ -96,7 +103,8 @@ export class TransactionDetailResolvers {
 	}
 
 	@Mutation('createLostTransactionDetail')
-	@UseGuards(GraphqlAuthGuard)
+	@UseGuards(GraphqlAuthGuard, RoleGuard)
+	@HasAnyRole(Role.USER, Role.ADVANCED, Role.ADMIN)
 	public async createLostTransactionDetail(
 		@Args('createLostTransactionDetailInput') args: CreateLostTransactionDetailDto,
 		@CurrentUser() currentUser: CurrentAuthUser
@@ -118,7 +126,8 @@ export class TransactionDetailResolvers {
 	}
 
 	@Mutation('createLostBasedOnTransactionDetail')
-	@UseGuards(GraphqlAuthGuard)
+	@UseGuards(GraphqlAuthGuard, RoleGuard)
+	@HasAnyRole(Role.USER, Role.ADVANCED, Role.ADMIN)
 	public async createLostBasedOnTransactionDetail(
 		@Args('createLostBasedOnTransactionDetailInput') args: CreateLostBasedOnTransactionDetailDto,
 		@CurrentUser() currentUser: CurrentAuthUser
@@ -147,6 +156,7 @@ export class TransactionDetailResolvers {
 	}
 
 	@Subscription('transactionDetailCreated')
+	@UseGuards(GraphqlAuthGuard)
 	public transactionDetailCreated(): { subscribe: () => any } {
 		return {
 			subscribe: (): any => pubSub.asyncIterator('transactionDetailCreated')

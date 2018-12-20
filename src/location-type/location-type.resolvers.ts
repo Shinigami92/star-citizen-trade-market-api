@@ -2,7 +2,9 @@ import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver, Subscription } from '@nestjs/graphql';
 import { PubSub } from 'graphql-subscriptions';
 import { GraphqlAuthGuard } from 'src/auth/graphql-auth.guard';
-import { LocationType } from 'src/graphql.schema';
+import { HasAnyRole } from 'src/auth/has-any-role.decorator';
+import { RoleGuard } from 'src/auth/role.guard';
+import { LocationType, Role } from 'src/graphql.schema';
 import { CreateLocationTypeDto } from './dto/create-location-type.dto';
 import { LocationTypeService } from './location-type.service';
 
@@ -23,7 +25,8 @@ export class LocationTypeResolvers {
 	}
 
 	@Mutation('createLocationType')
-	@UseGuards(GraphqlAuthGuard)
+	@UseGuards(GraphqlAuthGuard, RoleGuard)
+	@HasAnyRole(Role.ADVANCED, Role.ADMIN)
 	public async create(@Args('createLocationTypeInput') args: CreateLocationTypeDto): Promise<LocationType> {
 		const createdLocationType: LocationType = await this.locationTypeService.create(args);
 		pubSub.publish('locationTypeCreated', { locationTypeCreated: createdLocationType });

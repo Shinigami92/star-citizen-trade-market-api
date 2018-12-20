@@ -2,9 +2,11 @@ import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Parent, Query, ResolveProperty, Resolver, Subscription } from '@nestjs/graphql';
 import { PubSub } from 'graphql-subscriptions';
 import { GraphqlAuthGuard } from 'src/auth/graphql-auth.guard';
+import { HasAnyRole } from 'src/auth/has-any-role.decorator';
+import { RoleGuard } from 'src/auth/role.guard';
 import { CommodityCategoryService } from 'src/commodity-category/commodity-category.service';
 import { GameVersionService } from 'src/game-version/game-version.service';
-import { Commodity, CommodityCategory, GameVersion } from 'src/graphql.schema';
+import { Commodity, CommodityCategory, GameVersion, Role } from 'src/graphql.schema';
 import { CommodityService } from './commodity.service';
 import { CreateCommodityDto } from './dto/create-commodity.dto';
 import { UpdateCommodityDto } from './dto/update-commodity.dto';
@@ -30,7 +32,8 @@ export class CommodityResolvers {
 	}
 
 	@Mutation()
-	@UseGuards(GraphqlAuthGuard)
+	@UseGuards(GraphqlAuthGuard, RoleGuard)
+	@HasAnyRole(Role.ADVANCED, Role.ADMIN)
 	public async createCommodity(@Args('input') args: CreateCommodityDto): Promise<Commodity> {
 		const created: Commodity = await this.commodityService.create(args);
 		pubSub.publish('commodityCreated', { commodityCreated: created });
@@ -38,7 +41,8 @@ export class CommodityResolvers {
 	}
 
 	@Mutation()
-	@UseGuards(GraphqlAuthGuard)
+	@UseGuards(GraphqlAuthGuard, RoleGuard)
+	@HasAnyRole(Role.ADVANCED, Role.ADMIN)
 	public async updateCommodity(@Args('id') id: string, @Args('input') args: UpdateCommodityDto): Promise<Commodity> {
 		const updated: Commodity = await this.commodityService.update(id, args);
 		pubSub.publish('commodityUpdated', { commodityUpdated: updated });

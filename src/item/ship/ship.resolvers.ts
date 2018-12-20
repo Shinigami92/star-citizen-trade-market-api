@@ -2,8 +2,10 @@ import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Parent, Query, ResolveProperty, Resolver, Subscription } from '@nestjs/graphql';
 import { PubSub } from 'graphql-subscriptions';
 import { GraphqlAuthGuard } from 'src/auth/graphql-auth.guard';
+import { HasAnyRole } from 'src/auth/has-any-role.decorator';
+import { RoleGuard } from 'src/auth/role.guard';
 import { GameVersionService } from 'src/game-version/game-version.service';
-import { GameVersion, Manufacturer, Ship } from 'src/graphql.schema';
+import { GameVersion, Manufacturer, Role, Ship } from 'src/graphql.schema';
 import { ManufacturerService } from 'src/manufacturer/manufacturer.service';
 import { CreateShipDto } from './dto/create-ship.dto';
 import { ShipService } from './ship.service';
@@ -29,7 +31,8 @@ export class ShipResolvers {
 	}
 
 	@Mutation('createShip')
-	@UseGuards(GraphqlAuthGuard)
+	@UseGuards(GraphqlAuthGuard, RoleGuard)
+	@HasAnyRole(Role.ADVANCED, Role.ADMIN)
 	public async create(@Args('createShipInput') args: CreateShipDto): Promise<Ship> {
 		const createdShip: Ship = await this.shipService.create(args);
 		pubSub.publish('shipCreated', { shipCreated: createdShip });

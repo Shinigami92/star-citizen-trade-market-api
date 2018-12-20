@@ -3,6 +3,8 @@ import { Args, Mutation, Parent, Query, ResolveProperty, Resolver, Subscription 
 import { PubSub } from 'graphql-subscriptions';
 import { CurrentAuthUser } from 'src/auth/current-user';
 import { GraphqlAuthGuard } from 'src/auth/graphql-auth.guard';
+import { HasAnyRole } from 'src/auth/has-any-role.decorator';
+import { RoleGuard } from 'src/auth/role.guard';
 import { CurrentUser } from 'src/auth/user.decorator';
 import { Account, AuthToken, Organization, Role } from 'src/graphql.schema';
 import { OrganizationService } from 'src/organization/organization.service';
@@ -41,6 +43,8 @@ export class AccountResolvers {
 	}
 
 	@Subscription('accountSignedUp')
+	@UseGuards(GraphqlAuthGuard, RoleGuard)
+	@HasAnyRole(Role.USERADMIN, Role.ADMIN)
 	public accountSignedUp(): { subscribe: () => any } {
 		return {
 			subscribe: (): any => pubSub.asyncIterator('accountSignedUp')
@@ -48,7 +52,8 @@ export class AccountResolvers {
 	}
 
 	@ResolveProperty('email')
-	@UseGuards(GraphqlAuthGuard)
+	@UseGuards(GraphqlAuthGuard, RoleGuard)
+	@HasAnyRole(Role.USER, Role.USERADMIN, Role.ADMIN)
 	public email(@Parent() account: Account, @CurrentUser() currentUser: CurrentAuthUser): string {
 		if (account.id === currentUser.id) {
 			return account.email!;

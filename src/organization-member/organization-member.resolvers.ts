@@ -3,7 +3,9 @@ import { Args, Mutation, Parent, Query, ResolveProperty, Resolver, Subscription 
 import { PubSub } from 'graphql-subscriptions';
 import { AccountService } from 'src/account/account.service';
 import { GraphqlAuthGuard } from 'src/auth/graphql-auth.guard';
-import { Account, Organization, OrganizationMember } from 'src/graphql.schema';
+import { HasAnyRole } from 'src/auth/has-any-role.decorator';
+import { RoleGuard } from 'src/auth/role.guard';
+import { Account, Organization, OrganizationMember, Role } from 'src/graphql.schema';
 import { OrganizationService } from 'src/organization/organization.service';
 import { JoinOrganizationDto } from './dto/join-organization.dto';
 import { OrganizationMemberService } from './organization-member.service';
@@ -32,7 +34,8 @@ export class OrganizationMemberResolvers {
 	}
 
 	@Mutation('joinOrganization')
-	@UseGuards(GraphqlAuthGuard)
+	@UseGuards(GraphqlAuthGuard, RoleGuard)
+	@HasAnyRole(Role.USER, Role.ADVANCED, Role.ADMIN)
 	public async join(@Args('joinOrganizationInput') args: JoinOrganizationDto): Promise<OrganizationMember> {
 		const joinedOrganization: OrganizationMember = await this.organizationMemberService.join(args);
 		pubSub.publish('organizationMemberCreated', { organizationMemberCreated: joinedOrganization });
