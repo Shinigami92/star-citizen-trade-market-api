@@ -48,7 +48,9 @@ export class GameVersionService {
 	}
 
 	public async findAll(): Promise<GameVersion[]> {
-		const result: QueryResult = await client.query(`SELECT * FROM ${TABLENAME} ORDER BY identifier DESC`);
+		const result: QueryResult = await client.query(
+			`SELECT * FROM ${TABLENAME} ORDER BY release DESC NULLS LAST, identifier DESC`
+		);
 		return result.rows;
 	}
 
