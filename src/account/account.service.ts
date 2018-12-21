@@ -5,6 +5,7 @@ import {
 	Logger,
 	UnauthorizedException
 } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 import { compare, genSalt, hash } from 'bcrypt';
 import { QueryResult } from 'pg';
 import * as postgresArray from 'postgres-array';
@@ -18,6 +19,12 @@ export const TABLENAME: string = 'account';
 @Injectable()
 export class AccountService {
 	private readonly logger: Logger = new Logger(AccountService.name);
+
+	private readonly jwtService: JwtService = new JwtService({
+		secretOrPrivateKey: process.env.JWT_SECRET_KEY,
+		signOptions: { expiresIn: process.env.JWT_EXPIRES_IN }
+	});
+
 	private readonly PASSWORD_CHARS: string[] = [...'abcdefhjkmnpqrstuvwxABCDEFHJKMNPQRSTUVWX2345789'];
 
 	public async signUp({ username, handle, email }: CreateAccountDto): Promise<Account> {
@@ -71,11 +78,14 @@ export class AccountService {
 		if (!match) {
 			throw new UnauthorizedException();
 		}
+
+		const token: string = this.jwtService.sign({ username: account.username });
+
 		return {
 			id: account.id,
 			username: account.username,
 			roles: this.transformRoles(account)!.roles,
-			token: Buffer.from(`${username}:${password}`).toString('base64')
+			token
 		};
 	}
 
