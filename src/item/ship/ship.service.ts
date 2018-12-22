@@ -20,13 +20,23 @@ export class ShipService {
 		size
 	}: CreateShipDto): Promise<Ship> {
 		const result: QueryResult = await client.query(
-			`INSERT INTO ${TABLENAME}(name, in_game_since_version_id, in_game_since, type, scu, manufacturer_id, focus, size)` +
-				" VALUES ($1::text, $2::uuid, $3::timestamptz, 'SHIP', $4::numeric, $5::uuid, $6::text, $7::numeric) RETURNING *",
-			[name, inGameSinceVersionId, inGameSince, scu, manufacturerId, focus, size]
+			`INSERT INTO ${TABLENAME}(name, in_game_since_version_id, in_game_since, type, manufacturer_id, details)` +
+				" VALUES ($1::text, $2::uuid, $3::timestamptz, 'SHIP', $4::uuid, $5::jsonb) RETURNING *",
+			[
+				name,
+				inGameSinceVersionId,
+				inGameSince,
+				manufacturerId,
+				{
+					scu,
+					focus,
+					size
+				}
+			]
 		);
 		const created: Ship = result.rows[0];
 		this.logger.log(`Created ${TABLENAME} with id ${created.id}`);
-		return created;
+		return this.mapDetails(created);
 	}
 
 	public async update(
@@ -39,11 +49,6 @@ export class ShipService {
 		if (name !== undefined) {
 			updates.push(` name = $${updateIndex}::text`);
 			values.push(name);
-			updateIndex++;
-		}
-		if (focus !== undefined) {
-			updates.push(` focus = $${updateIndex}::text`);
-			values.push(focus);
 			updateIndex++;
 		}
 		if (inGameSinceVersionId !== undefined) {
@@ -61,14 +66,9 @@ export class ShipService {
 			values.push(manufacturerId);
 			updateIndex++;
 		}
-		if (scu !== undefined) {
-			updates.push(` scu = $${updateIndex}::integer`);
-			values.push(scu);
-			updateIndex++;
-		}
-		if (size !== undefined) {
-			updates.push(` size = $${updateIndex}::smallint`);
-			values.push(size);
+		if (scu !== undefined || focus !== undefined || size !== undefined) {
+			updates.push(` details = details || $${updateIndex}::jsonb`);
+			values.push({ scu, focus, size });
 			updateIndex++;
 		}
 		if (updates.length === 0) {
@@ -80,12 +80,12 @@ export class ShipService {
 		);
 		const updated: Ship = result.rows[0];
 		this.logger.log(`Updated ${TABLENAME} with id ${updated.id}`);
-		return updated;
+		return this.mapDetails(updated);
 	}
 
 	public async findAll(): Promise<Ship[]> {
 		const result: QueryResult = await client.query(`SELECT * FROM ${TABLENAME} WHERE type = 'SHIP' ORDER BY name`);
-		return result.rows;
+		return result.rows.map(this.mapDetails);
 	}
 
 	public async findOneById(id: string): Promise<Ship | undefined> {
@@ -93,6 +93,14 @@ export class ShipService {
 			`SELECT * FROM ${TABLENAME} WHERE id = $1::uuid AND type = 'SHIP'`,
 			[id]
 		);
-		return result.rows[0];
+		return this.mapDetails(result.rows[0]);
+	}
+
+	private mapDetails(ship: Ship): Ship {
+		for (const key of ['focus', 'scu', 'size']) {
+			// @ts-ignore
+			ship[key] = ship.details[key];
+		}
+		return ship;
 	}
 }
