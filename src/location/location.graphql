@@ -23,6 +23,7 @@ type Location {
 	inGameSinceVersionId: ID!
 	inGameSinceVersion: GameVersion!
 	inGameSince: Date
+	children: [Location!]!
 }
 
 input CreateLocationInput {

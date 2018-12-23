@@ -345,6 +345,7 @@ export interface Location {
     inGameSinceVersionId: string;
     inGameSinceVersion: GameVersion;
     inGameSince?: Date;
+    children: Location[];
 }
 
 export interface LocationType {

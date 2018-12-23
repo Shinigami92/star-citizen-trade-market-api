@@ -79,4 +79,9 @@ export class LocationResolvers {
 	public async inGameSinceVersion(@Parent() parent: Location): Promise<GameVersion> {
 		return (await this.gameVersionService.findOneById(parent.inGameSinceVersionId))!;
 	}
+
+	@ResolveProperty()
+	public async children(@Parent() parent: Location): Promise<Location[]> {
+		return await this.locationService.findAllByParentId(parent.id);
+	}
 }

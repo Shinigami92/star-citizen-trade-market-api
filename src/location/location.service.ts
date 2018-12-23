@@ -76,6 +76,13 @@ export class LocationService {
 		const result: QueryResult = await client.query(`SELECT * FROM ${TABLENAME} ORDER BY name`);
 		return result.rows;
 	}
+	public async findAllByParentId(parentId: string): Promise<Location[]> {
+		const result: QueryResult = await client.query(
+			`SELECT * FROM ${TABLENAME} WHERE parent_location_id = $1::uuid ORDER BY name`,
+			[parentId]
+		);
+		return result.rows;
+	}
 
 	public async findOneById(id: string): Promise<Location | undefined> {
 		const result: QueryResult = await client.query(`SELECT * FROM ${TABLENAME} WHERE id = $1::uuid`, [id]);
