@@ -41,22 +41,22 @@ export class LocationService {
 			updateIndex++;
 		}
 		if (inGameSince !== undefined) {
-			updates.push(` in_game_since = $${updateIndex}::text`);
+			updates.push(` in_game_since = $${updateIndex}::timestamptz`);
 			values.push(inGameSince);
 			updateIndex++;
 		}
 		if (inGameSinceVersionId !== undefined) {
-			updates.push(` in_game_since_version_id = $${updateIndex}::text`);
+			updates.push(` in_game_since_version_id = $${updateIndex}::uuid`);
 			values.push(inGameSinceVersionId);
 			updateIndex++;
 		}
 		if (parentLocationId !== undefined) {
-			updates.push(` parent_location_id = $${updateIndex}::text`);
+			updates.push(` parent_location_id = $${updateIndex}::uuid`);
 			values.push(parentLocationId);
 			updateIndex++;
 		}
 		if (typeId !== undefined) {
-			updates.push(` type_id = $${updateIndex}::text`);
+			updates.push(` type_id = $${updateIndex}::uuid`);
 			values.push(typeId);
 			updateIndex++;
 		}
