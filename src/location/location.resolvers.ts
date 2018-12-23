@@ -8,6 +8,7 @@ import { GameVersionService } from 'src/game-version/game-version.service';
 import { GameVersion, Location, LocationType, Role } from 'src/graphql.schema';
 import { LocationTypeService } from 'src/location-type/location-type.service';
 import { CreateLocationDto } from './dto/create-location.dto';
+import { UpdateLocationDto } from './dto/update-location.dto';
 import { LocationService } from './location.service';
 
 const pubSub: PubSub = new PubSub();
@@ -42,7 +43,7 @@ export class LocationResolvers {
 	@Mutation()
 	@UseGuards(GraphqlAuthGuard, RoleGuard)
 	@HasAnyRole(Role.ADVANCED, Role.ADMIN)
-	public async updateLocation(@Args('id') id: string, @Args('input') args: CreateLocationDto): Promise<Location> {
+	public async updateLocation(@Args('id') id: string, @Args('input') args: UpdateLocationDto): Promise<Location> {
 		const updated: Location = await this.locationService.update(id, args);
 		pubSub.publish('locationUpdated', { locationUpdated: updated });
 		return updated;
