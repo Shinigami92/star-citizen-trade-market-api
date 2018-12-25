@@ -2,6 +2,7 @@ type Query {
 	accounts: [Account]
 	account(id: ID!): Account
 	signIn(username: String!, password: String!): AuthToken
+	me: Account
 }
 
 type Mutation {

@@ -42,6 +42,12 @@ export class AccountResolvers {
 		return await this.accountService.signIn(username, password);
 	}
 
+	@Query()
+	@UseGuards(GraphqlAuthGuard)
+	public async me(@CurrentUser() currentUser: CurrentAuthUser): Promise<Account> {
+		return (await this.accountService.findOneById(currentUser.id))!;
+	}
+
 	@Subscription()
 	@UseGuards(GraphqlAuthGuard, RoleGuard)
 	@HasAnyRole(Role.USERADMIN, Role.ADMIN)
