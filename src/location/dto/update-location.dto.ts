@@ -1,4 +1,4 @@
-import { IsDate, IsOptional, IsUUID, Length } from 'class-validator';
+import { IsBoolean, IsDate, IsOptional, IsUUID, Length } from 'class-validator';
 import { Date, UpdateLocationInput } from 'src/graphql.schema';
 
 export class UpdateLocationDto implements UpdateLocationInput {
@@ -17,4 +17,7 @@ export class UpdateLocationDto implements UpdateLocationInput {
 	@IsOptional()
 	@IsDate()
 	public inGameSince?: Date;
+	@IsOptional()
+	@IsBoolean()
+	public canTrade?: boolean;
 }

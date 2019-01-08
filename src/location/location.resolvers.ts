@@ -5,7 +5,7 @@ import { GraphqlAuthGuard } from 'src/auth/graphql-auth.guard';
 import { HasAnyRole } from 'src/auth/has-any-role.decorator';
 import { RoleGuard } from 'src/auth/role.guard';
 import { GameVersionService } from 'src/game-version/game-version.service';
-import { GameVersion, Location, LocationType, Role } from 'src/graphql.schema';
+import { GameVersion, Location, LocationSearchInput, LocationType, Role } from 'src/graphql.schema';
 import { LocationTypeService } from 'src/location-type/location-type.service';
 import { CreateLocationDto } from './dto/create-location.dto';
 import { UpdateLocationDto } from './dto/update-location.dto';
@@ -22,8 +22,10 @@ export class LocationResolvers {
 	) {}
 
 	@Query()
-	public async locations(): Promise<Location[]> {
-		return await this.locationService.findAll();
+	public async locations(@Args('searchInput') searchInput?: LocationSearchInput): Promise<Location[]> {
+		return await this.locationService.findAllWhere({
+			canTrade: searchInput !== undefined ? searchInput.canTrade : undefined
+		});
 	}
 
 	@Query()

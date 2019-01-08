@@ -1,3 +1,4 @@
+/* tslint:disable */
 export enum ItemPriceType {
     BUY = "BUY",
     SELL = "SELL"
@@ -114,6 +115,7 @@ export interface CreateLocationInput {
     typeId: string;
     inGameSinceVersionId: string;
     inGameSince?: Date;
+    canTrade?: boolean;
 }
 
 export interface CreateLocationTypeInput {
@@ -194,6 +196,10 @@ export interface JoinOrganizationInput {
     since?: Date;
 }
 
+export interface LocationSearchInput {
+    canTrade?: boolean;
+}
+
 export interface TradeSearchInput {
     startLocationId?: string;
     endLocationId?: string;
@@ -235,6 +241,7 @@ export interface UpdateLocationInput {
     typeId?: string;
     inGameSinceVersionId?: string;
     inGameSince?: Date;
+    canTrade?: boolean;
 }
 
 export interface UpdateLocationTypeInput {
@@ -345,6 +352,7 @@ export interface Location {
     inGameSinceVersionId: string;
     inGameSinceVersion: GameVersion;
     inGameSince?: Date;
+    canTrade: boolean;
     children: Location[];
 }
 
@@ -433,7 +441,7 @@ export interface IQuery {
     ship(id: string): Ship | Promise<Ship>;
     locationTypes(): LocationType[] | Promise<LocationType[]>;
     locationType(id: string): LocationType | Promise<LocationType>;
-    locations(): Location[] | Promise<Location[]>;
+    locations(searchInput?: LocationSearchInput): Location[] | Promise<Location[]>;
     location(id: string): Location | Promise<Location>;
     manufacturers(): Manufacturer[] | Promise<Manufacturer[]>;
     manufacturer(id: string): Manufacturer | Promise<Manufacturer>;

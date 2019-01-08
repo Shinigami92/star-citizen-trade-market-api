@@ -1,5 +1,5 @@
 type Query {
-	locations: [Location]
+	locations(searchInput: LocationSearchInput): [Location]
 	location(id: ID!): Location
 }
 
@@ -23,6 +23,7 @@ type Location {
 	inGameSinceVersionId: ID!
 	inGameSinceVersion: GameVersion!
 	inGameSince: Date
+	canTrade: Boolean!
 	children: [Location!]!
 }
 
@@ -32,6 +33,7 @@ input CreateLocationInput {
 	typeId: ID!
 	inGameSinceVersionId: ID!
 	inGameSince: Date
+	canTrade: Boolean
 }
 
 input UpdateLocationInput {
@@ -40,4 +42,9 @@ input UpdateLocationInput {
 	typeId: ID
 	inGameSinceVersionId: ID
 	inGameSince: Date
+	canTrade: Boolean
+}
+
+input LocationSearchInput {
+	canTrade: Boolean
 }
