@@ -69,7 +69,7 @@ export class ItemPriceResolvers {
 		@Args('input') args: UpdateItemPriceDto,
 		@CurrentUser() currentUser: CurrentAuthUser
 	): Promise<ItemPrice> {
-		if (currentUser.hasRole(Role.ADMIN)) {
+		if (!currentUser.hasRole(Role.ADMIN)) {
 			const itemPrice: ItemPrice = (await this.itemPriceService.findOneById(id))!;
 			if (itemPrice.scannedById !== currentUser.id) {
 				throw new UnauthorizedException('You can only update your own reported prices');
