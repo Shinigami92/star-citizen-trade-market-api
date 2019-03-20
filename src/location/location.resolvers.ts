@@ -52,17 +52,13 @@ export class LocationResolvers {
 	}
 
 	@Subscription()
-	public locationCreated(): { subscribe: () => any } {
-		return {
-			subscribe: (): any => pubSub.asyncIterator('locationCreated')
-		};
+	public locationCreated(): AsyncIterator<{}> {
+		return pubSub.asyncIterator('locationCreated');
 	}
 
 	@Subscription()
-	public locationUpdated(): { subscribe: () => any } {
-		return {
-			subscribe: (): any => pubSub.asyncIterator('locationUpdated')
-		};
+	public locationUpdated(): AsyncIterator<{}> {
+		return pubSub.asyncIterator('locationUpdated');
 	}
 
 	@ResolveProperty()

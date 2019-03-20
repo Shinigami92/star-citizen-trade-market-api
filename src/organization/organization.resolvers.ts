@@ -46,16 +46,12 @@ export class OrganizationResolvers {
 	}
 
 	@Subscription()
-	public organizationCreated(): { subscribe: () => any } {
-		return {
-			subscribe: (): any => pubSub.asyncIterator('organizationCreated')
-		};
+	public organizationCreated(): AsyncIterator<{}> {
+		return pubSub.asyncIterator('organizationCreated');
 	}
 
 	@Subscription()
-	public organizationUpdated(): { subscribe: () => any } {
-		return {
-			subscribe: (): any => pubSub.asyncIterator('organizationUpdated')
-		};
+	public organizationUpdated(): AsyncIterator<{}> {
+		return pubSub.asyncIterator('organizationUpdated');
 	}
 }

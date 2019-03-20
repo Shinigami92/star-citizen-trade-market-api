@@ -46,16 +46,12 @@ export class ManufacturerResolvers {
 	}
 
 	@Subscription()
-	public manufacturerCreated(): { subscribe: () => any } {
-		return {
-			subscribe: (): any => pubSub.asyncIterator('manufacturerCreated')
-		};
+	public manufacturerCreated(): AsyncIterator<{}> {
+		return pubSub.asyncIterator('manufacturerCreated');
 	}
 
 	@Subscription()
-	public manufacturerUpdated(): { subscribe: () => any } {
-		return {
-			subscribe: (): any => pubSub.asyncIterator('manufacturerUpdated')
-		};
+	public manufacturerUpdated(): AsyncIterator<{}> {
+		return pubSub.asyncIterator('manufacturerUpdated');
 	}
 }

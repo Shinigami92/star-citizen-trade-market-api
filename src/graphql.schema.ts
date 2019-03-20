@@ -1,3 +1,9 @@
+
+/** ------------------------------------------------------
+ * THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+ * -------------------------------------------------------
+ */
+
 /* tslint:disable */
 export enum ItemPriceType {
     BUY = "BUY",
@@ -372,29 +378,29 @@ export interface IMutation {
     updateCommodityCategory(id: string, input: UpdateCommodityCategoryInput): CommodityCategory | Promise<CommodityCategory>;
     createGameVersion(input: CreateGameVersionInput): GameVersion | Promise<GameVersion>;
     updateGameVersion(id: string, input: UpdateGameVersionInput): GameVersion | Promise<GameVersion>;
+    createItem(input: CreateItemInput): Item | Promise<Item>;
     createItemPrice(input: CreateItemPriceInput): ItemPrice | Promise<ItemPrice>;
     updateItemPrice(id: string, input: UpdateItemPriceInput): ItemPrice | Promise<ItemPrice>;
-    createCommodity(input: CreateCommodityInput): Commodity | Promise<Commodity>;
-    updateCommodity(id: string, input: UpdateCommodityInput): Commodity | Promise<Commodity>;
-    createItem(input: CreateItemInput): Item | Promise<Item>;
-    createShip(input: CreateShipInput): Ship | Promise<Ship>;
-    updateShip(id: string, input: UpdateShipInput): Ship | Promise<Ship>;
-    createLocationType(input: CreateLocationTypeInput): LocationType | Promise<LocationType>;
-    updateLocationType(id: string, input: UpdateLocationTypeInput): LocationType | Promise<LocationType>;
     createLocation(input: CreateLocationInput): Location | Promise<Location>;
     updateLocation(id: string, input: UpdateLocationInput): Location | Promise<Location>;
+    createLocationType(input: CreateLocationTypeInput): LocationType | Promise<LocationType>;
+    updateLocationType(id: string, input: UpdateLocationTypeInput): LocationType | Promise<LocationType>;
     createManufacturer(input: CreateManufacturerInput): Manufacturer | Promise<Manufacturer>;
     updateManufacturer(id: string, input: UpdateManufacturerInput): Manufacturer | Promise<Manufacturer>;
-    joinOrganization(input: JoinOrganizationInput): OrganizationMember | Promise<OrganizationMember>;
     createOrganization(input: CreateOrganizationInput): Organization | Promise<Organization>;
     updateOrganization(id: string, input: UpdateOrganizationInput): Organization | Promise<Organization>;
+    joinOrganization(input: JoinOrganizationInput): OrganizationMember | Promise<OrganizationMember>;
     createPossession(input: CreatePossessionInput): Possession | Promise<Possession>;
+    createTransaction(input: CreateTransactionInput): Transaction | Promise<Transaction>;
     createTransactionDetail(input: CreateTransactionDetailInput): TransactionDetail | Promise<TransactionDetail>;
     createBoughtTransactionDetail(input: CreateBoughtTransactionDetailInput): TransactionDetail | Promise<TransactionDetail>;
     createSoldTransactionDetail(input: CreateSoldTransactionDetailInput): TransactionDetail | Promise<TransactionDetail>;
     createLostTransactionDetail(input: CreateLostTransactionDetailInput): TransactionDetail | Promise<TransactionDetail>;
     createLostBasedOnTransactionDetail(input: CreateLostBasedOnTransactionDetailInput): TransactionDetail | Promise<TransactionDetail>;
-    createTransaction(input: CreateTransactionInput): Transaction | Promise<Transaction>;
+    createCommodity(input: CreateCommodityInput): Commodity | Promise<Commodity>;
+    updateCommodity(id: string, input: UpdateCommodityInput): Commodity | Promise<Commodity>;
+    createShip(input: CreateShipInput): Ship | Promise<Ship>;
+    updateShip(id: string, input: UpdateShipInput): Ship | Promise<Ship>;
 }
 
 export interface Organization {
@@ -431,31 +437,31 @@ export interface IQuery {
     commodityCategory(id: string): CommodityCategory | Promise<CommodityCategory>;
     gameVersions(): GameVersion[] | Promise<GameVersion[]>;
     gameVersion(id: string): GameVersion | Promise<GameVersion>;
-    itemPrices(): ItemPrice[] | Promise<ItemPrice[]>;
-    itemPrice(id: string): ItemPrice | Promise<ItemPrice>;
-    commodities(): Commodity[] | Promise<Commodity[]>;
-    commodity(id: string): Commodity | Promise<Commodity>;
     items(): Item[] | Promise<Item[]>;
     item(id: string): Item | Promise<Item>;
-    ships(): Ship[] | Promise<Ship[]>;
-    ship(id: string): Ship | Promise<Ship>;
-    locationTypes(): LocationType[] | Promise<LocationType[]>;
-    locationType(id: string): LocationType | Promise<LocationType>;
+    itemPrices(): ItemPrice[] | Promise<ItemPrice[]>;
+    itemPrice(id: string): ItemPrice | Promise<ItemPrice>;
     locations(searchInput?: LocationSearchInput): Location[] | Promise<Location[]>;
     location(id: string): Location | Promise<Location>;
+    locationTypes(): LocationType[] | Promise<LocationType[]>;
+    locationType(id: string): LocationType | Promise<LocationType>;
     manufacturers(): Manufacturer[] | Promise<Manufacturer[]>;
     manufacturer(id: string): Manufacturer | Promise<Manufacturer>;
-    organizationMembers(): OrganizationMember[] | Promise<OrganizationMember[]>;
-    organizationMember(organizationId: string, accountId: string): OrganizationMember | Promise<OrganizationMember>;
     organizations(): Organization[] | Promise<Organization[]>;
     organization(id: string): Organization | Promise<Organization>;
+    organizationMembers(): OrganizationMember[] | Promise<OrganizationMember[]>;
+    organizationMember(organizationId: string, accountId: string): OrganizationMember | Promise<OrganizationMember>;
     possessions(): Possession[] | Promise<Possession[]>;
     possession(id: string): Possession | Promise<Possession>;
+    transactions(): Transaction[] | Promise<Transaction[]>;
+    transaction(id: string): Transaction | Promise<Transaction>;
     trades(searchInput?: TradeSearchInput): Trade[] | Promise<Trade[]>;
     transactionDetails(): TransactionDetail[] | Promise<TransactionDetail[]>;
     transactionDetail(id: string): TransactionDetail | Promise<TransactionDetail>;
-    transactions(): Transaction[] | Promise<Transaction[]>;
-    transaction(id: string): Transaction | Promise<Transaction>;
+    commodities(): Commodity[] | Promise<Commodity[]>;
+    commodity(id: string): Commodity | Promise<Commodity>;
+    ships(): Ship[] | Promise<Ship[]>;
+    ship(id: string): Ship | Promise<Ship>;
     temp__(): boolean | Promise<boolean>;
 }
 
@@ -479,25 +485,25 @@ export interface ISubscription {
     commodityCategoryUpdated(): CommodityCategory | Promise<CommodityCategory>;
     gameVersionCreated(): GameVersion | Promise<GameVersion>;
     gameVersionUpdated(): GameVersion | Promise<GameVersion>;
+    itemCreated(): Item | Promise<Item>;
     itemPriceCreated(): ItemPrice | Promise<ItemPrice>;
     itemPriceUpdated(): ItemPrice | Promise<ItemPrice>;
-    commodityCreated(): Commodity | Promise<Commodity>;
-    commodityUpdated(): Commodity | Promise<Commodity>;
-    itemCreated(): Item | Promise<Item>;
-    shipCreated(): Ship | Promise<Ship>;
-    shipUpdated(): Ship | Promise<Ship>;
-    locationTypeCreated(): LocationType | Promise<LocationType>;
-    locationTypeUpdated(): LocationType | Promise<LocationType>;
     locationCreated(): Location | Promise<Location>;
     locationUpdated(): Location | Promise<Location>;
+    locationTypeCreated(): LocationType | Promise<LocationType>;
+    locationTypeUpdated(): LocationType | Promise<LocationType>;
     manufacturerCreated(): Manufacturer | Promise<Manufacturer>;
     manufacturerUpdated(): Manufacturer | Promise<Manufacturer>;
-    organizationMemberCreated(): OrganizationMember | Promise<OrganizationMember>;
     organizationCreated(): Organization | Promise<Organization>;
     organizationUpdated(): Organization | Promise<Organization>;
+    organizationMemberCreated(): OrganizationMember | Promise<OrganizationMember>;
     possessionCreated(): Possession | Promise<Possession>;
-    transactionDetailCreated(): TransactionDetail | Promise<TransactionDetail>;
     transactionCreated(): Transaction | Promise<Transaction>;
+    transactionDetailCreated(): TransactionDetail | Promise<TransactionDetail>;
+    commodityCreated(): Commodity | Promise<Commodity>;
+    commodityUpdated(): Commodity | Promise<Commodity>;
+    shipCreated(): Ship | Promise<Ship>;
+    shipUpdated(): Ship | Promise<Ship>;
 }
 
 export interface Trade {

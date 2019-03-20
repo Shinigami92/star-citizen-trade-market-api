@@ -81,17 +81,13 @@ export class ItemPriceResolvers {
 	}
 
 	@Subscription()
-	public itemPriceCreated(): { subscribe: () => any } {
-		return {
-			subscribe: (): any => pubSub.asyncIterator('itemPriceCreated')
-		};
+	public itemPriceCreated(): AsyncIterator<{}> {
+		return pubSub.asyncIterator('itemPriceCreated');
 	}
 
 	@Subscription()
-	public itemPriceUpdated(): { subscribe: () => any } {
-		return {
-			subscribe: (): any => pubSub.asyncIterator('itemPriceUpdated')
-		};
+	public itemPriceUpdated(): AsyncIterator<{}> {
+		return pubSub.asyncIterator('itemPriceUpdated');
 	}
 
 	@ResolveProperty()

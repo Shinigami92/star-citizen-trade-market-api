@@ -47,16 +47,12 @@ export class GameVersionResolvers {
 	}
 
 	@Subscription()
-	public gameVersionCreated(): { subscribe: () => any } {
-		return {
-			subscribe: (): any => pubSub.asyncIterator('gameVersionCreated')
-		};
+	public gameVersionCreated(): AsyncIterator<{}> {
+		return pubSub.asyncIterator('gameVersionCreated');
 	}
 
 	@Subscription()
-	public gameVersionUpdated(): { subscribe: () => any } {
-		return {
-			subscribe: (): any => pubSub.asyncIterator('gameVersionUpdated')
-		};
+	public gameVersionUpdated(): AsyncIterator<{}> {
+		return pubSub.asyncIterator('gameVersionUpdated');
 	}
 }

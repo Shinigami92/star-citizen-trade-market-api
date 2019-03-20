@@ -50,17 +50,13 @@ export class CommodityResolvers {
 	}
 
 	@Subscription()
-	public commodityCreated(): { subscribe: () => any } {
-		return {
-			subscribe: (): any => pubSub.asyncIterator('commodityCreated')
-		};
+	public commodityCreated(): AsyncIterator<{}> {
+		return pubSub.asyncIterator('commodityCreated');
 	}
 
 	@Subscription()
-	public commodityUpdated(): { subscribe: () => any } {
-		return {
-			subscribe: (): any => pubSub.asyncIterator('commodityUpdated')
-		};
+	public commodityUpdated(): AsyncIterator<{}> {
+		return pubSub.asyncIterator('commodityUpdated');
 	}
 
 	@ResolveProperty()

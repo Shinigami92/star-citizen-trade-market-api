@@ -46,16 +46,12 @@ export class CommodityCategoryResolvers {
 	}
 
 	@Subscription()
-	public commodityCategoryCreated(): { subscribe: () => any } {
-		return {
-			subscribe: (): any => pubSub.asyncIterator('commodityCategoryCreated')
-		};
+	public commodityCategoryCreated(): AsyncIterator<{}> {
+		return pubSub.asyncIterator('commodityCategoryCreated');
 	}
 
 	@Subscription()
-	public commodityCategoryUpdated(): { subscribe: () => any } {
-		return {
-			subscribe: (): any => pubSub.asyncIterator('commodityCategoryUpdated')
-		};
+	public commodityCategoryUpdated(): AsyncIterator<{}> {
+		return pubSub.asyncIterator('commodityCategoryUpdated');
 	}
 }

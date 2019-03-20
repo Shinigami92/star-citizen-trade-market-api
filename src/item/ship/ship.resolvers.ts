@@ -50,17 +50,13 @@ export class ShipResolvers {
 	}
 
 	@Subscription()
-	public shipCreated(): { subscribe: () => any } {
-		return {
-			subscribe: (): any => pubSub.asyncIterator('shipCreated')
-		};
+	public shipCreated(): AsyncIterator<{}> {
+		return pubSub.asyncIterator('shipCreated');
 	}
 
 	@Subscription()
-	public shipUpdated(): { subscribe: () => any } {
-		return {
-			subscribe: (): any => pubSub.asyncIterator('shipUpdated')
-		};
+	public shipUpdated(): AsyncIterator<{}> {
+		return pubSub.asyncIterator('shipUpdated');
 	}
 
 	@ResolveProperty()

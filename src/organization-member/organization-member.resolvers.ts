@@ -45,10 +45,8 @@ export class OrganizationMemberResolvers {
 	}
 
 	@Subscription()
-	public organizationMemberCreated(): { subscribe: () => any } {
-		return {
-			subscribe: (): any => pubSub.asyncIterator('organizationMemberCreated')
-		};
+	public organizationMemberCreated(): AsyncIterator<{}> {
+		return pubSub.asyncIterator('organizationMemberCreated');
 	}
 
 	@ResolveProperty()

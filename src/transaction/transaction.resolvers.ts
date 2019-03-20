@@ -45,9 +45,7 @@ export class TransactionResolvers {
 
 	@Subscription()
 	@UseGuards(GraphqlAuthGuard)
-	public transactionCreated(): { subscribe: () => any } {
-		return {
-			subscribe: (): any => pubSub.asyncIterator('transactionCreated')
-		};
+	public transactionCreated(): AsyncIterator<{}> {
+		return pubSub.asyncIterator('transactionCreated');
 	}
 }
