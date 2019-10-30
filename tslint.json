@@ -1,15 +1,22 @@
 {
 	"defaultSeverity": "error",
 	"extends": ["tslint:recommended", "tslint-eslint-rules"],
-	"linterOptions": { "exclude": ["src/graphql.schema.ts"] },
+	"linterOptions": {
+		"exclude": ["node_modules/**", "src/graphql.schema.ts"]
+	},
 	"rules": {
 		"array-bracket-spacing": [true, "never"],
+		"ban-ts-ignore": {
+			"severity": "warn"
+		},
+		"ban-types": true,
 		"block-spacing": [true, "always"],
-		"comment-format": false,
 		"no-constant-condition": true,
 		"no-duplicate-case": true,
 		"no-multi-spaces": true,
-		"no-shadowed-variable": false,
+		"no-shadowed-variable": {
+			"severity": "warn"
+		},
 		"no-unexpected-multiline": true,
 		"object-curly-spacing": [true, "always"],
 		"indent": {
@@ -17,9 +24,15 @@
 			"severity": "warn"
 		},
 		"interface-name": false,
-		"strict-type-predicates": true,
+		"strict-type-predicates": {
+			"severity": "off"
+		},
 		"variable-name": [true, "ban-keywords"],
-		"max-classes-per-file": false,
+		"max-classes-per-file": [true, 1],
+		"max-file-line-count": {
+			"options": [400],
+			"severity": "warn"
+		},
 		"max-line-length": {
 			"options": {
 				"limit": 120,
@@ -27,15 +40,32 @@
 			},
 			"severity": "warn"
 		},
+		"member-access": true,
+		"no-async-without-await": {
+			"severity": "warn"
+		},
 		"no-console": false,
+		"no-non-null-assertion": {
+			"severity": "off"
+		},
 		"no-sparse-arrays": true,
 		"no-switch-case-fall-through": true,
-		"no-unnecessary-callback-wrapper": true,
+		"no-unnecessary-callback-wrapper": {
+			"severity": "warn"
+		},
+		"no-unused-expression": {
+			"options": "allow-new"
+		},
+		"object-literal-key-quotes": {
+			"options": "as-needed"
+		},
 		"object-literal-sort-keys": false,
 		"only-arrow-functions": false,
+		"prefer-readonly": {
+			"severity": "warn"
+		},
 		"prefer-template": true,
 		"quotemark": [true, "single", "avoid-escape", "avoid-template"],
-		"strict-boolean-expressions": true,
 		"trailing-comma": {
 			"options": [
 				{
@@ -46,15 +76,13 @@
 		},
 		"typedef": {
 			"options": [
-				"arrow-call-signature",
-				"arrow-parameter",
 				"call-signature",
 				"member-variable-declaration",
-				"parameter",
+				"object-destructuring",
 				"property-declaration",
-				"variable-declaration",
-				"object-destructuring"
-			]
+				"variable-declaration"
+			],
+			"severity": "warn"
 		}
 	}
 }
