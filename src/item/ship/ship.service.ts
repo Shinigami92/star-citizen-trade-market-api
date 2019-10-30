@@ -98,6 +98,7 @@ export class ShipService {
 
 	private mapDetails(ship: Ship): Ship {
 		for (const key of ['focus', 'scu', 'size']) {
+			// tslint:disable-next-line:ban-ts-ignore
 			// @ts-ignore
 			ship[key] = ship.details[key];
 		}

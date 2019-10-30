@@ -1,6 +1,7 @@
 import * as dotenv from 'dotenv';
 import * as pg from 'pg';
 import { Client } from 'pg';
+// tslint:disable-next-line:ban-ts-ignore
 // @ts-ignore
 import * as pgCamelCase from 'pg-camelcase';
 
