@@ -1,5 +1,5 @@
 import { IsDate, IsNumber, IsOptional, IsPositive, IsUUID } from 'class-validator';
-import { CreatePossessionInput, Date, PurchaseCurrency } from 'src/graphql.schema';
+import { CreatePossessionInput, PurchaseCurrency } from 'src/graphql.schema';
 
 export class CreatePossessionDto implements CreatePossessionInput {
 	@IsOptional()

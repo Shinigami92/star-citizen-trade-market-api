@@ -1,5 +1,5 @@
 import { IsDate, IsInt, IsNotEmpty, IsOptional, IsPositive, IsUUID, Length } from 'class-validator';
-import { Date, UpdateShipInput } from 'src/graphql.schema';
+import { UpdateShipInput } from 'src/graphql.schema';
 
 export class UpdateShipDto implements UpdateShipInput {
 	@IsOptional()

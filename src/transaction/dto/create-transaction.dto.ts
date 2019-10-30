@@ -1,5 +1,5 @@
 import { IsDate, IsInt, IsNumber, IsOptional, IsPositive, IsString, IsUUID } from 'class-validator';
-import { CreateFirstTransactionDetailInput, CreateTransactionInput, Date } from 'src/graphql.schema';
+import { CreateFirstTransactionDetailInput, CreateTransactionInput } from 'src/graphql.schema';
 
 export class CreateFirstTransactionDetailDto implements CreateFirstTransactionDetailInput {
 	@IsUUID('4')

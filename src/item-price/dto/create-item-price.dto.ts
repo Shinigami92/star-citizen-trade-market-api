@@ -1,5 +1,5 @@
 import { IsDate, IsInt, IsNumber, IsOptional, IsPositive, IsUUID } from 'class-validator';
-import { CreateItemPriceInput, Date, ItemPriceType, ItemPriceVisibility } from 'src/graphql.schema';
+import { CreateItemPriceInput, ItemPriceType, ItemPriceVisibility } from 'src/graphql.schema';
 
 export class CreateItemPriceDto implements CreateItemPriceInput {
 	@IsOptional()

@@ -1,5 +1,5 @@
 import { IsBoolean, IsDate, IsOptional, IsUUID, Length } from 'class-validator';
-import { CreateLocationInput, Date } from 'src/graphql.schema';
+import { CreateLocationInput } from 'src/graphql.schema';
 
 export class CreateLocationDto implements CreateLocationInput {
 	@Length(3)

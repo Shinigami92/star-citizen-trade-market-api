@@ -538,5 +538,3 @@ export interface TransactionDetail {
     note?: string;
     timestamp: Date;
 }
-
-export type Date = any;

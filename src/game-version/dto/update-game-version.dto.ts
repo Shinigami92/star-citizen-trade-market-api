@@ -1,5 +1,5 @@
 import { IsDate, IsOptional, Length } from 'class-validator';
-import { Date, UpdateGameVersionInput } from 'src/graphql.schema';
+import { UpdateGameVersionInput } from 'src/graphql.schema';
 
 export class UpdateGameVersionDto implements UpdateGameVersionInput {
 	@IsOptional()
