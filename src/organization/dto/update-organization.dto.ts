@@ -1,5 +1,5 @@
+import { UpdateOrganizationInput } from '@/graphql.schema';
 import { IsOptional, Length } from 'class-validator';
-import { UpdateOrganizationInput } from 'src/graphql.schema';
 
 export class UpdateOrganizationDto implements UpdateOrganizationInput {
 	@IsOptional()

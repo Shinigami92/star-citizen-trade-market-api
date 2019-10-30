@@ -1,10 +1,10 @@
+import { GraphqlAuthGuard } from '@/auth/graphql-auth.guard';
+import { HasAnyRole } from '@/auth/has-any-role.decorator';
+import { RoleGuard } from '@/auth/role.guard';
+import { Organization, Role } from '@/graphql.schema';
 import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver, Subscription } from '@nestjs/graphql';
 import { PubSub } from 'graphql-subscriptions';
-import { GraphqlAuthGuard } from 'src/auth/graphql-auth.guard';
-import { HasAnyRole } from 'src/auth/has-any-role.decorator';
-import { RoleGuard } from 'src/auth/role.guard';
-import { Organization, Role } from 'src/graphql.schema';
 import { CreateOrganizationDto } from './dto/create-organization.dto';
 import { OrganizationService } from './organization.service';
 

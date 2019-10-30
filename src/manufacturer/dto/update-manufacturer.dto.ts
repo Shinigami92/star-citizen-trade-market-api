@@ -1,5 +1,5 @@
+import { UpdateManufacturerInput } from '@/graphql.schema';
 import { IsOptional, Length } from 'class-validator';
-import { UpdateManufacturerInput } from 'src/graphql.schema';
 
 export class UpdateManufacturerDto implements UpdateManufacturerInput {
 	@IsOptional()

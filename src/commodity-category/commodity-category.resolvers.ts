@@ -1,9 +1,9 @@
 import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver, Subscription } from '@nestjs/graphql';
 import { PubSub } from 'graphql-subscriptions';
-import { GraphqlAuthGuard } from 'src/auth/graphql-auth.guard';
-import { HasAnyRole } from 'src/auth/has-any-role.decorator';
-import { RoleGuard } from 'src/auth/role.guard';
+import { GraphqlAuthGuard } from '@/auth/graphql-auth.guard';
+import { HasAnyRole } from '@/auth/has-any-role.decorator';
+import { RoleGuard } from '@/auth/role.guard';
 import { CommodityCategory, Role } from '../graphql.schema';
 import { CommodityCategoryService } from './commodity-category.service';
 import { CreateCommodityCategoryDto } from './dto/create-commodity-category.dto';

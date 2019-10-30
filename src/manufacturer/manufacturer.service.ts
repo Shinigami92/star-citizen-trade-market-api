@@ -1,6 +1,6 @@
+import { client } from '@/database.service';
 import { Injectable, Logger } from '@nestjs/common';
 import { QueryResult } from 'pg';
-import { client } from 'src/database.service';
 import { Manufacturer } from '../graphql.schema';
 import { CreateManufacturerDto } from './dto/create-manufacturer.dto';
 import { UpdateManufacturerDto } from './dto/update-manufacturer.dto';

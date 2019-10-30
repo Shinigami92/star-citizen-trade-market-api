@@ -1,8 +1,8 @@
+import { client } from '@/database.service';
+import { Transaction, TransactionDetailType } from '@/graphql.schema';
+import { TransactionDetailService } from '@/transaction-detail/transaction-detail.service';
 import { Injectable, Logger } from '@nestjs/common';
 import { QueryResult } from 'pg';
-import { client } from 'src/database.service';
-import { Transaction, TransactionDetailType } from 'src/graphql.schema';
-import { TransactionDetailService } from 'src/transaction-detail/transaction-detail.service';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
 
 export const TABLENAME: string = 'transaction';

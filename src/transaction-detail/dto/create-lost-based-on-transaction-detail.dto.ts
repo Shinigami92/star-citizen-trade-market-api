@@ -1,5 +1,5 @@
+import { CreateLostBasedOnTransactionDetailInput } from '@/graphql.schema';
 import { IsDate, IsOptional, IsString, IsUUID } from 'class-validator';
-import { CreateLostBasedOnTransactionDetailInput } from 'src/graphql.schema';
 
 export class CreateLostBasedOnTransactionDetailDto implements CreateLostBasedOnTransactionDetailInput {
 	@IsUUID('4')

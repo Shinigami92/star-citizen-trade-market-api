@@ -1,5 +1,5 @@
+import { CreateAccountInput } from '@/graphql.schema';
 import { IsEmail, IsNotEmpty, Length } from 'class-validator';
-import { CreateAccountInput } from 'src/graphql.schema';
 
 export class CreateAccountDto implements CreateAccountInput {
 	@Length(3)

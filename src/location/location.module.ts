@@ -1,9 +1,9 @@
+import { CommonModule } from '@/common/common.module';
+import { GameVersionModule } from '@/game-version/game-version.module';
+import { GameVersionService } from '@/game-version/game-version.service';
+import { LocationTypeModule } from '@/location-type/location-type.module';
+import { LocationTypeService } from '@/location-type/location-type.service';
 import { Module } from '@nestjs/common';
-import { CommonModule } from 'src/common/common.module';
-import { GameVersionModule } from 'src/game-version/game-version.module';
-import { GameVersionService } from 'src/game-version/game-version.service';
-import { LocationTypeModule } from 'src/location-type/location-type.module';
-import { LocationTypeService } from 'src/location-type/location-type.service';
 import { LocationResolvers } from './location.resolvers';
 import { LocationService } from './location.service';
 

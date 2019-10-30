@@ -1,8 +1,8 @@
+import { client } from '@/database.service';
+import { TABLENAME as GAME_VERSION_TABLENAME } from '@/game-version/game-version.service';
+import { Account, ItemPrice, ItemPriceVisibility } from '@/graphql.schema';
 import { Injectable, Logger } from '@nestjs/common';
 import { QueryResult } from 'pg';
-import { client } from 'src/database.service';
-import { TABLENAME as GAME_VERSION_TABLENAME } from 'src/game-version/game-version.service';
-import { Account, ItemPrice, ItemPriceVisibility } from 'src/graphql.schema';
 import { CreateItemPriceDto } from './dto/create-item-price.dto';
 import { UpdateItemPriceDto } from './dto/update-item-price.dto';
 

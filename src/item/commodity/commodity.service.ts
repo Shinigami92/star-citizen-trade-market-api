@@ -1,7 +1,7 @@
+import { client } from '@/database.service';
+import { Commodity } from '@/graphql.schema';
 import { ConflictException, Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
 import { QueryResult } from 'pg';
-import { client } from 'src/database.service';
-import { Commodity } from 'src/graphql.schema';
 import { TABLENAME } from '../item.service';
 import { CreateCommodityDto } from './dto/create-commodity.dto';
 import { UpdateCommodityDto } from './dto/update-commodity.dto';

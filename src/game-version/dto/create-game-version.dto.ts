@@ -1,5 +1,5 @@
 import { IsDate, IsOptional, Length } from 'class-validator';
-import { CreateGameVersionInput } from 'src/graphql.schema';
+import { CreateGameVersionInput } from '@/graphql.schema';
 
 export class CreateGameVersionDto implements CreateGameVersionInput {
 	@Length(16, 18)

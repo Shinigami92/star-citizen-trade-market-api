@@ -1,6 +1,6 @@
+import { GameVersionService } from '@/game-version/game-version.service';
+import { FallbackItem, GameVersion } from '@/graphql.schema';
 import { Parent, ResolveProperty, Resolver } from '@nestjs/graphql';
-import { GameVersionService } from 'src/game-version/game-version.service';
-import { FallbackItem, GameVersion } from 'src/graphql.schema';
 
 @Resolver('FallbackItem')
 export class FallbackItemResolvers {

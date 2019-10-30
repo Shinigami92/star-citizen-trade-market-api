@@ -1,5 +1,5 @@
+import { UpdateLocationInput } from '@/graphql.schema';
 import { IsBoolean, IsDate, IsOptional, IsUUID, Length } from 'class-validator';
-import { UpdateLocationInput } from 'src/graphql.schema';
 
 export class UpdateLocationDto implements UpdateLocationInput {
 	@IsOptional()

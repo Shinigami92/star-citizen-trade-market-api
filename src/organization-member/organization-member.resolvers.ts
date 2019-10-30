@@ -1,12 +1,12 @@
+import { AccountService } from '@/account/account.service';
+import { GraphqlAuthGuard } from '@/auth/graphql-auth.guard';
+import { HasAnyRole } from '@/auth/has-any-role.decorator';
+import { RoleGuard } from '@/auth/role.guard';
+import { Account, Organization, OrganizationMember, Role } from '@/graphql.schema';
+import { OrganizationService } from '@/organization/organization.service';
 import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Parent, Query, ResolveProperty, Resolver, Subscription } from '@nestjs/graphql';
 import { PubSub } from 'graphql-subscriptions';
-import { AccountService } from 'src/account/account.service';
-import { GraphqlAuthGuard } from 'src/auth/graphql-auth.guard';
-import { HasAnyRole } from 'src/auth/has-any-role.decorator';
-import { RoleGuard } from 'src/auth/role.guard';
-import { Account, Organization, OrganizationMember, Role } from 'src/graphql.schema';
-import { OrganizationService } from 'src/organization/organization.service';
 import { JoinOrganizationDto } from './dto/join-organization.dto';
 import { OrganizationMemberService } from './organization-member.service';
 

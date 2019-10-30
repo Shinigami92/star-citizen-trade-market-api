@@ -1,5 +1,5 @@
+import { CreateTransactionInput } from '@/graphql.schema';
 import { IsOptional, IsUUID } from 'class-validator';
-import { CreateTransactionInput } from 'src/graphql.schema';
 import { CreateFirstTransactionDetailDto } from './create-first-transaction-detail.dto';
 
 export class CreateTransactionDto implements CreateTransactionInput {

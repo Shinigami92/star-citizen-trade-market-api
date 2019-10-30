@@ -1,7 +1,7 @@
+import { client } from '@/database.service';
+import { TransactionDetail, TransactionDetailType } from '@/graphql.schema';
 import { Injectable, Logger } from '@nestjs/common';
 import { QueryResult } from 'pg';
-import { client } from 'src/database.service';
-import { TransactionDetail, TransactionDetailType } from 'src/graphql.schema';
 import { CreateLostBasedOnTransactionDetailDto } from './dto/create-lost-based-on-transaction-detail.dto';
 import { CreateTransactionDetailDto } from './dto/create-transaction-detail.dto';
 

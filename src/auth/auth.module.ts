@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { PassportModule } from '@nestjs/passport';
-import { AccountModule } from 'src/account/account.module';
-import { AccountService } from 'src/account/account.service';
+import { AccountModule } from '@/account/account.module';
+import { AccountService } from '@/account/account.service';
 import { AuthService } from './auth.service';
 import { JwtStrategy } from './jwt.strategy';
 

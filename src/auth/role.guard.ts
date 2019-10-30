@@ -1,6 +1,6 @@
+import { Role } from '@/graphql.schema';
 import { CanActivate, ExecutionContext, Injectable, Logger, Type } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { Role } from 'src/graphql.schema';
 import { CurrentAuthUser } from './current-user';
 
 @Injectable()

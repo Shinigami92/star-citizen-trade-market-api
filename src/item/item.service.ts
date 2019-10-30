@@ -1,7 +1,7 @@
+import { client } from '@/database.service';
+import { Item } from '@/graphql.schema';
 import { Injectable } from '@nestjs/common';
 import { QueryResult } from 'pg';
-import { client } from 'src/database.service';
-import { Item } from 'src/graphql.schema';
 
 export const TABLENAME: string = 'item';
 

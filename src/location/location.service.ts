@@ -1,7 +1,7 @@
+import { client } from '@/database.service';
+import { Location } from '@/graphql.schema';
 import { Injectable, Logger } from '@nestjs/common';
 import { QueryResult } from 'pg';
-import { client } from 'src/database.service';
-import { Location } from 'src/graphql.schema';
 import { CreateLocationDto } from './dto/create-location.dto';
 import { UpdateLocationDto } from './dto/update-location.dto';
 
