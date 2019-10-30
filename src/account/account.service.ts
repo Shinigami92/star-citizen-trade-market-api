@@ -32,7 +32,7 @@ export class AccountService {
 		const generatedPassword: string = [...Array(Math.floor(Math.random() * 9) + 12)]
 			.map(
 				// tslint:disable-next-line:no-bitwise
-				(_: unknown) => this.PASSWORD_CHARS[(Math.random() * this.PASSWORD_CHARS.length) | 0]
+				() => this.PASSWORD_CHARS[(Math.random() * this.PASSWORD_CHARS.length) | 0]
 			)
 			.join('');
 		const encryptedPassword: string = await hash(generatedPassword, salt);
@@ -91,7 +91,7 @@ export class AccountService {
 
 	public async findAll(): Promise<Account[]> {
 		const result: QueryResult = await client.query(`SELECT * FROM ${TABLENAME}`);
-		return result.rows.map((row: any) => this.transformRoles(row)!);
+		return result.rows.map((row) => this.transformRoles(row)!);
 	}
 
 	public async findOneById(id: string): Promise<Account | undefined> {

@@ -53,7 +53,7 @@ import { TransactionModule } from './transaction/transaction.module';
 				outputAs: 'interface'
 			},
 			installSubscriptionHandlers: true,
-			context: ({ req }: any): any => ({ req })
+			context: ({ req }) => ({ req })
 		})
 	],
 	controllers: [AppController],

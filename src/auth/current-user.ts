@@ -14,7 +14,7 @@ export class CurrentAuthUser implements Partial<Account> {
 	}
 
 	public hasRole(role: Role): boolean {
-		return this.roles.find((r: Role) => r === role) !== undefined;
+		return this.roles.find((r) => r === role) !== undefined;
 	}
 
 	public hasAnyRole(roles: Role[]): boolean {
