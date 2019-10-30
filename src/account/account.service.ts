@@ -1,5 +1,3 @@
-import { client } from '@/database.service';
-import { transporter } from '@/mail.service';
 import {
 	ConflictException,
 	Injectable,
@@ -11,7 +9,9 @@ import { JwtService } from '@nestjs/jwt';
 import { compare, genSalt, hash } from 'bcrypt';
 import { QueryResult } from 'pg';
 import * as postgresArray from 'postgres-array';
+import { client } from '../database.service';
 import { Account, AuthToken, Role } from '../graphql.schema';
+import { transporter } from '../mail.service';
 import { CreateAccountDto } from './dto/create-account.dto';
 
 export const TABLENAME: string = 'account';

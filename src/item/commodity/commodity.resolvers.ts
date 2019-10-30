@@ -1,12 +1,12 @@
 import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Parent, Query, ResolveProperty, Resolver, Subscription } from '@nestjs/graphql';
 import { PubSub } from 'graphql-subscriptions';
-import { GraphqlAuthGuard } from '@/auth/graphql-auth.guard';
-import { HasAnyRole } from '@/auth/has-any-role.decorator';
-import { RoleGuard } from '@/auth/role.guard';
-import { CommodityCategoryService } from '@/commodity-category/commodity-category.service';
-import { GameVersionService } from '@/game-version/game-version.service';
-import { Commodity, CommodityCategory, GameVersion, Role } from '@/graphql.schema';
+import { GraphqlAuthGuard } from '../../auth/graphql-auth.guard';
+import { HasAnyRole } from '../../auth/has-any-role.decorator';
+import { RoleGuard } from '../../auth/role.guard';
+import { CommodityCategoryService } from '../../commodity-category/commodity-category.service';
+import { GameVersionService } from '../../game-version/game-version.service';
+import { Commodity, CommodityCategory, GameVersion, Role } from '../../graphql.schema';
 import { CommodityService } from './commodity.service';
 import { CreateCommodityDto } from './dto/create-commodity.dto';
 import { UpdateCommodityDto } from './dto/update-commodity.dto';

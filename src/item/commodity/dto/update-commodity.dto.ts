@@ -1,5 +1,5 @@
 import { IsDate, IsOptional, IsUUID, Length } from 'class-validator';
-import { UpdateCommodityInput } from '@/graphql.schema';
+import { UpdateCommodityInput } from '../../../graphql.schema';
 
 export class UpdateCommodityDto implements UpdateCommodityInput {
 	@IsOptional()

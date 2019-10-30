@@ -1,6 +1,6 @@
-import { Item } from '@/graphql.schema';
 import { Logger } from '@nestjs/common';
 import { Args, Parent, Query, ResolveProperty, Resolver } from '@nestjs/graphql';
+import { Item } from '../graphql.schema';
 import { ItemService } from './item.service';
 
 @Resolver('Item')

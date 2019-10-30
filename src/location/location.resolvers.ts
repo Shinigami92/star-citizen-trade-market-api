@@ -1,12 +1,12 @@
-import { GraphqlAuthGuard } from '@/auth/graphql-auth.guard';
-import { HasAnyRole } from '@/auth/has-any-role.decorator';
-import { RoleGuard } from '@/auth/role.guard';
-import { GameVersionService } from '@/game-version/game-version.service';
-import { GameVersion, Location, LocationSearchInput, LocationType, Role } from '@/graphql.schema';
-import { LocationTypeService } from '@/location-type/location-type.service';
 import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Parent, Query, ResolveProperty, Resolver, Subscription } from '@nestjs/graphql';
 import { PubSub } from 'graphql-subscriptions';
+import { GraphqlAuthGuard } from '../auth/graphql-auth.guard';
+import { HasAnyRole } from '../auth/has-any-role.decorator';
+import { RoleGuard } from '../auth/role.guard';
+import { GameVersionService } from '../game-version/game-version.service';
+import { GameVersion, Location, LocationSearchInput, LocationType, Role } from '../graphql.schema';
+import { LocationTypeService } from '../location-type/location-type.service';
 import { CreateLocationDto } from './dto/create-location.dto';
 import { UpdateLocationDto } from './dto/update-location.dto';
 import { LocationService } from './location.service';

@@ -1,5 +1,5 @@
-import { JoinOrganizationInput } from '@/graphql.schema';
 import { IsDate, IsOptional, IsUUID } from 'class-validator';
+import { JoinOrganizationInput } from '../../graphql.schema';
 
 export class JoinOrganizationDto implements JoinOrganizationInput {
 	@IsUUID('4')

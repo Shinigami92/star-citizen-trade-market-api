@@ -1,7 +1,7 @@
-import { client } from '@/database.service';
-import { GameVersion } from '@/graphql.schema';
 import { Injectable, Logger } from '@nestjs/common';
 import { QueryResult } from 'pg';
+import { client } from '../database.service';
+import { GameVersion } from '../graphql.schema';
 import { CreateGameVersionDto } from './dto/create-game-version.dto';
 import { UpdateGameVersionDto } from './dto/update-game-version.dto';
 

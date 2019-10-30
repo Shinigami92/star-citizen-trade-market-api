@@ -1,7 +1,7 @@
-import { client } from '@/database.service';
-import { ItemPrice, ItemPriceType, ItemPriceVisibility, Trade } from '@/graphql.schema';
 import { Injectable } from '@nestjs/common';
 import { QueryResult } from 'pg';
+import { client } from '../database.service';
+import { ItemPrice, ItemPriceType, ItemPriceVisibility, Trade } from '../graphql.schema';
 
 export interface TradeSearchOptions {
 	accountId: string | null;

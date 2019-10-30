@@ -1,6 +1,6 @@
-import { client } from '@/database.service';
 import { Injectable, Logger } from '@nestjs/common';
 import { QueryResult } from 'pg';
+import { client } from '../database.service';
 import { CommodityCategory } from '../graphql.schema';
 import { CreateCommodityCategoryDto } from './dto/create-commodity-category.dto';
 import { UpdateCommodityCategoryDto } from './dto/update-commodity-category.dto';

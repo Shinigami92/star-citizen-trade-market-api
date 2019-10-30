@@ -1,5 +1,5 @@
-import { CreateShipInput } from '@/graphql.schema';
 import { IsDate, IsInt, IsNotEmpty, IsPositive, IsUUID, Length } from 'class-validator';
+import { CreateShipInput } from '../../../graphql.schema';
 
 export class CreateShipDto implements CreateShipInput {
 	@Length(3)

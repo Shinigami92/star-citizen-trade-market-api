@@ -49,7 +49,7 @@ import { TransactionModule } from './transaction/transaction.module';
 			debug: false,
 			typePaths: ['./**/*.graphql'],
 			definitions: {
-				path: join(process.cwd(), '@/graphql.schema.ts'),
+				path: join(process.cwd(), './graphql.schema.ts'),
 				outputAs: 'interface'
 			},
 			installSubscriptionHandlers: true,

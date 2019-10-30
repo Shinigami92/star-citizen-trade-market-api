@@ -1,6 +1,6 @@
-import { TransactionModule } from '@/transaction/transaction.module';
-import { TransactionService } from '@/transaction/transaction.service';
 import { forwardRef, Module } from '@nestjs/common';
+import { TransactionModule } from '../transaction/transaction.module';
+import { TransactionService } from '../transaction/transaction.service';
 import { TransactionDetailResolvers } from './transaction-detail.resolvers';
 import { TransactionDetailService } from './transaction-detail.service';
 

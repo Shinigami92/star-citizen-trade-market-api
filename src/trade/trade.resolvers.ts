@@ -1,9 +1,9 @@
-import { CurrentUser } from '@/auth/user.decorator';
-import { GameVersionService } from '@/game-version/game-version.service';
-import { Account, GameVersion, Item, Location, Trade, TradeSearchInput } from '@/graphql.schema';
-import { ItemService } from '@/item/item.service';
-import { LocationService } from '@/location/location.service';
 import { Args, Parent, Query, ResolveProperty, Resolver } from '@nestjs/graphql';
+import { CurrentUser } from '../auth/user.decorator';
+import { GameVersionService } from '../game-version/game-version.service';
+import { Account, GameVersion, Item, Location, Trade, TradeSearchInput } from '../graphql.schema';
+import { ItemService } from '../item/item.service';
+import { LocationService } from '../location/location.service';
 import { TradeService } from './trade.service';
 
 @Resolver('Trade')

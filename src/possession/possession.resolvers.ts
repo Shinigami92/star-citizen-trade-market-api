@@ -1,12 +1,12 @@
-import { CurrentAuthUser } from '@/auth/current-user';
-import { GraphqlAuthGuard } from '@/auth/graphql-auth.guard';
-import { HasAnyRole } from '@/auth/has-any-role.decorator';
-import { RoleGuard } from '@/auth/role.guard';
-import { CurrentUser } from '@/auth/user.decorator';
-import { Possession, Role } from '@/graphql.schema';
 import { BadRequestException, UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver, Subscription } from '@nestjs/graphql';
 import { PubSub } from 'graphql-subscriptions';
+import { CurrentAuthUser } from '../auth/current-user';
+import { GraphqlAuthGuard } from '../auth/graphql-auth.guard';
+import { HasAnyRole } from '../auth/has-any-role.decorator';
+import { RoleGuard } from '../auth/role.guard';
+import { CurrentUser } from '../auth/user.decorator';
+import { Possession, Role } from '../graphql.schema';
 import { CreatePossessionDto } from './dto/create-possession.dto';
 import { PossessionService } from './possession.service';
 

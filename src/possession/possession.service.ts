@@ -1,7 +1,7 @@
-import { client } from '@/database.service';
-import { Possession } from '@/graphql.schema';
 import { Injectable, Logger } from '@nestjs/common';
 import { QueryResult } from 'pg';
+import { client } from '../database.service';
+import { Possession } from '../graphql.schema';
 import { CreatePossessionDto } from './dto/create-possession.dto';
 
 export const TABLENAME: string = 'possession';

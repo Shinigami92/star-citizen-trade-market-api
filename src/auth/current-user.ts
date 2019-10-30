@@ -1,4 +1,4 @@
-import { Account, Role } from '@/graphql.schema';
+import { Account, Role } from '../graphql.schema';
 
 export class CurrentAuthUser implements Partial<Account> {
 	public readonly id: string;

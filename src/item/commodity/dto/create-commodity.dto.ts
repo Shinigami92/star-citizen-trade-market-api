@@ -1,5 +1,5 @@
 import { IsDate, IsOptional, IsUUID, Length } from 'class-validator';
-import { CreateCommodityInput } from '@/graphql.schema';
+import { CreateCommodityInput } from '../../../graphql.schema';
 
 export class CreateCommodityDto implements CreateCommodityInput {
 	@Length(3)

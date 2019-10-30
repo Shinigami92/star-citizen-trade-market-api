@@ -1,5 +1,5 @@
-import { CreateOrganizationInput } from '@/graphql.schema';
 import { Length } from 'class-validator';
+import { CreateOrganizationInput } from '../../graphql.schema';
 
 export class CreateOrganizationDto implements CreateOrganizationInput {
 	@Length(1, 50)

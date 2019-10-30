@@ -1,7 +1,7 @@
-import { client } from '@/database.service';
-import { Ship } from '@/graphql.schema';
 import { Injectable, Logger } from '@nestjs/common';
 import { QueryResult } from 'pg';
+import { client } from '../../database.service';
+import { Ship } from '../../graphql.schema';
 import { TABLENAME } from '../item.service';
 import { CreateShipDto } from './dto/create-ship.dto';
 import { UpdateShipDto } from './dto/update-ship.dto';

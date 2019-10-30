@@ -1,7 +1,7 @@
-import { client } from '@/database.service';
-import { OrganizationMember } from '@/graphql.schema';
 import { Injectable, Logger } from '@nestjs/common';
 import { QueryResult } from 'pg';
+import { client } from '../database.service';
+import { OrganizationMember } from '../graphql.schema';
 import { JoinOrganizationDto } from './dto/join-organization.dto';
 
 export const TABLENAME: string = 'organization_member';
