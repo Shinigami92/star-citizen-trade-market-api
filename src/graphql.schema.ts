@@ -287,7 +287,7 @@ export interface Account {
     username: string;
     handle: string;
     email?: string;
-    roles?: Role[];
+    roles: Role[];
     mainOrganizationId?: string;
     mainOrganization?: Organization;
 }
@@ -295,7 +295,7 @@ export interface Account {
 export interface AuthToken {
     id: string;
     username: string;
-    roles?: Role[];
+    roles: Role[];
     token: string;
 }
 

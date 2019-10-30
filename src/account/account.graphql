@@ -25,7 +25,7 @@ type Account {
 	username: String!
 	handle: String!
 	email: String
-	roles: [Role!]
+	roles: [Role!]!
 	mainOrganizationId: ID
 	mainOrganization: Organization
 }
@@ -33,7 +33,7 @@ type Account {
 type AuthToken {
 	id: ID!
 	username: String!
-	roles: [Role!]
+	roles: [Role!]!
 	token: String!
 }
 
