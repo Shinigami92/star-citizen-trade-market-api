@@ -24,9 +24,9 @@ export class ItemPriceService {
 		scannedInGameVersionId
 	}: CreateItemPriceDto): Promise<ItemPrice> {
 		if (scannedInGameVersionId === undefined) {
-			scannedInGameVersionId = (await client.query(
-				`SELECT id FROM ${GAME_VERSION_TABLENAME} ORDER BY identifier DESC LIMIT 1`
-			)).rows[0].id;
+			scannedInGameVersionId = (
+				await client.query(`SELECT id FROM ${GAME_VERSION_TABLENAME} ORDER BY identifier DESC LIMIT 1`)
+			).rows[0].id;
 		}
 		const result: QueryResult = await client.query(
 			`INSERT INTO ${TABLENAME}(scanned_by_id, item_id, location_id, price, quantity, scan_time, type, visibility,` +
