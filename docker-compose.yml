@@ -20,6 +20,14 @@ services:
         #restart: always
         environment:
             - NODE_ENV=production
+            - DATABASE_URL=postgres://postgres:postgres@sctm-database:5432/sctm
+            - JWT_SECRET_KEY=secret
+            - JWT_EXPIRES_IN=3600
+            - MAIL_SMTP_HOST=smtp.gmail.com
+            - MAIL_SMTP_PORT=587
+            - MAIL_AUTH_USER=mygmail@gmail.com
+            - MAIL_AUTH_PASS=mypassword
+            - MAIL_DEFAULT_FROM=mygmail@gmail.com
         ports:
             - '3000:3000'
         depends_on:
