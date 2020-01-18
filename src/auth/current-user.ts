@@ -18,11 +18,6 @@ export class CurrentAuthUser implements Partial<Account> {
 	}
 
 	public hasAnyRole(roles: Role[]): boolean {
-		for (const role of roles) {
-			if (this.hasRole(role)) {
-				return true;
-			}
-		}
-		return false;
+		return roles.some((role) => this.hasRole(role));
 	}
 }
