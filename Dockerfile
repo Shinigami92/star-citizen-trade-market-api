@@ -8,19 +8,15 @@ RUN yarn global add node-gyp
 WORKDIR /build
 
 COPY . .
-RUN ls -la
-RUN yarn
+RUN yarn install --frozen-lockfile
+RUN yarn build
 
 FROM node:12-alpine
 LABEL maintainer="chrissi92@hotmail.de"
 WORKDIR /usr/src/app
 
 COPY --from=build /build .
-RUN ls -la
-RUN mv ./docker-entrypoint.sh /docker-entrypoint.sh
-RUN yarn build
-RUN chmod +x /docker-entrypoint.sh
+RUN chmod +x ./docker-entrypoint.sh
 
 EXPOSE 3000
-ENTRYPOINT ["/docker-entrypoint.sh"]
-CMD [ "yarn", "start:prod" ]
+ENTRYPOINT ["/usr/src/app/docker-entrypoint.sh"]
