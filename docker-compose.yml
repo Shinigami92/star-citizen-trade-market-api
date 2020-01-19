@@ -35,6 +35,23 @@ services:
         networks:
             - sctm-net
 
+    # You must first create the frontend image
+    # You can comment out the frontend service if you only want the API
+    sctm-frontend:
+        container_name: SCTM_Frontend
+        image: sctm-frontend
+        #restart: always
+        environment:
+            - NODE_ENV=production
+            - VUE_APP_GRAPHQL_HTTP=http://sctm-api:3000/graphql
+            - VUE_APP_GRAPHQL_WS=ws://sctm-api:3000/graphql
+        ports:
+            - '8080:80'
+        depends_on:
+            - 'sctm-api'
+        networks:
+            - sctm-net
+
 networks:
     sctm-net:
         external: true
