@@ -21,7 +21,7 @@ export class AccountService {
 	private readonly logger: Logger = new Logger(AccountService.name);
 
 	private readonly jwtService: JwtService = new JwtService({
-		secretOrPrivateKey: process.env.JWT_SECRET_KEY,
+		secret: process.env.JWT_SECRET_KEY,
 		signOptions: { expiresIn: process.env.JWT_EXPIRES_IN }
 	});
 
