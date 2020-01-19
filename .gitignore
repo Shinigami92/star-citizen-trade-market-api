@@ -65,3 +65,6 @@ package-lock.json
 
 # Output of build
 dist
+
+# Docker
+docker-volumes
