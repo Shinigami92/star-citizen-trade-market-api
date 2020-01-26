@@ -15,7 +15,7 @@ export class DateScalar implements CustomScalar<string, Date> {
     return value.toISOString();
   }
 
-  // tslint:disable-next-line:ban-ts-ignore
+  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
   // @ts-ignore
   public parseLiteral(ast: ValueNode): number | null {
     console.log(ast);

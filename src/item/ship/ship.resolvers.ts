@@ -1,4 +1,4 @@
-import { UseGuards } from '@nestjs/common';
+import { NotFoundException, UseGuards } from '@nestjs/common';
 import { Args, Mutation, Parent, Query, ResolveProperty, Resolver, Subscription } from '@nestjs/graphql';
 import { PubSub } from 'graphql-subscriptions';
 import { GraphqlAuthGuard } from '../../auth/graphql-auth.guard';
@@ -61,11 +61,19 @@ export class ShipResolvers {
 
   @ResolveProperty()
   public async inGameSinceVersion(@Parent() parent: Ship): Promise<GameVersion> {
-    return (await this.gameVersionService.findOneById(parent.inGameSinceVersionId))!;
+    const gameVersion: GameVersion | undefined = await this.gameVersionService.findOneById(parent.inGameSinceVersionId);
+    if (!gameVersion) {
+      throw new NotFoundException(`GameVersion with id ${parent.inGameSinceVersionId} not found`);
+    }
+    return gameVersion;
   }
 
   @ResolveProperty()
   public async manufacturer(@Parent() parent: Ship): Promise<Manufacturer> {
-    return (await this.manufacturerService.findOneById(parent.manufacturerId))!;
+    const manufacturer: Manufacturer | undefined = await this.manufacturerService.findOneById(parent.manufacturerId);
+    if (!manufacturer) {
+      throw new NotFoundException(`Manufacturer with id ${parent.manufacturerId} not found`);
+    }
+    return manufacturer;
   }
 }

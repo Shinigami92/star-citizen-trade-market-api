@@ -1,4 +1,4 @@
-import { UseGuards } from '@nestjs/common';
+import { NotFoundException, UseGuards } from '@nestjs/common';
 import { Args, Mutation, Parent, Query, ResolveProperty, Resolver, Subscription } from '@nestjs/graphql';
 import { PubSub } from 'graphql-subscriptions';
 import { GraphqlAuthGuard } from '../../auth/graphql-auth.guard';
@@ -61,11 +61,21 @@ export class CommodityResolvers {
 
   @ResolveProperty()
   public async inGameSinceVersion(@Parent() parent: Commodity): Promise<GameVersion> {
-    return (await this.gameVersionService.findOneById(parent.inGameSinceVersionId))!;
+    const gameVersion: GameVersion | undefined = await this.gameVersionService.findOneById(parent.inGameSinceVersionId);
+    if (!gameVersion) {
+      throw new NotFoundException(`GameVersion with id ${parent.inGameSinceVersionId} not found`);
+    }
+    return gameVersion;
   }
 
   @ResolveProperty()
   public async commodityCategory(@Parent() parent: Commodity): Promise<CommodityCategory> {
-    return (await this.commodityCategoryService.findOneById(parent.commodityCategoryId))!;
+    const commodityCategory: CommodityCategory | undefined = await this.commodityCategoryService.findOneById(
+      parent.commodityCategoryId
+    );
+    if (!commodityCategory) {
+      throw new NotFoundException(`CommodityCategory with id ${parent.commodityCategoryId} not found`);
+    }
+    return commodityCategory;
   }
 }

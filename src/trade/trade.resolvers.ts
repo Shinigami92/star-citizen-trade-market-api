@@ -1,3 +1,4 @@
+import { NotFoundException } from '@nestjs/common';
 import { Args, Parent, Query, ResolveProperty, Resolver } from '@nestjs/graphql';
 import { CurrentUser } from '../auth/user.decorator';
 import { GameVersionService } from '../game-version/game-version.service';
@@ -31,21 +32,39 @@ export class TradeResolvers {
 
   @ResolveProperty()
   public async item(@Parent() parent: Trade): Promise<Item> {
-    return (await this.itemService.findOneById(parent.buyItemPrice.itemId))!;
+    const item: Item | undefined = await this.itemService.findOneById(parent.buyItemPrice.itemId);
+    if (!item) {
+      throw new NotFoundException(`Item with id ${parent.buyItemPrice.itemId} not found`);
+    }
+    return item;
   }
 
   @ResolveProperty()
   public async startLocation(@Parent() parent: Trade): Promise<Location> {
-    return (await this.locationService.findOneById(parent.buyItemPrice.locationId))!;
+    const location: Location | undefined = await this.locationService.findOneById(parent.buyItemPrice.locationId);
+    if (!location) {
+      throw new NotFoundException(`Location with id ${parent.buyItemPrice.locationId} not found`);
+    }
+    return location;
   }
 
   @ResolveProperty()
   public async endLocation(@Parent() parent: Trade): Promise<Location> {
-    return (await this.locationService.findOneById(parent.sellItemPrice.locationId))!;
+    const location: Location | undefined = await this.locationService.findOneById(parent.sellItemPrice.locationId);
+    if (!location) {
+      throw new NotFoundException(`Location with id ${parent.sellItemPrice.locationId} not found`);
+    }
+    return location;
   }
 
   @ResolveProperty()
   public async scannedInGameVersion(@Parent() parent: Trade): Promise<GameVersion> {
-    return (await this.gameVersionService.findOneById(parent.scannedInGameVersionId))!;
+    const gameVersion: GameVersion | undefined = await this.gameVersionService.findOneById(
+      parent.scannedInGameVersionId
+    );
+    if (!gameVersion) {
+      throw new NotFoundException(`GameVersion with id ${parent.scannedInGameVersionId} not found`);
+    }
+    return gameVersion;
   }
 }

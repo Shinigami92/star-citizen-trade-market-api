@@ -1,4 +1,4 @@
-import { UnauthorizedException, UseGuards } from '@nestjs/common';
+import { NotFoundException, UnauthorizedException, UseGuards } from '@nestjs/common';
 import { Args, Mutation, Parent, Query, ResolveProperty, Resolver, Subscription } from '@nestjs/graphql';
 import { PubSub } from 'graphql-subscriptions';
 import { CurrentAuthUser } from '../auth/current-user';
@@ -45,7 +45,11 @@ export class AccountResolvers {
   @Query()
   @UseGuards(GraphqlAuthGuard)
   public async me(@CurrentUser() currentUser: CurrentAuthUser): Promise<Account> {
-    return (await this.accountService.findOneById(currentUser.id))!;
+    const account: Account | undefined = await this.accountService.findOneById(currentUser.id);
+    if (!account) {
+      throw new NotFoundException(`Account with id ${currentUser.id} not found`);
+    }
+    return account;
   }
 
   @Subscription()
@@ -60,9 +64,11 @@ export class AccountResolvers {
   @HasAnyRole(Role.USER, Role.USERADMIN, Role.ADMIN)
   public email(@Parent() parent: Account, @CurrentUser() currentUser: CurrentAuthUser): string {
     if (parent.id === currentUser.id) {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       return parent.email!;
     }
     if (currentUser.hasAnyRole([Role.USERADMIN, Role.ADMIN])) {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       return parent.email!;
     }
     throw new UnauthorizedException();
@@ -71,7 +77,13 @@ export class AccountResolvers {
   @ResolveProperty()
   public async mainOrganization(@Parent() parent: Account): Promise<Organization | null> {
     if (parent.mainOrganizationId !== undefined) {
-      return (await this.organizationService.findOneById(parent.mainOrganizationId))!;
+      const organization: Organization | undefined = await this.organizationService.findOneById(
+        parent.mainOrganizationId
+      );
+      if (!organization) {
+        throw new NotFoundException(`Organization with id ${parent.mainOrganizationId} not found`);
+      }
+      return organization;
     }
     return null;
   }

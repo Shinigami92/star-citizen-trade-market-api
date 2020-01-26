@@ -26,6 +26,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     return new CurrentAuthUser({
       id: user.id,
       username: user.username,
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       email: user.email!,
       roles: user.roles
     });

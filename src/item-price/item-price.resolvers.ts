@@ -1,4 +1,4 @@
-import { UnauthorizedException, UseGuards } from '@nestjs/common';
+import { NotFoundException, UnauthorizedException, UseGuards } from '@nestjs/common';
 import { Args, Mutation, Parent, Query, ResolveProperty, Resolver, Subscription } from '@nestjs/graphql';
 import { PubSub } from 'graphql-subscriptions';
 import { AccountService } from '../account/account.service';
@@ -70,7 +70,10 @@ export class ItemPriceResolvers {
     @CurrentUser() currentUser: CurrentAuthUser
   ): Promise<ItemPrice> {
     if (!currentUser.hasRole(Role.ADMIN)) {
-      const itemPrice: ItemPrice = (await this.itemPriceService.findOneById(id))!;
+      const itemPrice: ItemPrice | undefined = await this.itemPriceService.findOneById(id);
+      if (!itemPrice) {
+        throw new NotFoundException(`ItemPrice with id ${id} not found`);
+      }
       if (itemPrice.scannedById !== currentUser.id) {
         throw new UnauthorizedException('You can only update your own reported prices');
       }
@@ -92,17 +95,29 @@ export class ItemPriceResolvers {
 
   @ResolveProperty()
   public async scannedBy(@Parent() parent: ItemPrice): Promise<Account> {
-    return (await this.accountService.findOneById(parent.scannedById))!;
+    const account: Account | undefined = await this.accountService.findOneById(parent.scannedById);
+    if (!account) {
+      throw new NotFoundException(`Account with id ${parent.scannedById} not found`);
+    }
+    return account;
   }
 
   @ResolveProperty()
   public async item(@Parent() parent: ItemPrice): Promise<Item> {
-    return (await this.itemService.findOneById(parent.itemId))!;
+    const item: Item | undefined = await this.itemService.findOneById(parent.itemId);
+    if (!item) {
+      throw new NotFoundException(`Item with id ${parent.itemId} not found`);
+    }
+    return item;
   }
 
   @ResolveProperty()
   public async location(@Parent() parent: ItemPrice): Promise<Location> {
-    return (await this.locationService.findOneById(parent.locationId))!;
+    const location: Location | undefined = await this.locationService.findOneById(parent.locationId);
+    if (!location) {
+      throw new NotFoundException(`Location with id ${parent.locationId} not found`);
+    }
+    return location;
   }
 
   @ResolveProperty()
@@ -112,6 +127,12 @@ export class ItemPriceResolvers {
 
   @ResolveProperty()
   public async scannedInGameVersion(@Parent() parent: ItemPrice): Promise<GameVersion> {
-    return (await this.gameVersionService.findOneById(parent.scannedInGameVersionId))!;
+    const gameVersion: GameVersion | undefined = await this.gameVersionService.findOneById(
+      parent.scannedInGameVersionId
+    );
+    if (!gameVersion) {
+      throw new NotFoundException(`GameVersion with id ${parent.scannedInGameVersionId} not found`);
+    }
+    return gameVersion;
   }
 }

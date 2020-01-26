@@ -84,14 +84,14 @@ export class AccountService {
     return {
       id: account.id,
       username: account.username,
-      roles: this.transformRoles(account)!.roles,
+      roles: this.transformRoles(account).roles,
       token
     };
   }
 
   public async findAll(): Promise<Account[]> {
     const result: QueryResult = await client.query(`SELECT * FROM ${TABLENAME}`);
-    return result.rows.map((row) => this.transformRoles(row)!);
+    return result.rows.map((row) => this.transformRoles(row));
   }
 
   public async findOneById(id: string): Promise<Account | undefined> {
@@ -104,10 +104,7 @@ export class AccountService {
     return this.transformRoles(result.rows[0]);
   }
 
-  private transformRoles(account?: Account): Account | undefined {
-    if (account === undefined) {
-      return undefined;
-    }
+  private transformRoles(account: Account): Account {
     const roles: any = account.roles;
     if (typeof roles === 'string') {
       account.roles = postgresArray.parse(roles) as Role[];

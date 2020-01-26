@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { QueryResult } from 'pg';
 import { client } from '../database.service';
 import { TABLENAME as GAME_VERSION_TABLENAME } from '../game-version/game-version.service';
@@ -103,7 +103,11 @@ export class ItemPriceService {
       updateIndex++;
     }
     if (updates.length === 0) {
-      return (await this.findOneById(id))!;
+      const itemPrice: ItemPrice | undefined = await this.findOneById(id);
+      if (!itemPrice) {
+        throw new NotFoundException(`ItemPrice with id ${id} not found`);
+      }
+      return itemPrice;
     }
     const result: QueryResult = await client.query(
       `UPDATE ${TABLENAME} SET${updates.join(', ')} WHERE id = $1::uuid RETURNING *`,

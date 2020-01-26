@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { QueryResult } from 'pg';
 import { client } from '../database.service';
 import { CommodityCategory } from '../graphql.schema';
@@ -30,7 +30,11 @@ export class CommodityCategoryService {
       updateIndex++;
     }
     if (updates.length === 0) {
-      return (await this.findOneById(id))!;
+      const commodityCategory: CommodityCategory | undefined = await this.findOneById(id);
+      if (!commodityCategory) {
+        throw new NotFoundException(`CommodityCategory with id ${id} not found`);
+      }
+      return commodityCategory;
     }
     const result: QueryResult = await client.query(
       `UPDATE ${TABLENAME} SET${updates.join(', ')} WHERE id = $1::uuid RETURNING *`,

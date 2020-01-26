@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { QueryResult } from 'pg';
 import { client } from '../database.service';
 import { Organization } from '../graphql.schema';
@@ -36,7 +36,11 @@ export class OrganizationService {
       updateIndex++;
     }
     if (updates.length === 0) {
-      return (await this.findOneById(id))!;
+      const organization: Organization | undefined = await this.findOneById(id);
+      if (!organization) {
+        throw new NotFoundException(`Organization with id ${id} not found`);
+      }
+      return organization;
     }
     const result: QueryResult = await client.query(
       `UPDATE ${TABLENAME} SET${updates.join(', ')} WHERE id = $1::uuid RETURNING *`,

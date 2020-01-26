@@ -1,4 +1,4 @@
-import { UseGuards } from '@nestjs/common';
+import { NotFoundException, UseGuards } from '@nestjs/common';
 import { Args, Mutation, Parent, Query, ResolveProperty, Resolver, Subscription } from '@nestjs/graphql';
 import { PubSub } from 'graphql-subscriptions';
 import { GraphqlAuthGuard } from '../auth/graphql-auth.guard';
@@ -64,19 +64,31 @@ export class LocationResolvers {
   @ResolveProperty()
   public async parentLocation(@Parent() parent: Location): Promise<Location | null> {
     if (parent.parentLocationId !== undefined) {
-      return (await this.locationService.findOneById(parent.parentLocationId))!;
+      const location: Location | undefined = await this.locationService.findOneById(parent.parentLocationId);
+      if (!location) {
+        throw new NotFoundException(`Location with id ${parent.parentLocationId} not found`);
+      }
+      return location;
     }
     return null;
   }
 
   @ResolveProperty()
   public async type(@Parent() parent: Location): Promise<LocationType> {
-    return (await this.locationTypeService.findOneById(parent.typeId))!;
+    const locationType: LocationType | undefined = await this.locationTypeService.findOneById(parent.typeId);
+    if (!locationType) {
+      throw new NotFoundException(`LocationType with id ${parent.typeId} not found`);
+    }
+    return locationType;
   }
 
   @ResolveProperty()
   public async inGameSinceVersion(@Parent() parent: Location): Promise<GameVersion> {
-    return (await this.gameVersionService.findOneById(parent.inGameSinceVersionId))!;
+    const gameVersion: GameVersion | undefined = await this.gameVersionService.findOneById(parent.inGameSinceVersionId);
+    if (!gameVersion) {
+      throw new NotFoundException(`GameVersion with id ${parent.inGameSinceVersionId} not found`);
+    }
+    return gameVersion;
   }
 
   @ResolveProperty()

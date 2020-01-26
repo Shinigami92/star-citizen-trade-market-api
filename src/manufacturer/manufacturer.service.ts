@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { QueryResult } from 'pg';
 import { client } from '../database.service';
 import { Manufacturer } from '../graphql.schema';
@@ -30,7 +30,11 @@ export class ManufacturerService {
       updateIndex++;
     }
     if (updates.length === 0) {
-      return (await this.findOneById(id))!;
+      const manufacturer: Manufacturer | undefined = await this.findOneById(id);
+      if (!manufacturer) {
+        throw new NotFoundException(`Manufacturer with id ${id} not found`);
+      }
+      return manufacturer;
     }
     const result: QueryResult = await client.query(
       `UPDATE ${TABLENAME} SET${updates.join(', ')} WHERE id = $1::uuid RETURNING *`,

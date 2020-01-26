@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { QueryResult } from 'pg';
 import { client } from '../../database.service';
 import { Ship } from '../../graphql.schema';
@@ -72,7 +72,11 @@ export class ShipService {
       updateIndex++;
     }
     if (updates.length === 0) {
-      return (await this.findOneById(id))!;
+      const ship: Ship | undefined = await this.findOneById(id);
+      if (!ship) {
+        throw new NotFoundException(`Ship with id ${id} not found`);
+      }
+      return ship;
     }
     const result: QueryResult = await client.query(
       `UPDATE ${TABLENAME} SET${updates.join(', ')} WHERE id = $1::uuid RETURNING *`,
@@ -97,7 +101,7 @@ export class ShipService {
 
   private mapDetails(ship: Ship): Ship {
     for (const key of ['focus', 'scu', 'size']) {
-      // tslint:disable-next-line:ban-ts-ignore
+      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
       // @ts-ignore
       ship[key] = ship.details[key];
     }

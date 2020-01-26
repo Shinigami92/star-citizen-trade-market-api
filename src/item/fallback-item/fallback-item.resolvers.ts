@@ -1,3 +1,4 @@
+import { NotFoundException } from '@nestjs/common';
 import { Parent, ResolveProperty, Resolver } from '@nestjs/graphql';
 import { GameVersionService } from '../../game-version/game-version.service';
 import { FallbackItem, GameVersion } from '../../graphql.schema';
@@ -8,6 +9,10 @@ export class FallbackItemResolvers {
 
   @ResolveProperty()
   public async inGameSinceVersion(@Parent() parent: FallbackItem): Promise<GameVersion> {
-    return (await this.gameVersionService.findOneById(parent.inGameSinceVersionId))!;
+    const gameVersion: GameVersion | undefined = await this.gameVersionService.findOneById(parent.inGameSinceVersionId);
+    if (!gameVersion) {
+      throw new NotFoundException(`GameVersion with id ${parent.inGameSinceVersionId} not found`);
+    }
+    return gameVersion;
   }
 }

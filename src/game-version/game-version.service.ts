@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { QueryResult } from 'pg';
 import { client } from '../database.service';
 import { GameVersion } from '../graphql.schema';
@@ -36,7 +36,11 @@ export class GameVersionService {
       updateIndex++;
     }
     if (updates.length === 0) {
-      return (await this.findOneById(id))!;
+      const gameVersion: GameVersion | undefined = await this.findOneById(id);
+      if (!gameVersion) {
+        throw new NotFoundException(`GameVersion with id ${id} not found`);
+      }
+      return gameVersion;
     }
     const result: QueryResult = await client.query(
       `UPDATE ${TABLENAME} SET${updates.join(', ')} WHERE id = $1::uuid RETURNING *`,

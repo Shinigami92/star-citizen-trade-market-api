@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { QueryResult } from 'pg';
 import { client } from '../database.service';
 import { Location } from '../graphql.schema';
@@ -24,6 +24,7 @@ export class LocationService {
     canTrade = false
   }: CreateLocationDto): Promise<Location> {
     const result: QueryResult = await client.query(
+      // eslint-disable-next-line max-len
       `INSERT INTO ${TABLENAME}(name, parent_location_id, type_id, in_game_since_version_id, in_game_since, can_trade)` +
         ' VALUES ($1::text, $2::uuid, $3::uuid, $4::uuid, $5::timestamptz, $6::boolean) RETURNING *',
       [name, parentLocationId, typeId, inGameSinceVersionId, inGameSince, canTrade]
@@ -71,7 +72,11 @@ export class LocationService {
       updateIndex++;
     }
     if (updates.length === 0) {
-      return (await this.findOneById(id))!;
+      const location: Location | undefined = await this.findOneById(id);
+      if (!location) {
+        throw new NotFoundException(`Location with id ${id} not found`);
+      }
+      return location;
     }
     const result: QueryResult = await client.query(
       `UPDATE ${TABLENAME} SET${updates.join(', ')} WHERE id = $1::uuid RETURNING *`,

@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { QueryResult } from 'pg';
 import { client } from '../database.service';
 import { TransactionDetail, TransactionDetailType } from '../graphql.schema';
@@ -22,6 +22,7 @@ export class TransactionDetailService {
   }: CreateTransactionDetailDto): Promise<TransactionDetail> {
     const result: QueryResult = await client.query(
       `INSERT INTO ${TABLENAME}(transaction_id, type, location_id, price, quantity, note, "timestamp")` +
+        // eslint-disable-next-line max-len
         ' VALUES ($1::uuid, $2::transaction_detail_type, $3::uuid, $4::numeric, $5::bigint, $6::text, $7::timestamptz)' +
         ' RETURNING *',
       [transactionId, type, locationId, price, quantity, note, timestamp]
@@ -30,13 +31,17 @@ export class TransactionDetailService {
     this.logger.log(`Created ${TABLENAME} with id ${created.id}`);
     return created;
   }
+
   public async createLostBasedOnTransaction({
     transactionDetailId,
     locationId,
     note,
     timestamp
   }: CreateLostBasedOnTransactionDetailDto): Promise<TransactionDetail> {
-    const transactionDetail: TransactionDetail = (await this.findOneById(transactionDetailId))!;
+    const transactionDetail: TransactionDetail | undefined = await this.findOneById(transactionDetailId);
+    if (!transactionDetail) {
+      throw new NotFoundException(`TransactionDetail with id ${transactionDetailId} not found`);
+    }
     return await this.create({
       ...transactionDetail,
       locationId,

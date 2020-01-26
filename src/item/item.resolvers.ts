@@ -20,14 +20,14 @@ export class ItemResolvers {
   }
 
   @ResolveProperty('__resolveType')
-  public async resolveType(@Parent() item: Item): Promise<string | undefined> {
+  public resolveType(@Parent() item: Item): string {
     switch (item.type) {
       case 'COMMODITY':
         return 'Commodity';
       case 'SHIP':
         return 'Ship';
     }
-    this.logger.warn(`Found unsupported item type ${item.type}, using fallback`);
+    this.logger.debug(`Found unsupported item type ${item.type}, using fallback`);
     return 'FallbackItem';
   }
 }
