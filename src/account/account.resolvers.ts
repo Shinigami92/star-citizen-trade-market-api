@@ -76,7 +76,7 @@ export class AccountResolvers {
 
   @ResolveProperty()
   public async mainOrganization(@Parent() parent: Account): Promise<Organization | null> {
-    if (parent.mainOrganizationId !== undefined) {
+    if (parent.mainOrganizationId) {
       const organization: Organization | undefined = await this.organizationService.findOneById(
         parent.mainOrganizationId
       );

@@ -63,7 +63,7 @@ export class LocationResolvers {
 
   @ResolveProperty()
   public async parentLocation(@Parent() parent: Location): Promise<Location | null> {
-    if (parent.parentLocationId !== undefined) {
+    if (parent.parentLocationId) {
       const location: Location | undefined = await this.locationService.findOneById(parent.parentLocationId);
       if (!location) {
         throw new NotFoundException(`Location with id ${parent.parentLocationId} not found`);
