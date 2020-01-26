@@ -10,7 +10,7 @@ export const TABLENAME: string = 'transaction';
 @Injectable()
 export class TransactionService {
   private readonly logger: Logger = new Logger(TransactionService.name);
-  constructor(private readonly transactionDetailService: TransactionDetailService) {}
+  public constructor(private readonly transactionDetailService: TransactionDetailService) {}
 
   public async create({ accountId, commodityId, transactionDetail }: CreateTransactionDto): Promise<Transaction> {
     const result: QueryResult = await client.query(

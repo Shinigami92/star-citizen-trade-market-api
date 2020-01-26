@@ -5,7 +5,7 @@ import { JwtPayload } from './jwt-payload';
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly accountService: AccountService) {}
+  public constructor(private readonly accountService: AccountService) {}
 
   public async validateUser({ username }: JwtPayload): Promise<Account | undefined> {
     return await this.accountService.findOneByUsername(username);

@@ -19,7 +19,7 @@ const pubSub: PubSub = new PubSub();
 
 @Resolver('ItemPrice')
 export class ItemPriceResolvers {
-  constructor(
+  public constructor(
     private readonly itemPriceService: ItemPriceService,
     private readonly accountService: AccountService,
     private readonly itemService: ItemService,

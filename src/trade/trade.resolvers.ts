@@ -8,7 +8,7 @@ import { TradeService } from './trade.service';
 
 @Resolver('Trade')
 export class TradeResolvers {
-  constructor(
+  public constructor(
     private readonly tradeService: TradeService,
     private readonly itemService: ItemService,
     private readonly locationService: LocationService,

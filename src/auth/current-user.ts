@@ -6,7 +6,7 @@ export class CurrentAuthUser implements Partial<Account> {
   public readonly email: string;
   public readonly roles: Role[];
 
-  constructor({ id, username, email, roles }: { id: string; username: string; email: string; roles: Role[] }) {
+  public constructor({ id, username, email, roles }: { id: string; username: string; email: string; roles: Role[] }) {
     this.id = id;
     this.username = username;
     this.email = email;

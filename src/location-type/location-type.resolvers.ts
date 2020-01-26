@@ -12,7 +12,7 @@ const pubSub: PubSub = new PubSub();
 
 @Resolver('LocationType')
 export class LocationTypeResolvers {
-  constructor(private readonly locationTypeService: LocationTypeService) {}
+  public constructor(private readonly locationTypeService: LocationTypeService) {}
 
   @Query()
   public async locationTypes(): Promise<LocationType[]> {

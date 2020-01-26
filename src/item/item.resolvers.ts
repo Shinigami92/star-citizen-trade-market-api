@@ -7,7 +7,7 @@ import { ItemService } from './item.service';
 export class ItemResolvers {
   private readonly logger: Logger = new Logger(ItemResolvers.name);
 
-  constructor(private readonly itemService: ItemService) {}
+  public constructor(private readonly itemService: ItemService) {}
 
   @Query()
   public async items(): Promise<Item[]> {

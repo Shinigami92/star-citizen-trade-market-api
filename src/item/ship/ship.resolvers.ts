@@ -15,7 +15,7 @@ const pubSub: PubSub = new PubSub();
 
 @Resolver('Ship')
 export class ShipResolvers {
-  constructor(
+  public constructor(
     private readonly shipService: ShipService,
     private readonly gameVersionService: GameVersionService,
     private readonly manufacturerService: ManufacturerService

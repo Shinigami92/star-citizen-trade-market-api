@@ -14,7 +14,7 @@ const pubSub: PubSub = new PubSub();
 
 @Resolver('Possession')
 export class PossessionResolvers {
-  constructor(private readonly possessionService: PossessionService) {}
+  public constructor(private readonly possessionService: PossessionService) {}
 
   @Query()
   @UseGuards(GraphqlAuthGuard)

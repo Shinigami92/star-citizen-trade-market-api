@@ -13,7 +13,7 @@ const pubSub: PubSub = new PubSub();
 
 @Resolver('GameVersion')
 export class GameVersionResolvers {
-  constructor(private readonly gameVersionService: GameVersionService) {}
+  public constructor(private readonly gameVersionService: GameVersionService) {}
 
   @Query()
   public async gameVersions(): Promise<GameVersion[]> {

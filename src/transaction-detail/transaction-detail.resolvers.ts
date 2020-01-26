@@ -19,7 +19,7 @@ const pubSub: PubSub = new PubSub();
 
 @Resolver('TransactionDetail')
 export class TransactionDetailResolvers {
-  constructor(
+  public constructor(
     private readonly transactionDetailService: TransactionDetailService,
     private readonly transactionService: TransactionService
   ) {}

@@ -12,7 +12,7 @@ const pubSub: PubSub = new PubSub();
 
 @Resolver('CommodityCategory')
 export class CommodityCategoryResolvers {
-  constructor(private readonly commodityCategoryService: CommodityCategoryService) {}
+  public constructor(private readonly commodityCategoryService: CommodityCategoryService) {}
 
   @Query()
   public async commodityCategories(): Promise<CommodityCategory[]> {

@@ -15,7 +15,7 @@ const pubSub: PubSub = new PubSub();
 
 @Resolver('Location')
 export class LocationResolvers {
-  constructor(
+  public constructor(
     private readonly locationService: LocationService,
     private readonly locationTypeService: LocationTypeService,
     private readonly gameVersionService: GameVersionService

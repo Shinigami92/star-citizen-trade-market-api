@@ -12,7 +12,7 @@ const pubSub: PubSub = new PubSub();
 
 @Resolver('Manufacturer')
 export class ManufacturerResolvers {
-  constructor(private readonly manufacturerService: ManufacturerService) {}
+  public constructor(private readonly manufacturerService: ManufacturerService) {}
 
   @Query()
   public async manufacturers(): Promise<Manufacturer[]> {

@@ -15,7 +15,7 @@ const pubSub: PubSub = new PubSub();
 
 @Resolver('Account')
 export class AccountResolvers {
-  constructor(
+  public constructor(
     private readonly accountService: AccountService,
     private readonly organizationService: OrganizationService
   ) {}

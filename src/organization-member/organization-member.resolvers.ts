@@ -14,7 +14,7 @@ const pubSub: PubSub = new PubSub();
 
 @Resolver('OrganizationMember')
 export class OrganizationMemberResolvers {
-  constructor(
+  public constructor(
     private readonly organizationMemberService: OrganizationMemberService,
     private readonly organizationService: OrganizationService,
     private readonly accountService: AccountService

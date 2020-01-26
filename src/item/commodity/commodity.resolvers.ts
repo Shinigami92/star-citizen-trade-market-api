@@ -15,7 +15,7 @@ const pubSub: PubSub = new PubSub();
 
 @Resolver('Commodity')
 export class CommodityResolvers {
-  constructor(
+  public constructor(
     private readonly commodityService: CommodityService,
     private readonly gameVersionService: GameVersionService,
     private readonly commodityCategoryService: CommodityCategoryService

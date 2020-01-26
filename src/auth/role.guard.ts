@@ -7,7 +7,7 @@ import { CurrentAuthUser } from './current-user';
 export class RoleGuard implements CanActivate {
   private readonly logger: Logger = new Logger(RoleGuard.name);
 
-  constructor(private readonly reflector: Reflector) {}
+  public constructor(private readonly reflector: Reflector) {}
 
   public canActivate(context: ExecutionContext): boolean {
     // tslint:disable-next-line:ban-types

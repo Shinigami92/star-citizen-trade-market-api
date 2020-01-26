@@ -12,7 +12,7 @@ const pubSub: PubSub = new PubSub();
 
 @Resolver('Organization')
 export class OrganizationResolvers {
-  constructor(private readonly organizationService: OrganizationService) {}
+  public constructor(private readonly organizationService: OrganizationService) {}
 
   @Query()
   public async organizations(): Promise<Organization[]> {

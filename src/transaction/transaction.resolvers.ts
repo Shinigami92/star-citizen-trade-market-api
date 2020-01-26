@@ -14,7 +14,7 @@ const pubSub: PubSub = new PubSub();
 
 @Resolver('Transaction')
 export class TransactionResolvers {
-  constructor(private readonly transactionService: TransactionService) {}
+  public constructor(private readonly transactionService: TransactionService) {}
 
   @Query()
   @UseGuards(GraphqlAuthGuard)
