@@ -380,6 +380,7 @@ export interface IMutation {
     updateGameVersion(id: string, input: UpdateGameVersionInput): GameVersion | Promise<GameVersion>;
     createItemPrice(input: CreateItemPriceInput): ItemPrice | Promise<ItemPrice>;
     updateItemPrice(id: string, input: UpdateItemPriceInput): ItemPrice | Promise<ItemPrice>;
+    deleteItemPrice(id: string): string | Promise<string>;
     createCommodity(input: CreateCommodityInput): Commodity | Promise<Commodity>;
     updateCommodity(id: string, input: UpdateCommodityInput): Commodity | Promise<Commodity>;
     createItem(input: CreateItemInput): Item | Promise<Item>;
@@ -486,6 +487,7 @@ export interface ISubscription {
     gameVersionUpdated(): GameVersion | Promise<GameVersion>;
     itemPriceCreated(): ItemPrice | Promise<ItemPrice>;
     itemPriceUpdated(): ItemPrice | Promise<ItemPrice>;
+    itemPriceDeleted(): string | Promise<string>;
     commodityCreated(): Commodity | Promise<Commodity>;
     commodityUpdated(): Commodity | Promise<Commodity>;
     itemCreated(): Item | Promise<Item>;
