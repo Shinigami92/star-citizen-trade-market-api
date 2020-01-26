@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
     "module": "commonjs",
-    "plugins": [{ "name": "typescript-tslint-plugin" }],
     "declaration": true,
     "removeComments": true,
     "allowSyntheticDefaultImports": true,
