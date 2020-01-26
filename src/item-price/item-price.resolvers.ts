@@ -83,6 +83,24 @@ export class ItemPriceResolvers {
     return updated;
   }
 
+  @Mutation()
+  @UseGuards(GraphqlAuthGuard, RoleGuard)
+  @HasAnyRole(Role.USER, Role.ADVANCED, Role.ADMIN)
+  public async deleteItemPrice(@Args('id') id: string, @CurrentUser() currentUser: CurrentAuthUser): Promise<string> {
+    if (!currentUser.hasRole(Role.ADMIN)) {
+      const itemPrice: ItemPrice | undefined = await this.itemPriceService.findOneById(id);
+      if (!itemPrice) {
+        throw new NotFoundException(`ItemPrice with id ${id} not found`);
+      }
+      if (itemPrice.scannedById !== currentUser.id) {
+        throw new UnauthorizedException('You can only delete your own reported prices');
+      }
+    }
+    await this.itemPriceService.delete(id);
+    pubSub.publish('itemPriceDeleted', { itemPriceDeleted: id });
+    return id;
+  }
+
   @Subscription()
   public itemPriceCreated(): AsyncIterator<{}> {
     return pubSub.asyncIterator('itemPriceCreated');
@@ -91,6 +109,11 @@ export class ItemPriceResolvers {
   @Subscription()
   public itemPriceUpdated(): AsyncIterator<{}> {
     return pubSub.asyncIterator('itemPriceUpdated');
+  }
+
+  @Subscription()
+  public itemPriceDeleted(): AsyncIterator<{}> {
+    return pubSub.asyncIterator('itemPriceDeleted');
   }
 
   @ResolveProperty()

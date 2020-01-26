@@ -118,6 +118,11 @@ export class ItemPriceService {
     return updated;
   }
 
+  public async delete(id: string): Promise<string> {
+    await client.query(`DELETE FROM ${TABLENAME} WHERE id = $1::uuid`, [id]);
+    return id;
+  }
+
   public async findAll(): Promise<ItemPrice[]> {
     const result: QueryResult = await client.query(`SELECT * FROM ${TABLENAME} ORDER BY scan_time DESC`);
     return result.rows;
