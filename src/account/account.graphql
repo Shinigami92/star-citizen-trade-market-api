@@ -1,44 +1,44 @@
 type Query {
-	accounts: [Account]
-	account(id: ID!): Account
-	signIn(username: String!, password: String!): AuthToken
-	me: Account
+  accounts: [Account]
+  account(id: ID!): Account
+  signIn(username: String!, password: String!): AuthToken
+  me: Account
 }
 
 type Mutation {
-	signUp(input: CreateAccountInput!): Account!
+  signUp(input: CreateAccountInput!): Account!
 }
 
 type Subscription {
-	accountSignedUp: Account!
+  accountSignedUp: Account!
 }
 
 enum Role {
-	USER
-	ADVANCED
-	USERADMIN
-	ADMIN
+  USER
+  ADVANCED
+  USERADMIN
+  ADMIN
 }
 
 type Account {
-	id: ID!
-	username: String!
-	handle: String!
-	email: String
-	roles: [Role!]!
-	mainOrganizationId: ID
-	mainOrganization: Organization
+  id: ID!
+  username: String!
+  handle: String!
+  email: String
+  roles: [Role!]!
+  mainOrganizationId: ID
+  mainOrganization: Organization
 }
 
 type AuthToken {
-	id: ID!
-	username: String!
-	roles: [Role!]!
-	token: String!
+  id: ID!
+  username: String!
+  roles: [Role!]!
+  token: String!
 }
 
 input CreateAccountInput {
-	username: String!
-	handle: String!
-	email: String!
+  username: String!
+  handle: String!
+  email: String!
 }

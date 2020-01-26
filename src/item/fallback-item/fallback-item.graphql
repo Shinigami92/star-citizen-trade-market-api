@@ -1,8 +1,8 @@
 type FallbackItem implements Item {
-	id: ID!
-	name: String!
-	inGameSinceVersionId: ID!
-	inGameSinceVersion: GameVersion!
-	inGameSince: Date
-	type: ItemType!
+  id: ID!
+  name: String!
+  inGameSinceVersionId: ID!
+  inGameSinceVersion: GameVersion!
+  inGameSince: Date
+  type: ItemType!
 }

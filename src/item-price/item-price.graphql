@@ -1,68 +1,68 @@
 type Query {
-	itemPrices: [ItemPrice]
-	itemPrice(id: ID!): ItemPrice
+  itemPrices: [ItemPrice]
+  itemPrice(id: ID!): ItemPrice
 }
 
 type Mutation {
-	createItemPrice(input: CreateItemPriceInput!): ItemPrice!
-	updateItemPrice(id: ID!, input: UpdateItemPriceInput!): ItemPrice!
+  createItemPrice(input: CreateItemPriceInput!): ItemPrice!
+  updateItemPrice(id: ID!, input: UpdateItemPriceInput!): ItemPrice!
 }
 
 type Subscription {
-	itemPriceCreated: ItemPrice!
-	itemPriceUpdated: ItemPrice!
+  itemPriceCreated: ItemPrice!
+  itemPriceUpdated: ItemPrice!
 }
 
 enum ItemPriceType {
-	BUY
-	SELL
+  BUY
+  SELL
 }
 
 enum ItemPriceVisibility {
-	PRIVATE
-	MAIN_ORGANIZATION
-	MEMBER_ORGANIZATION
-	PUBLIC
+  PRIVATE
+  MAIN_ORGANIZATION
+  MEMBER_ORGANIZATION
+  PUBLIC
 }
 
 type ItemPrice {
-	id: ID!
-	scannedById: ID!
-	scannedBy: Account!
-	itemId: ID!
-	item: Item!
-	locationId: ID!
-	location: Location!
-	price: Float!
-	quantity: Int!
-	unitPrice: Float!
-	scanTime: Date!
-	type: ItemPriceType!
-	visibility: ItemPriceVisibility!
-	scannedInGameVersionId: ID!
-	scannedInGameVersion: GameVersion!
+  id: ID!
+  scannedById: ID!
+  scannedBy: Account!
+  itemId: ID!
+  item: Item!
+  locationId: ID!
+  location: Location!
+  price: Float!
+  quantity: Int!
+  unitPrice: Float!
+  scanTime: Date!
+  type: ItemPriceType!
+  visibility: ItemPriceVisibility!
+  scannedInGameVersionId: ID!
+  scannedInGameVersion: GameVersion!
 }
 
 input CreateItemPriceInput {
-	scannedById: ID
-	itemId: ID!
-	locationId: ID!
-	price: Float!
-	quantity: Int!
-	scanTime: Date
-	type: ItemPriceType!
-	visibility: ItemPriceVisibility
-	scannedInGameVersionId: ID
+  scannedById: ID
+  itemId: ID!
+  locationId: ID!
+  price: Float!
+  quantity: Int!
+  scanTime: Date
+  type: ItemPriceType!
+  visibility: ItemPriceVisibility
+  scannedInGameVersionId: ID
 }
 
 input UpdateItemPriceInput {
-	scannedById: ID
-	itemId: ID
-	locationId: ID
-	price: Float
-	quantity: Int
-	scanTime: Date
-	type: ItemPriceType
-	visibility: ItemPriceVisibility
-	scannedInGameVersionId: ID
+  scannedById: ID
+  itemId: ID
+  locationId: ID
+  price: Float
+  quantity: Int
+  scanTime: Date
+  type: ItemPriceType
+  visibility: ItemPriceVisibility
+  scannedInGameVersionId: ID
 }

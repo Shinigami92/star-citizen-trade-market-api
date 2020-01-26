@@ -3,6 +3,6 @@ import { ManufacturerResolvers } from './manufacturer.resolvers';
 import { ManufacturerService } from './manufacturer.service';
 
 @Module({
-	providers: [ManufacturerService, ManufacturerResolvers]
+  providers: [ManufacturerService, ManufacturerResolvers]
 })
 export class ManufacturerModule {}

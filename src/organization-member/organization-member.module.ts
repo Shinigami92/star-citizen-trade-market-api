@@ -7,7 +7,7 @@ import { OrganizationMemberResolvers } from './organization-member.resolvers';
 import { OrganizationMemberService } from './organization-member.service';
 
 @Module({
-	imports: [OrganizationModule, AccountModule],
-	providers: [OrganizationMemberService, OrganizationMemberResolvers, OrganizationService, AccountService]
+  imports: [OrganizationModule, AccountModule],
+  providers: [OrganizationMemberService, OrganizationMemberResolvers, OrganizationService, AccountService]
 })
 export class OrganizationMemberModule {}

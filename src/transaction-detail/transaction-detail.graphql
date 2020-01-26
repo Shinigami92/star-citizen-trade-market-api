@@ -1,79 +1,79 @@
 type Query {
-	transactionDetails: [TransactionDetail]
-	transactionDetail(id: ID!): TransactionDetail
+  transactionDetails: [TransactionDetail]
+  transactionDetail(id: ID!): TransactionDetail
 }
 
 type Mutation {
-	createTransactionDetail(input: CreateTransactionDetailInput!): TransactionDetail!
-	createBoughtTransactionDetail(input: CreateBoughtTransactionDetailInput!): TransactionDetail!
-	createSoldTransactionDetail(input: CreateSoldTransactionDetailInput!): TransactionDetail!
-	createLostTransactionDetail(input: CreateLostTransactionDetailInput!): TransactionDetail!
-	createLostBasedOnTransactionDetail(input: CreateLostBasedOnTransactionDetailInput!): TransactionDetail!
+  createTransactionDetail(input: CreateTransactionDetailInput!): TransactionDetail!
+  createBoughtTransactionDetail(input: CreateBoughtTransactionDetailInput!): TransactionDetail!
+  createSoldTransactionDetail(input: CreateSoldTransactionDetailInput!): TransactionDetail!
+  createLostTransactionDetail(input: CreateLostTransactionDetailInput!): TransactionDetail!
+  createLostBasedOnTransactionDetail(input: CreateLostBasedOnTransactionDetailInput!): TransactionDetail!
 }
 
 type Subscription {
-	transactionDetailCreated: TransactionDetail!
+  transactionDetailCreated: TransactionDetail!
 }
 
 enum TransactionDetailType {
-	BOUGHT
-	SOLD
-	LOST
+  BOUGHT
+  SOLD
+  LOST
 }
 
 type TransactionDetail {
-	id: ID!
-	transactionId: ID!
-	transaction: Transaction!
-	type: TransactionDetailType!
-	locationId: ID!
-	location: Location!
-	price: Float!
-	quantity: Int!
-	note: String
-	timestamp: Date!
+  id: ID!
+  transactionId: ID!
+  transaction: Transaction!
+  type: TransactionDetailType!
+  locationId: ID!
+  location: Location!
+  price: Float!
+  quantity: Int!
+  note: String
+  timestamp: Date!
 }
 
 input CreateTransactionDetailInput {
-	transactionId: ID!
-	type: TransactionDetailType!
-	locationId: ID
-	price: Float!
-	quantity: Int!
-	note: String
-	timestamp: Date
+  transactionId: ID!
+  type: TransactionDetailType!
+  locationId: ID
+  price: Float!
+  quantity: Int!
+  note: String
+  timestamp: Date
 }
 
 input CreateBoughtTransactionDetailInput {
-	transactionId: ID!
-	locationId: ID!
-	price: Float!
-	quantity: Int!
-	note: String
-	timestamp: Date
+  transactionId: ID!
+  locationId: ID!
+  price: Float!
+  quantity: Int!
+  note: String
+  timestamp: Date
 }
 
 input CreateSoldTransactionDetailInput {
-	transactionId: ID!
-	locationId: ID!
-	price: Float!
-	quantity: Int!
-	note: String
-	timestamp: Date
+  transactionId: ID!
+  locationId: ID!
+  price: Float!
+  quantity: Int!
+  note: String
+  timestamp: Date
 }
 
 input CreateLostTransactionDetailInput {
-	transactionId: ID!
-	locationId: ID
-	price: Float!
-	quantity: Int!
-	note: String
-	timestamp: Date
+  transactionId: ID!
+  locationId: ID
+  price: Float!
+  quantity: Int!
+  note: String
+  timestamp: Date
 }
 
 input CreateLostBasedOnTransactionDetailInput {
-	transactionDetailId: ID!
-	locationId: ID
-	note: String
-	timestamp: Date
+  transactionDetailId: ID!
+  locationId: ID
+  note: String
+  timestamp: Date
 }

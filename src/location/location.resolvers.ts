@@ -15,72 +15,72 @@ const pubSub: PubSub = new PubSub();
 
 @Resolver('Location')
 export class LocationResolvers {
-	constructor(
-		private readonly locationService: LocationService,
-		private readonly locationTypeService: LocationTypeService,
-		private readonly gameVersionService: GameVersionService
-	) {}
+  constructor(
+    private readonly locationService: LocationService,
+    private readonly locationTypeService: LocationTypeService,
+    private readonly gameVersionService: GameVersionService
+  ) {}
 
-	@Query()
-	public async locations(@Args('searchInput') searchInput?: LocationSearchInput): Promise<Location[]> {
-		return await this.locationService.findAllWhere({
-			canTrade: searchInput !== undefined ? searchInput.canTrade : undefined
-		});
-	}
+  @Query()
+  public async locations(@Args('searchInput') searchInput?: LocationSearchInput): Promise<Location[]> {
+    return await this.locationService.findAllWhere({
+      canTrade: searchInput !== undefined ? searchInput.canTrade : undefined
+    });
+  }
 
-	@Query()
-	public async location(@Args('id') id: string): Promise<Location | undefined> {
-		return await this.locationService.findOneById(id);
-	}
+  @Query()
+  public async location(@Args('id') id: string): Promise<Location | undefined> {
+    return await this.locationService.findOneById(id);
+  }
 
-	@Mutation()
-	@UseGuards(GraphqlAuthGuard, RoleGuard)
-	@HasAnyRole(Role.ADVANCED, Role.ADMIN)
-	public async createLocation(@Args('input') args: CreateLocationDto): Promise<Location> {
-		const created: Location = await this.locationService.create(args);
-		pubSub.publish('locationCreated', { locationCreated: created });
-		return created;
-	}
+  @Mutation()
+  @UseGuards(GraphqlAuthGuard, RoleGuard)
+  @HasAnyRole(Role.ADVANCED, Role.ADMIN)
+  public async createLocation(@Args('input') args: CreateLocationDto): Promise<Location> {
+    const created: Location = await this.locationService.create(args);
+    pubSub.publish('locationCreated', { locationCreated: created });
+    return created;
+  }
 
-	@Mutation()
-	@UseGuards(GraphqlAuthGuard, RoleGuard)
-	@HasAnyRole(Role.ADVANCED, Role.ADMIN)
-	public async updateLocation(@Args('id') id: string, @Args('input') args: UpdateLocationDto): Promise<Location> {
-		const updated: Location = await this.locationService.update(id, args);
-		pubSub.publish('locationUpdated', { locationUpdated: updated });
-		return updated;
-	}
+  @Mutation()
+  @UseGuards(GraphqlAuthGuard, RoleGuard)
+  @HasAnyRole(Role.ADVANCED, Role.ADMIN)
+  public async updateLocation(@Args('id') id: string, @Args('input') args: UpdateLocationDto): Promise<Location> {
+    const updated: Location = await this.locationService.update(id, args);
+    pubSub.publish('locationUpdated', { locationUpdated: updated });
+    return updated;
+  }
 
-	@Subscription()
-	public locationCreated(): AsyncIterator<{}> {
-		return pubSub.asyncIterator('locationCreated');
-	}
+  @Subscription()
+  public locationCreated(): AsyncIterator<{}> {
+    return pubSub.asyncIterator('locationCreated');
+  }
 
-	@Subscription()
-	public locationUpdated(): AsyncIterator<{}> {
-		return pubSub.asyncIterator('locationUpdated');
-	}
+  @Subscription()
+  public locationUpdated(): AsyncIterator<{}> {
+    return pubSub.asyncIterator('locationUpdated');
+  }
 
-	@ResolveProperty()
-	public async parentLocation(@Parent() parent: Location): Promise<Location | null> {
-		if (parent.parentLocationId !== undefined) {
-			return (await this.locationService.findOneById(parent.parentLocationId))!;
-		}
-		return null;
-	}
+  @ResolveProperty()
+  public async parentLocation(@Parent() parent: Location): Promise<Location | null> {
+    if (parent.parentLocationId !== undefined) {
+      return (await this.locationService.findOneById(parent.parentLocationId))!;
+    }
+    return null;
+  }
 
-	@ResolveProperty()
-	public async type(@Parent() parent: Location): Promise<LocationType> {
-		return (await this.locationTypeService.findOneById(parent.typeId))!;
-	}
+  @ResolveProperty()
+  public async type(@Parent() parent: Location): Promise<LocationType> {
+    return (await this.locationTypeService.findOneById(parent.typeId))!;
+  }
 
-	@ResolveProperty()
-	public async inGameSinceVersion(@Parent() parent: Location): Promise<GameVersion> {
-		return (await this.gameVersionService.findOneById(parent.inGameSinceVersionId))!;
-	}
+  @ResolveProperty()
+  public async inGameSinceVersion(@Parent() parent: Location): Promise<GameVersion> {
+    return (await this.gameVersionService.findOneById(parent.inGameSinceVersionId))!;
+  }
 
-	@ResolveProperty()
-	public async children(@Parent() parent: Location): Promise<Location[]> {
-		return await this.locationService.findAllByParentId(parent.id);
-	}
+  @ResolveProperty()
+  public async children(@Parent() parent: Location): Promise<Location[]> {
+    return await this.locationService.findAllByParentId(parent.id);
+  }
 }

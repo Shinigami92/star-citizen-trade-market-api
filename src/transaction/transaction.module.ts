@@ -5,7 +5,7 @@ import { TransactionResolvers } from './transaction.resolvers';
 import { TransactionService } from './transaction.service';
 
 @Module({
-	imports: [forwardRef(() => TransactionDetailModule)],
-	providers: [TransactionService, TransactionResolvers, TransactionDetailService]
+  imports: [forwardRef(() => TransactionDetailModule)],
+  providers: [TransactionService, TransactionResolvers, TransactionDetailService]
 })
 export class TransactionModule {}

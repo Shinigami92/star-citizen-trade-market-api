@@ -12,7 +12,7 @@ import { ItemPriceResolvers } from './item-price.resolvers';
 import { ItemPriceService } from './item-price.service';
 
 @Module({
-	imports: [AccountModule, ItemModule, LocationModule, GameVersionModule, CommonModule],
-	providers: [ItemPriceService, ItemPriceResolvers, AccountService, ItemService, LocationService, GameVersionService]
+  imports: [AccountModule, ItemModule, LocationModule, GameVersionModule, CommonModule],
+  providers: [ItemPriceService, ItemPriceResolvers, AccountService, ItemService, LocationService, GameVersionService]
 })
 export class ItemPriceModule {}

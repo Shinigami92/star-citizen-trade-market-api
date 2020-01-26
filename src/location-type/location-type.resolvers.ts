@@ -12,46 +12,46 @@ const pubSub: PubSub = new PubSub();
 
 @Resolver('LocationType')
 export class LocationTypeResolvers {
-	constructor(private readonly locationTypeService: LocationTypeService) {}
+  constructor(private readonly locationTypeService: LocationTypeService) {}
 
-	@Query()
-	public async locationTypes(): Promise<LocationType[]> {
-		return await this.locationTypeService.findAll();
-	}
+  @Query()
+  public async locationTypes(): Promise<LocationType[]> {
+    return await this.locationTypeService.findAll();
+  }
 
-	@Query()
-	public async locationType(@Args('id') id: string): Promise<LocationType | undefined> {
-		return await this.locationTypeService.findOneById(id);
-	}
+  @Query()
+  public async locationType(@Args('id') id: string): Promise<LocationType | undefined> {
+    return await this.locationTypeService.findOneById(id);
+  }
 
-	@Mutation()
-	@UseGuards(GraphqlAuthGuard, RoleGuard)
-	@HasAnyRole(Role.ADVANCED, Role.ADMIN)
-	public async createLocationType(@Args('input') args: CreateLocationTypeDto): Promise<LocationType> {
-		const created: LocationType = await this.locationTypeService.create(args);
-		pubSub.publish('locationTypeCreated', { locationTypeCreated: created });
-		return created;
-	}
+  @Mutation()
+  @UseGuards(GraphqlAuthGuard, RoleGuard)
+  @HasAnyRole(Role.ADVANCED, Role.ADMIN)
+  public async createLocationType(@Args('input') args: CreateLocationTypeDto): Promise<LocationType> {
+    const created: LocationType = await this.locationTypeService.create(args);
+    pubSub.publish('locationTypeCreated', { locationTypeCreated: created });
+    return created;
+  }
 
-	@Mutation()
-	@UseGuards(GraphqlAuthGuard, RoleGuard)
-	@HasAnyRole(Role.ADVANCED, Role.ADMIN)
-	public async updateLocationType(
-		@Args('id') id: string,
-		@Args('input') args: CreateLocationTypeDto
-	): Promise<LocationType> {
-		const updated: LocationType = await this.locationTypeService.update(id, args);
-		pubSub.publish('locationTypeUpdated', { locationTypeUpdated: updated });
-		return updated;
-	}
+  @Mutation()
+  @UseGuards(GraphqlAuthGuard, RoleGuard)
+  @HasAnyRole(Role.ADVANCED, Role.ADMIN)
+  public async updateLocationType(
+    @Args('id') id: string,
+    @Args('input') args: CreateLocationTypeDto
+  ): Promise<LocationType> {
+    const updated: LocationType = await this.locationTypeService.update(id, args);
+    pubSub.publish('locationTypeUpdated', { locationTypeUpdated: updated });
+    return updated;
+  }
 
-	@Subscription()
-	public locationTypeCreated(): AsyncIterator<{}> {
-		return pubSub.asyncIterator('locationTypeCreated');
-	}
+  @Subscription()
+  public locationTypeCreated(): AsyncIterator<{}> {
+    return pubSub.asyncIterator('locationTypeCreated');
+  }
 
-	@Subscription()
-	public locationTypeUpdated(): AsyncIterator<{}> {
-		return pubSub.asyncIterator('locationTypeUpdated');
-	}
+  @Subscription()
+  public locationTypeUpdated(): AsyncIterator<{}> {
+    return pubSub.asyncIterator('locationTypeUpdated');
+  }
 }

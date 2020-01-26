@@ -8,7 +8,7 @@ import { LocationResolvers } from './location.resolvers';
 import { LocationService } from './location.service';
 
 @Module({
-	imports: [GameVersionModule, LocationTypeModule, CommonModule],
-	providers: [LocationService, LocationResolvers, GameVersionService, LocationTypeService]
+  imports: [GameVersionModule, LocationTypeModule, CommonModule],
+  providers: [LocationService, LocationResolvers, GameVersionService, LocationTypeService]
 })
 export class LocationModule {}

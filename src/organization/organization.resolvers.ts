@@ -12,46 +12,46 @@ const pubSub: PubSub = new PubSub();
 
 @Resolver('Organization')
 export class OrganizationResolvers {
-	constructor(private readonly organizationService: OrganizationService) {}
+  constructor(private readonly organizationService: OrganizationService) {}
 
-	@Query()
-	public async organizations(): Promise<Organization[]> {
-		return await this.organizationService.findAll();
-	}
+  @Query()
+  public async organizations(): Promise<Organization[]> {
+    return await this.organizationService.findAll();
+  }
 
-	@Query()
-	public async organization(@Args('id') id: string): Promise<Organization | undefined> {
-		return await this.organizationService.findOneById(id);
-	}
+  @Query()
+  public async organization(@Args('id') id: string): Promise<Organization | undefined> {
+    return await this.organizationService.findOneById(id);
+  }
 
-	@Mutation()
-	@UseGuards(GraphqlAuthGuard, RoleGuard)
-	@HasAnyRole(Role.USER, Role.ADVANCED, Role.ADMIN)
-	public async createOrganization(@Args('input') args: CreateOrganizationDto): Promise<Organization> {
-		const created: Organization = await this.organizationService.create(args);
-		pubSub.publish('organizationCreated', { organizationCreated: created });
-		return created;
-	}
+  @Mutation()
+  @UseGuards(GraphqlAuthGuard, RoleGuard)
+  @HasAnyRole(Role.USER, Role.ADVANCED, Role.ADMIN)
+  public async createOrganization(@Args('input') args: CreateOrganizationDto): Promise<Organization> {
+    const created: Organization = await this.organizationService.create(args);
+    pubSub.publish('organizationCreated', { organizationCreated: created });
+    return created;
+  }
 
-	@Mutation()
-	@UseGuards(GraphqlAuthGuard, RoleGuard)
-	@HasAnyRole(Role.USER, Role.ADVANCED, Role.ADMIN)
-	public async updateOrganization(
-		@Args('id') id: string,
-		@Args('input') args: CreateOrganizationDto
-	): Promise<Organization> {
-		const updated: Organization = await this.organizationService.update(id, args);
-		pubSub.publish('organizationUpdated', { organizationUpdated: updated });
-		return updated;
-	}
+  @Mutation()
+  @UseGuards(GraphqlAuthGuard, RoleGuard)
+  @HasAnyRole(Role.USER, Role.ADVANCED, Role.ADMIN)
+  public async updateOrganization(
+    @Args('id') id: string,
+    @Args('input') args: CreateOrganizationDto
+  ): Promise<Organization> {
+    const updated: Organization = await this.organizationService.update(id, args);
+    pubSub.publish('organizationUpdated', { organizationUpdated: updated });
+    return updated;
+  }
 
-	@Subscription()
-	public organizationCreated(): AsyncIterator<{}> {
-		return pubSub.asyncIterator('organizationCreated');
-	}
+  @Subscription()
+  public organizationCreated(): AsyncIterator<{}> {
+    return pubSub.asyncIterator('organizationCreated');
+  }
 
-	@Subscription()
-	public organizationUpdated(): AsyncIterator<{}> {
-		return pubSub.asyncIterator('organizationUpdated');
-	}
+  @Subscription()
+  public organizationUpdated(): AsyncIterator<{}> {
+    return pubSub.asyncIterator('organizationUpdated');
+  }
 }

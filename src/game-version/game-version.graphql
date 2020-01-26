@@ -1,30 +1,30 @@
 type Query {
-	gameVersions: [GameVersion]
-	gameVersion(id: ID!): GameVersion
+  gameVersions: [GameVersion]
+  gameVersion(id: ID!): GameVersion
 }
 
 type Mutation {
-	createGameVersion(input: CreateGameVersionInput!): GameVersion!
-	updateGameVersion(id: ID!, input: UpdateGameVersionInput!): GameVersion!
+  createGameVersion(input: CreateGameVersionInput!): GameVersion!
+  updateGameVersion(id: ID!, input: UpdateGameVersionInput!): GameVersion!
 }
 
 type Subscription {
-	gameVersionCreated: GameVersion!
-	gameVersionUpdated: GameVersion!
+  gameVersionCreated: GameVersion!
+  gameVersionUpdated: GameVersion!
 }
 
 type GameVersion {
-	id: ID!
-	identifier: String!
-	release: Date
+  id: ID!
+  identifier: String!
+  release: Date
 }
 
 input CreateGameVersionInput {
-	identifier: String!
-	release: Date
+  identifier: String!
+  release: Date
 }
 
 input UpdateGameVersionInput {
-	identifier: String
-	release: Date
+  identifier: String
+  release: Date
 }

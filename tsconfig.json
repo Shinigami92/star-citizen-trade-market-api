@@ -1,21 +1,21 @@
 {
-	"compilerOptions": {
-		"module": "commonjs",
-		"plugins": [{ "name": "typescript-tslint-plugin" }],
-		"declaration": true,
-		"removeComments": true,
-		"allowSyntheticDefaultImports": true,
-		"emitDecoratorMetadata": true,
-		"experimentalDecorators": true,
-		"target": "es2017",
-		"sourceMap": true,
-		"outDir": "./dist",
-		"baseUrl": "./",
-		"incremental": true,
-		"skipLibCheck": true,
-		"noUnusedLocals": true,
-		"strict": true
-	},
-	"include": ["src/**/*"],
-	"exclude": ["node_modules", "dist"]
+  "compilerOptions": {
+    "module": "commonjs",
+    "plugins": [{ "name": "typescript-tslint-plugin" }],
+    "declaration": true,
+    "removeComments": true,
+    "allowSyntheticDefaultImports": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "target": "es2017",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "incremental": true,
+    "skipLibCheck": true,
+    "noUnusedLocals": true,
+    "strict": true
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
 }

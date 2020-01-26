@@ -8,7 +8,7 @@ import { CommodityResolvers } from './commodity.resolvers';
 import { CommodityService } from './commodity.service';
 
 @Module({
-	imports: [GameVersionModule, CommodityCategoryModule, CommonModule],
-	providers: [CommodityService, CommodityResolvers, GameVersionService, CommodityCategoryService]
+  imports: [GameVersionModule, CommodityCategoryModule, CommonModule],
+  providers: [CommodityService, CommodityResolvers, GameVersionService, CommodityCategoryService]
 })
 export class CommodityModule {}

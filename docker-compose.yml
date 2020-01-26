@@ -1,57 +1,57 @@
 version: '3'
 services:
-    sctm-database:
-        container_name: SCTM_PostgreSQL
-        image: postgres:11-alpine
-        ports:
-            - '5433:5432'
-        environment:
-            - POSTGRES_USER=postgres
-            - POSTGRES_PASSWORD=postgres
-            - POSTGRES_DB=sctm
-        volumes:
-            - ./docker-volumes/postgresql:/var/lib/postgresql
-        networks:
-            - sctm-net
+  sctm-database:
+    container_name: SCTM_PostgreSQL
+    image: postgres:11-alpine
+    ports:
+      - '5433:5432'
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=sctm
+    volumes:
+      - ./docker-volumes/postgresql:/var/lib/postgresql
+    networks:
+      - sctm-net
 
-    sctm-api:
-        container_name: SCTM_API
-        build: .
-        #restart: always
-        environment:
-            - NODE_ENV=production
-            - DATABASE_URL=postgres://postgres:postgres@sctm-database:5432/sctm
-            - JWT_SECRET_KEY=secret
-            - JWT_EXPIRES_IN=3600
-            - MAIL_SMTP_HOST=smtp.gmail.com
-            - MAIL_SMTP_PORT=587
-            - MAIL_AUTH_USER=mygmail@gmail.com
-            - MAIL_AUTH_PASS=mypassword
-            - MAIL_DEFAULT_FROM=mygmail@gmail.com
-        ports:
-            - '3000:3000'
-        depends_on:
-            - 'sctm-database'
-        networks:
-            - sctm-net
+  sctm-api:
+    container_name: SCTM_API
+    build: .
+    #restart: always
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=postgres://postgres:postgres@sctm-database:5432/sctm
+      - JWT_SECRET_KEY=secret
+      - JWT_EXPIRES_IN=3600
+      - MAIL_SMTP_HOST=smtp.gmail.com
+      - MAIL_SMTP_PORT=587
+      - MAIL_AUTH_USER=mygmail@gmail.com
+      - MAIL_AUTH_PASS=mypassword
+      - MAIL_DEFAULT_FROM=mygmail@gmail.com
+    ports:
+      - '3000:3000'
+    depends_on:
+      - 'sctm-database'
+    networks:
+      - sctm-net
 
-    # You must first create the frontend image
-    # You can comment out the frontend service if you only want the API
-    sctm-frontend:
-        container_name: SCTM_Frontend
-        image: sctm-frontend
-        #restart: always
-        environment:
-            - NODE_ENV=production
-            - VUE_APP_GRAPHQL_HTTP=http://sctm-api:3000/graphql
-            - VUE_APP_GRAPHQL_WS=ws://sctm-api:3000/graphql
-        ports:
-            - '8080:80'
-        depends_on:
-            - 'sctm-api'
-        networks:
-            - sctm-net
+  # You must first create the frontend image
+  # You can comment out the frontend service if you only want the API
+  sctm-frontend:
+    container_name: SCTM_Frontend
+    image: sctm-frontend
+    #restart: always
+    environment:
+      - NODE_ENV=production
+      - VUE_APP_GRAPHQL_HTTP=http://sctm-api:3000/graphql
+      - VUE_APP_GRAPHQL_WS=ws://sctm-api:3000/graphql
+    ports:
+      - '8080:80'
+    depends_on:
+      - 'sctm-api'
+    networks:
+      - sctm-net
 
 networks:
-    sctm-net:
-        external: true
+  sctm-net:
+    external: true

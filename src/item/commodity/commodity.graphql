@@ -1,39 +1,39 @@
 type Query {
-	commodities: [Commodity]
-	commodity(id: ID!): Commodity
+  commodities: [Commodity]
+  commodity(id: ID!): Commodity
 }
 
 type Mutation {
-	createCommodity(input: CreateCommodityInput!): Commodity!
-	updateCommodity(id: ID!, input: UpdateCommodityInput!): Commodity!
+  createCommodity(input: CreateCommodityInput!): Commodity!
+  updateCommodity(id: ID!, input: UpdateCommodityInput!): Commodity!
 }
 
 type Subscription {
-	commodityCreated: Commodity!
-	commodityUpdated: Commodity!
+  commodityCreated: Commodity!
+  commodityUpdated: Commodity!
 }
 
 type Commodity implements Item {
-	id: ID!
-	name: String!
-	inGameSinceVersionId: ID!
-	inGameSinceVersion: GameVersion!
-	inGameSince: Date
-	type: ItemType!
-	commodityCategoryId: ID!
-	commodityCategory: CommodityCategory!
+  id: ID!
+  name: String!
+  inGameSinceVersionId: ID!
+  inGameSinceVersion: GameVersion!
+  inGameSince: Date
+  type: ItemType!
+  commodityCategoryId: ID!
+  commodityCategory: CommodityCategory!
 }
 
 input CreateCommodityInput {
-	name: String!
-	inGameSinceVersionId: ID!
-	inGameSince: Date
-	commodityCategoryId: ID!
+  name: String!
+  inGameSinceVersionId: ID!
+  inGameSince: Date
+  commodityCategoryId: ID!
 }
 
 input UpdateCommodityInput {
-	name: String
-	inGameSinceVersionId: ID
-	inGameSince: Date
-	commodityCategoryId: ID
+  name: String
+  inGameSinceVersionId: ID
+  inGameSince: Date
+  commodityCategoryId: ID
 }

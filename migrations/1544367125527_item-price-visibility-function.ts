@@ -3,24 +3,24 @@ import { ColumnDefinitions, MigrationBuilder, PgLiteral, PgType } from 'node-pg-
 export const shorthands: ColumnDefinitions | undefined = undefined;
 
 export function up(pgm: MigrationBuilder): void {
-	pgm.createFunction(
-		'f_item_price_visible',
-		[
-			{
-				name: 'p_account_id',
-				type: PgType.UUID
-			},
-			{
-				name: 'p_id',
-				type: PgType.UUID,
-				default: new PgLiteral('NULL')
-			}
-		],
-		{
-			language: 'plpgsql',
-			returns: 'SETOF item_price'
-		},
-		/*sql*/ `BEGIN
+  pgm.createFunction(
+    'f_item_price_visible',
+    [
+      {
+        name: 'p_account_id',
+        type: PgType.UUID
+      },
+      {
+        name: 'p_id',
+        type: PgType.UUID,
+        default: new PgLiteral('NULL')
+      }
+    ],
+    {
+      language: 'plpgsql',
+      returns: 'SETOF item_price'
+    },
+    /*sql*/ `BEGIN
 		RETURN QUERY
 		SELECT ip.* FROM item_price ip
 		WHERE ip.visibility = 'PUBLIC' AND (p_id::uuid IS NULL OR ip.id = p_id::uuid)
@@ -56,9 +56,9 @@ export function up(pgm: MigrationBuilder): void {
 		)::text[])
 		AND (p_id::uuid IS NULL OR ip.id = p_id::uuid);
 	END;`
-	);
+  );
 }
 
 export function down(pgm: MigrationBuilder): void {
-	pgm.dropFunction('f_item_price_visible', [{ type: PgType.UUID }, { type: PgType.UUID }]);
+  pgm.dropFunction('f_item_price_visible', [{ type: PgType.UUID }, { type: PgType.UUID }]);
 }

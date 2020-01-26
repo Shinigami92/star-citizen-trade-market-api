@@ -4,10 +4,10 @@ import { FallbackItem, GameVersion } from '../../graphql.schema';
 
 @Resolver('FallbackItem')
 export class FallbackItemResolvers {
-	constructor(private readonly gameVersionService: GameVersionService) {}
+  constructor(private readonly gameVersionService: GameVersionService) {}
 
-	@ResolveProperty()
-	public async inGameSinceVersion(@Parent() parent: FallbackItem): Promise<GameVersion> {
-		return (await this.gameVersionService.findOneById(parent.inGameSinceVersionId))!;
-	}
+  @ResolveProperty()
+  public async inGameSinceVersion(@Parent() parent: FallbackItem): Promise<GameVersion> {
+    return (await this.gameVersionService.findOneById(parent.inGameSinceVersionId))!;
+  }
 }

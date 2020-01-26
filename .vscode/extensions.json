@@ -1,8 +1,8 @@
 {
-	"recommendations": [
-		"editorconfig.editorconfig",
-		"esbenp.prettier-vscode",
-		"pflannery.vscode-versionlens",
-		"tobermory.es6-string-html"
-	]
+  "recommendations": [
+    "editorconfig.editorconfig",
+    "esbenp.prettier-vscode",
+    "pflannery.vscode-versionlens",
+    "tobermory.es6-string-html"
+  ]
 }

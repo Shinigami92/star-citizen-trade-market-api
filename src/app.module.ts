@@ -25,38 +25,38 @@ import { TransactionDetailModule } from './transaction-detail/transaction-detail
 import { TransactionModule } from './transaction/transaction.module';
 
 @Module({
-	imports: [
-		CommonModule,
-		AccountModule,
-		AuthModule,
-		OrganizationModule,
-		OrganizationMemberModule,
-		AccessControlModule.forRoles(roles),
-		CommodityCategoryModule,
-		GameVersionModule,
-		ItemModule,
-		LocationTypeModule,
-		LocationModule,
-		ItemPriceModule,
-		TransactionDetailModule,
-		TransactionModule,
-		PossessionModule,
-		ManufacturerModule,
-		ShipModule,
-		FallbackItemModule,
-		TradeModule,
-		GraphQLModule.forRoot({
-			debug: false,
-			typePaths: ['./**/*.graphql'],
-			definitions: {
-				path: join(process.cwd(), './graphql.schema.ts'),
-				outputAs: 'interface'
-			},
-			installSubscriptionHandlers: true,
-			context: ({ req }) => ({ req })
-		})
-	],
-	controllers: [AppController],
-	providers: [AppService]
+  imports: [
+    CommonModule,
+    AccountModule,
+    AuthModule,
+    OrganizationModule,
+    OrganizationMemberModule,
+    AccessControlModule.forRoles(roles),
+    CommodityCategoryModule,
+    GameVersionModule,
+    ItemModule,
+    LocationTypeModule,
+    LocationModule,
+    ItemPriceModule,
+    TransactionDetailModule,
+    TransactionModule,
+    PossessionModule,
+    ManufacturerModule,
+    ShipModule,
+    FallbackItemModule,
+    TradeModule,
+    GraphQLModule.forRoot({
+      debug: false,
+      typePaths: ['./**/*.graphql'],
+      definitions: {
+        path: join(process.cwd(), './graphql.schema.ts'),
+        outputAs: 'interface'
+      },
+      installSubscriptionHandlers: true,
+      context: ({ req }) => ({ req })
+    })
+  ],
+  controllers: [AppController],
+  providers: [AppService]
 })
 export class AppModule {}

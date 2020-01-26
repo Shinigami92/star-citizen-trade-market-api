@@ -15,57 +15,57 @@ const pubSub: PubSub = new PubSub();
 
 @Resolver('Commodity')
 export class CommodityResolvers {
-	constructor(
-		private readonly commodityService: CommodityService,
-		private readonly gameVersionService: GameVersionService,
-		private readonly commodityCategoryService: CommodityCategoryService
-	) {}
+  constructor(
+    private readonly commodityService: CommodityService,
+    private readonly gameVersionService: GameVersionService,
+    private readonly commodityCategoryService: CommodityCategoryService
+  ) {}
 
-	@Query()
-	public async commodities(): Promise<Commodity[]> {
-		return await this.commodityService.findAll();
-	}
+  @Query()
+  public async commodities(): Promise<Commodity[]> {
+    return await this.commodityService.findAll();
+  }
 
-	@Query()
-	public async commodity(@Args('id') id: string): Promise<Commodity | undefined> {
-		return await this.commodityService.findOneById(id);
-	}
+  @Query()
+  public async commodity(@Args('id') id: string): Promise<Commodity | undefined> {
+    return await this.commodityService.findOneById(id);
+  }
 
-	@Mutation()
-	@UseGuards(GraphqlAuthGuard, RoleGuard)
-	@HasAnyRole(Role.ADVANCED, Role.ADMIN)
-	public async createCommodity(@Args('input') args: CreateCommodityDto): Promise<Commodity> {
-		const created: Commodity = await this.commodityService.create(args);
-		pubSub.publish('commodityCreated', { commodityCreated: created });
-		return created;
-	}
+  @Mutation()
+  @UseGuards(GraphqlAuthGuard, RoleGuard)
+  @HasAnyRole(Role.ADVANCED, Role.ADMIN)
+  public async createCommodity(@Args('input') args: CreateCommodityDto): Promise<Commodity> {
+    const created: Commodity = await this.commodityService.create(args);
+    pubSub.publish('commodityCreated', { commodityCreated: created });
+    return created;
+  }
 
-	@Mutation()
-	@UseGuards(GraphqlAuthGuard, RoleGuard)
-	@HasAnyRole(Role.ADVANCED, Role.ADMIN)
-	public async updateCommodity(@Args('id') id: string, @Args('input') args: UpdateCommodityDto): Promise<Commodity> {
-		const updated: Commodity = await this.commodityService.update(id, args);
-		pubSub.publish('commodityUpdated', { commodityUpdated: updated });
-		return updated;
-	}
+  @Mutation()
+  @UseGuards(GraphqlAuthGuard, RoleGuard)
+  @HasAnyRole(Role.ADVANCED, Role.ADMIN)
+  public async updateCommodity(@Args('id') id: string, @Args('input') args: UpdateCommodityDto): Promise<Commodity> {
+    const updated: Commodity = await this.commodityService.update(id, args);
+    pubSub.publish('commodityUpdated', { commodityUpdated: updated });
+    return updated;
+  }
 
-	@Subscription()
-	public commodityCreated(): AsyncIterator<{}> {
-		return pubSub.asyncIterator('commodityCreated');
-	}
+  @Subscription()
+  public commodityCreated(): AsyncIterator<{}> {
+    return pubSub.asyncIterator('commodityCreated');
+  }
 
-	@Subscription()
-	public commodityUpdated(): AsyncIterator<{}> {
-		return pubSub.asyncIterator('commodityUpdated');
-	}
+  @Subscription()
+  public commodityUpdated(): AsyncIterator<{}> {
+    return pubSub.asyncIterator('commodityUpdated');
+  }
 
-	@ResolveProperty()
-	public async inGameSinceVersion(@Parent() parent: Commodity): Promise<GameVersion> {
-		return (await this.gameVersionService.findOneById(parent.inGameSinceVersionId))!;
-	}
+  @ResolveProperty()
+  public async inGameSinceVersion(@Parent() parent: Commodity): Promise<GameVersion> {
+    return (await this.gameVersionService.findOneById(parent.inGameSinceVersionId))!;
+  }
 
-	@ResolveProperty()
-	public async commodityCategory(@Parent() parent: Commodity): Promise<CommodityCategory> {
-		return (await this.commodityCategoryService.findOneById(parent.commodityCategoryId))!;
-	}
+  @ResolveProperty()
+  public async commodityCategory(@Parent() parent: Commodity): Promise<CommodityCategory> {
+    return (await this.commodityCategoryService.findOneById(parent.commodityCategoryId))!;
+  }
 }

@@ -3,30 +3,30 @@ import { ColumnDefinitions, MigrationBuilder, PgType } from 'node-pg-migrate';
 export const shorthands: ColumnDefinitions | undefined = undefined;
 
 export function up(pgm: MigrationBuilder): void {
-	pgm.addColumn('item_price', {
-		scanned_in_game_version_id: { type: PgType.UUID, references: { name: 'game_version' } }
-	});
-	pgm.sql('UPDATE item_price SET scanned_in_game_version_id = g.id FROM (SELECT id FROM game_version LIMIT 1) g');
-	pgm.alterColumn('item_price', 'scanned_in_game_version_id', { notNull: true });
-	pgm.createFunction(
-		'f_trade',
-		[
-			{
-				name: 'p_account_id',
-				type: PgType.UUID
-			}
-		],
-		{
-			language: 'plpgsql',
-			returns:
-				'TABLE(buy_id uuid, buy_scanned_by_id uuid, buy_location_id uuid, buy_price numeric,' +
-				' buy_quantity bigint, buy_unit_price numeric, buy_scan_time timestamptz,' +
-				' buy_visibility item_price_visibility, sell_id uuid, sell_scanned_by_id uuid,' +
-				' sell_location_id uuid, sell_price numeric, sell_quantity bigint, sell_unit_price numeric,' +
-				' sell_scan_time timestamptz, sell_visibility item_price_visibility, item_id uuid,' +
-				' scanned_in_game_version_id uuid, profit numeric, margin numeric)'
-		},
-		/*sql*/ `BEGIN
+  pgm.addColumn('item_price', {
+    scanned_in_game_version_id: { type: PgType.UUID, references: { name: 'game_version' } }
+  });
+  pgm.sql('UPDATE item_price SET scanned_in_game_version_id = g.id FROM (SELECT id FROM game_version LIMIT 1) g');
+  pgm.alterColumn('item_price', 'scanned_in_game_version_id', { notNull: true });
+  pgm.createFunction(
+    'f_trade',
+    [
+      {
+        name: 'p_account_id',
+        type: PgType.UUID
+      }
+    ],
+    {
+      language: 'plpgsql',
+      returns:
+        'TABLE(buy_id uuid, buy_scanned_by_id uuid, buy_location_id uuid, buy_price numeric,' +
+        ' buy_quantity bigint, buy_unit_price numeric, buy_scan_time timestamptz,' +
+        ' buy_visibility item_price_visibility, sell_id uuid, sell_scanned_by_id uuid,' +
+        ' sell_location_id uuid, sell_price numeric, sell_quantity bigint, sell_unit_price numeric,' +
+        ' sell_scan_time timestamptz, sell_visibility item_price_visibility, item_id uuid,' +
+        ' scanned_in_game_version_id uuid, profit numeric, margin numeric)'
+    },
+    /*sql*/ `BEGIN
 		RETURN QUERY
 		SELECT
 				b.id AS buy_id,
@@ -55,10 +55,10 @@ export function up(pgm: MigrationBuilder): void {
 		AND b.id <> s.id AND b.item_id = s.item_id
 		AND b.scanned_in_game_version_id = s.scanned_in_game_version_id;
 	END;`
-	);
+  );
 }
 
 export function down(pgm: MigrationBuilder): void {
-	pgm.dropFunction('f_trade', [{ type: PgType.UUID }]);
-	pgm.dropColumn('item_price', 'scanned_in_game_version_id');
+  pgm.dropFunction('f_trade', [{ type: PgType.UUID }]);
+  pgm.dropColumn('item_price', 'scanned_in_game_version_id');
 }

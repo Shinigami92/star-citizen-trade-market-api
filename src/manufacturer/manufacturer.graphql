@@ -1,27 +1,27 @@
 type Query {
-	manufacturers: [Manufacturer]
-	manufacturer(id: ID!): Manufacturer
+  manufacturers: [Manufacturer]
+  manufacturer(id: ID!): Manufacturer
 }
 
 type Mutation {
-	createManufacturer(input: CreateManufacturerInput!): Manufacturer!
-	updateManufacturer(id: ID!, input: UpdateManufacturerInput!): Manufacturer!
+  createManufacturer(input: CreateManufacturerInput!): Manufacturer!
+  updateManufacturer(id: ID!, input: UpdateManufacturerInput!): Manufacturer!
 }
 
 type Subscription {
-	manufacturerCreated: Manufacturer!
-	manufacturerUpdated: Manufacturer!
+  manufacturerCreated: Manufacturer!
+  manufacturerUpdated: Manufacturer!
 }
 
 type Manufacturer {
-	id: ID!
-	name: String!
+  id: ID!
+  name: String!
 }
 
 input CreateManufacturerInput {
-	name: String!
+  name: String!
 }
 
 input UpdateManufacturerInput {
-	name: String
+  name: String
 }

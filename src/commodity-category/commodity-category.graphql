@@ -1,27 +1,27 @@
 type Query {
-	commodityCategories: [CommodityCategory]
-	commodityCategory(id: ID!): CommodityCategory
+  commodityCategories: [CommodityCategory]
+  commodityCategory(id: ID!): CommodityCategory
 }
 
 type Mutation {
-	createCommodityCategory(input: CreateCommodityCategoryInput!): CommodityCategory!
-	updateCommodityCategory(id: ID!, input: UpdateCommodityCategoryInput!): CommodityCategory!
+  createCommodityCategory(input: CreateCommodityCategoryInput!): CommodityCategory!
+  updateCommodityCategory(id: ID!, input: UpdateCommodityCategoryInput!): CommodityCategory!
 }
 
 type Subscription {
-	commodityCategoryCreated: CommodityCategory!
-	commodityCategoryUpdated: CommodityCategory!
+  commodityCategoryCreated: CommodityCategory!
+  commodityCategoryUpdated: CommodityCategory!
 }
 
 type CommodityCategory {
-	id: ID!
-	name: String!
+  id: ID!
+  name: String!
 }
 
 input CreateCommodityCategoryInput {
-	name: String!
+  name: String!
 }
 
 input UpdateCommodityCategoryInput {
-	name: String
+  name: String
 }

@@ -5,7 +5,7 @@ import { GameVersionService } from '../../game-version/game-version.service';
 import { FallbackItemResolvers } from './fallback-item.resolvers';
 
 @Module({
-	imports: [GameVersionModule, CommonModule],
-	providers: [FallbackItemResolvers, GameVersionService]
+  imports: [GameVersionModule, CommonModule],
+  providers: [FallbackItemResolvers, GameVersionService]
 })
 export class FallbackItemModule {}

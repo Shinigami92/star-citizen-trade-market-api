@@ -3,6 +3,6 @@ import { PossessionResolvers } from './possession.resolvers';
 import { PossessionService } from './possession.service';
 
 @Module({
-	providers: [PossessionService, PossessionResolvers]
+  providers: [PossessionService, PossessionResolvers]
 })
 export class PossessionModule {}

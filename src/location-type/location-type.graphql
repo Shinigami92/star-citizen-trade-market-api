@@ -1,27 +1,27 @@
 type Query {
-	locationTypes: [LocationType]
-	locationType(id: ID!): LocationType
+  locationTypes: [LocationType]
+  locationType(id: ID!): LocationType
 }
 
 type Mutation {
-	createLocationType(input: CreateLocationTypeInput!): LocationType!
-	updateLocationType(id: ID!, input: UpdateLocationTypeInput!): LocationType!
+  createLocationType(input: CreateLocationTypeInput!): LocationType!
+  updateLocationType(id: ID!, input: UpdateLocationTypeInput!): LocationType!
 }
 
 type Subscription {
-	locationTypeCreated: LocationType!
-	locationTypeUpdated: LocationType!
+  locationTypeCreated: LocationType!
+  locationTypeUpdated: LocationType!
 }
 
 type LocationType {
-	id: ID!
-	name: String!
+  id: ID!
+  name: String!
 }
 
 input CreateLocationTypeInput {
-	name: String!
+  name: String!
 }
 
 input UpdateLocationTypeInput {
-	name: String
+  name: String
 }

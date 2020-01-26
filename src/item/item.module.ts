@@ -5,8 +5,8 @@ import { ItemResolvers } from './item.resolvers';
 import { ItemService } from './item.service';
 
 @Module({
-	imports: [CommodityModule, CommonModule],
-	exports: [CommodityModule],
-	providers: [ItemService, ItemResolvers]
+  imports: [CommodityModule, CommonModule],
+  exports: [CommodityModule],
+  providers: [ItemService, ItemResolvers]
 })
 export class ItemModule {}

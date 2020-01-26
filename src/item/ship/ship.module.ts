@@ -8,7 +8,7 @@ import { ShipResolvers } from './ship.resolvers';
 import { ShipService } from './ship.service';
 
 @Module({
-	imports: [GameVersionModule, ManufacturerModule, CommonModule],
-	providers: [ShipService, ShipResolvers, GameVersionService, ManufacturerService]
+  imports: [GameVersionModule, ManufacturerModule, CommonModule],
+  providers: [ShipService, ShipResolvers, GameVersionService, ManufacturerService]
 })
 export class ShipModule {}

@@ -19,143 +19,143 @@ const pubSub: PubSub = new PubSub();
 
 @Resolver('TransactionDetail')
 export class TransactionDetailResolvers {
-	constructor(
-		private readonly transactionDetailService: TransactionDetailService,
-		private readonly transactionService: TransactionService
-	) {}
+  constructor(
+    private readonly transactionDetailService: TransactionDetailService,
+    private readonly transactionService: TransactionService
+  ) {}
 
-	@Query()
-	@UseGuards(GraphqlAuthGuard)
-	public async transactionDetails(): Promise<TransactionDetail[]> {
-		return await this.transactionDetailService.findAll();
-	}
+  @Query()
+  @UseGuards(GraphqlAuthGuard)
+  public async transactionDetails(): Promise<TransactionDetail[]> {
+    return await this.transactionDetailService.findAll();
+  }
 
-	@Query()
-	@UseGuards(GraphqlAuthGuard)
-	public async transactionDetail(@Args('id') id: string): Promise<TransactionDetail | undefined> {
-		return await this.transactionDetailService.findOneById(id);
-	}
+  @Query()
+  @UseGuards(GraphqlAuthGuard)
+  public async transactionDetail(@Args('id') id: string): Promise<TransactionDetail | undefined> {
+    return await this.transactionDetailService.findOneById(id);
+  }
 
-	@Mutation()
-	@UseGuards(GraphqlAuthGuard, RoleGuard)
-	@HasAnyRole(Role.USER, Role.ADVANCED, Role.ADMIN)
-	public async createTransactionDetail(
-		@Args('input') args: CreateTransactionDetailDto,
-		@CurrentUser() currentUser: CurrentAuthUser
-	): Promise<TransactionDetail> {
-		if (!currentUser.hasRole(Role.ADMIN)) {
-			const transaction: Transaction | undefined = await this.transactionService.findOneById(args.transactionId);
-			if (transaction === undefined) {
-				throw new BadRequestException(`No transaction with id ${args.transactionId} found`);
-			} else if (transaction.accountId !== currentUser.id) {
-				throw new BadRequestException('You can not post transaction details for another account');
-			}
-		}
-		const created: TransactionDetail = await this.transactionDetailService.create(args);
-		pubSub.publish('transactionDetailCreated', { transactionDetailCreated: created });
-		return created;
-	}
+  @Mutation()
+  @UseGuards(GraphqlAuthGuard, RoleGuard)
+  @HasAnyRole(Role.USER, Role.ADVANCED, Role.ADMIN)
+  public async createTransactionDetail(
+    @Args('input') args: CreateTransactionDetailDto,
+    @CurrentUser() currentUser: CurrentAuthUser
+  ): Promise<TransactionDetail> {
+    if (!currentUser.hasRole(Role.ADMIN)) {
+      const transaction: Transaction | undefined = await this.transactionService.findOneById(args.transactionId);
+      if (transaction === undefined) {
+        throw new BadRequestException(`No transaction with id ${args.transactionId} found`);
+      } else if (transaction.accountId !== currentUser.id) {
+        throw new BadRequestException('You can not post transaction details for another account');
+      }
+    }
+    const created: TransactionDetail = await this.transactionDetailService.create(args);
+    pubSub.publish('transactionDetailCreated', { transactionDetailCreated: created });
+    return created;
+  }
 
-	@Mutation()
-	@UseGuards(GraphqlAuthGuard, RoleGuard)
-	@HasAnyRole(Role.USER, Role.ADVANCED, Role.ADMIN)
-	public async createBoughtTransactionDetail(
-		@Args('input') args: CreateBoughtTransactionDetailDto,
-		@CurrentUser() currentUser: CurrentAuthUser
-	): Promise<TransactionDetail> {
-		if (!currentUser.hasRole(Role.ADMIN)) {
-			const transaction: Transaction | undefined = await this.transactionService.findOneById(args.transactionId);
-			if (transaction === undefined) {
-				throw new BadRequestException(`No transaction with id ${args.transactionId} found`);
-			} else if (transaction.accountId !== currentUser.id) {
-				throw new BadRequestException('You can not post transaction details for another account');
-			}
-		}
-		const created: TransactionDetail = await this.transactionDetailService.create({
-			...args,
-			type: TransactionDetailType.BOUGHT
-		});
-		pubSub.publish('transactionDetailCreated', { transactionDetailCreated: created });
-		return created;
-	}
+  @Mutation()
+  @UseGuards(GraphqlAuthGuard, RoleGuard)
+  @HasAnyRole(Role.USER, Role.ADVANCED, Role.ADMIN)
+  public async createBoughtTransactionDetail(
+    @Args('input') args: CreateBoughtTransactionDetailDto,
+    @CurrentUser() currentUser: CurrentAuthUser
+  ): Promise<TransactionDetail> {
+    if (!currentUser.hasRole(Role.ADMIN)) {
+      const transaction: Transaction | undefined = await this.transactionService.findOneById(args.transactionId);
+      if (transaction === undefined) {
+        throw new BadRequestException(`No transaction with id ${args.transactionId} found`);
+      } else if (transaction.accountId !== currentUser.id) {
+        throw new BadRequestException('You can not post transaction details for another account');
+      }
+    }
+    const created: TransactionDetail = await this.transactionDetailService.create({
+      ...args,
+      type: TransactionDetailType.BOUGHT
+    });
+    pubSub.publish('transactionDetailCreated', { transactionDetailCreated: created });
+    return created;
+  }
 
-	@Mutation()
-	@UseGuards(GraphqlAuthGuard, RoleGuard)
-	@HasAnyRole(Role.USER, Role.ADVANCED, Role.ADMIN)
-	public async createSoldTransactionDetail(
-		@Args('input') args: CreateSoldTransactionDetailDto,
-		@CurrentUser() currentUser: CurrentAuthUser
-	): Promise<TransactionDetail> {
-		if (!currentUser.hasRole(Role.ADMIN)) {
-			const transaction: Transaction | undefined = await this.transactionService.findOneById(args.transactionId);
-			if (transaction === undefined) {
-				throw new BadRequestException(`No transaction with id ${args.transactionId} found`);
-			} else if (transaction.accountId !== currentUser.id) {
-				throw new BadRequestException('You can not post transaction details for another account');
-			}
-		}
-		const created: TransactionDetail = await this.transactionDetailService.create({
-			...args,
-			type: TransactionDetailType.SOLD
-		});
-		pubSub.publish('transactionDetailCreated', { transactionDetailCreated: created });
-		return created;
-	}
+  @Mutation()
+  @UseGuards(GraphqlAuthGuard, RoleGuard)
+  @HasAnyRole(Role.USER, Role.ADVANCED, Role.ADMIN)
+  public async createSoldTransactionDetail(
+    @Args('input') args: CreateSoldTransactionDetailDto,
+    @CurrentUser() currentUser: CurrentAuthUser
+  ): Promise<TransactionDetail> {
+    if (!currentUser.hasRole(Role.ADMIN)) {
+      const transaction: Transaction | undefined = await this.transactionService.findOneById(args.transactionId);
+      if (transaction === undefined) {
+        throw new BadRequestException(`No transaction with id ${args.transactionId} found`);
+      } else if (transaction.accountId !== currentUser.id) {
+        throw new BadRequestException('You can not post transaction details for another account');
+      }
+    }
+    const created: TransactionDetail = await this.transactionDetailService.create({
+      ...args,
+      type: TransactionDetailType.SOLD
+    });
+    pubSub.publish('transactionDetailCreated', { transactionDetailCreated: created });
+    return created;
+  }
 
-	@Mutation()
-	@UseGuards(GraphqlAuthGuard, RoleGuard)
-	@HasAnyRole(Role.USER, Role.ADVANCED, Role.ADMIN)
-	public async createLostTransactionDetail(
-		@Args('input') args: CreateLostTransactionDetailDto,
-		@CurrentUser() currentUser: CurrentAuthUser
-	): Promise<TransactionDetail> {
-		if (!currentUser.hasRole(Role.ADMIN)) {
-			const transaction: Transaction | undefined = await this.transactionService.findOneById(args.transactionId);
-			if (transaction === undefined) {
-				throw new BadRequestException(`No transaction with id ${args.transactionId} found`);
-			} else if (transaction.accountId !== currentUser.id) {
-				throw new BadRequestException('You can not post transaction details for another account');
-			}
-		}
-		const created: TransactionDetail = await this.transactionDetailService.create({
-			...args,
-			type: TransactionDetailType.LOST
-		});
-		pubSub.publish('transactionDetailCreated', { transactionDetailCreated: created });
-		return created;
-	}
+  @Mutation()
+  @UseGuards(GraphqlAuthGuard, RoleGuard)
+  @HasAnyRole(Role.USER, Role.ADVANCED, Role.ADMIN)
+  public async createLostTransactionDetail(
+    @Args('input') args: CreateLostTransactionDetailDto,
+    @CurrentUser() currentUser: CurrentAuthUser
+  ): Promise<TransactionDetail> {
+    if (!currentUser.hasRole(Role.ADMIN)) {
+      const transaction: Transaction | undefined = await this.transactionService.findOneById(args.transactionId);
+      if (transaction === undefined) {
+        throw new BadRequestException(`No transaction with id ${args.transactionId} found`);
+      } else if (transaction.accountId !== currentUser.id) {
+        throw new BadRequestException('You can not post transaction details for another account');
+      }
+    }
+    const created: TransactionDetail = await this.transactionDetailService.create({
+      ...args,
+      type: TransactionDetailType.LOST
+    });
+    pubSub.publish('transactionDetailCreated', { transactionDetailCreated: created });
+    return created;
+  }
 
-	@Mutation()
-	@UseGuards(GraphqlAuthGuard, RoleGuard)
-	@HasAnyRole(Role.USER, Role.ADVANCED, Role.ADMIN)
-	public async createLostBasedOnTransactionDetail(
-		@Args('input') args: CreateLostBasedOnTransactionDetailDto,
-		@CurrentUser() currentUser: CurrentAuthUser
-	): Promise<TransactionDetail> {
-		if (!currentUser.hasRole(Role.ADMIN)) {
-			const transactionDetail: TransactionDetail | undefined = await this.transactionDetailService.findOneById(
-				args.transactionDetailId
-			);
-			if (transactionDetail === undefined) {
-				throw new BadRequestException(`No transactionDetail with id ${args.transactionDetailId} found`);
-			}
-			const transaction: Transaction | undefined = await this.transactionService.findOneById(
-				transactionDetail.transactionId
-			);
-			if (transaction === undefined) {
-				throw new BadRequestException(`No transaction with id ${transactionDetail.transactionId} found`);
-			} else if (transaction.accountId !== currentUser.id) {
-				throw new BadRequestException('You can not post transaction details for another account');
-			}
-		}
-		const created: TransactionDetail = await this.transactionDetailService.createLostBasedOnTransaction(args);
-		pubSub.publish('transactionDetailCreated', { transactionDetailCreated: created });
-		return created;
-	}
+  @Mutation()
+  @UseGuards(GraphqlAuthGuard, RoleGuard)
+  @HasAnyRole(Role.USER, Role.ADVANCED, Role.ADMIN)
+  public async createLostBasedOnTransactionDetail(
+    @Args('input') args: CreateLostBasedOnTransactionDetailDto,
+    @CurrentUser() currentUser: CurrentAuthUser
+  ): Promise<TransactionDetail> {
+    if (!currentUser.hasRole(Role.ADMIN)) {
+      const transactionDetail: TransactionDetail | undefined = await this.transactionDetailService.findOneById(
+        args.transactionDetailId
+      );
+      if (transactionDetail === undefined) {
+        throw new BadRequestException(`No transactionDetail with id ${args.transactionDetailId} found`);
+      }
+      const transaction: Transaction | undefined = await this.transactionService.findOneById(
+        transactionDetail.transactionId
+      );
+      if (transaction === undefined) {
+        throw new BadRequestException(`No transaction with id ${transactionDetail.transactionId} found`);
+      } else if (transaction.accountId !== currentUser.id) {
+        throw new BadRequestException('You can not post transaction details for another account');
+      }
+    }
+    const created: TransactionDetail = await this.transactionDetailService.createLostBasedOnTransaction(args);
+    pubSub.publish('transactionDetailCreated', { transactionDetailCreated: created });
+    return created;
+  }
 
-	@Subscription()
-	@UseGuards(GraphqlAuthGuard)
-	public transactionDetailCreated(): AsyncIterator<{}> {
-		return pubSub.asyncIterator('transactionDetailCreated');
-	}
+  @Subscription()
+  @UseGuards(GraphqlAuthGuard)
+  public transactionDetailCreated(): AsyncIterator<{}> {
+    return pubSub.asyncIterator('transactionDetailCreated');
+  }
 }

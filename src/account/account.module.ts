@@ -5,7 +5,7 @@ import { AccountResolvers } from './account.resolvers';
 import { AccountService } from './account.service';
 
 @Module({
-	imports: [OrganizationModule],
-	providers: [AccountService, AccountResolvers, OrganizationService]
+  imports: [OrganizationModule],
+  providers: [AccountService, AccountResolvers, OrganizationService]
 })
 export class AccountModule {}

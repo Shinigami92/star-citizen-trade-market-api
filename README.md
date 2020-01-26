@@ -8,8 +8,8 @@
 
 ## Frontend
 
--   <a href="https://github.com/Shinigami92/star-citizen-trade-market-frontend" target="_blank">Repository</a>
--   <a href="https://shinigami92.github.io/star-citizen-trade-market-frontend" target="_blank">Website</a>
+- <a href="https://github.com/Shinigami92/star-citizen-trade-market-frontend" target="_blank">Repository</a>
+- <a href="https://shinigami92.github.io/star-citizen-trade-market-frontend" target="_blank">Website</a>
 
 ## Discord
 
@@ -22,10 +22,10 @@ However, there are a few things that VerseMate (currently) does not support
 
 This API and the associated frontend has the following advantages:
 
--   Community-based _the data is not read from the game_
--   API _frontend is completely decoupled from the API_
--   Open Source _everyone can contribute_
--   You can provide item prices to your main organization or make them available to all your organizations
+- Community-based _the data is not read from the game_
+- API _frontend is completely decoupled from the API_
+- Open Source _everyone can contribute_
+- You can provide item prices to your main organization or make them available to all your organizations
 
 ## Installation
 

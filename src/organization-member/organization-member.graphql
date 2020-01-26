@@ -1,26 +1,26 @@
 type Query {
-	organizationMembers: [OrganizationMember]
-	organizationMember(organizationId: ID!, accountId: ID!): OrganizationMember
+  organizationMembers: [OrganizationMember]
+  organizationMember(organizationId: ID!, accountId: ID!): OrganizationMember
 }
 
 type Mutation {
-	joinOrganization(input: JoinOrganizationInput!): OrganizationMember!
+  joinOrganization(input: JoinOrganizationInput!): OrganizationMember!
 }
 
 type Subscription {
-	organizationMemberCreated: OrganizationMember!
+  organizationMemberCreated: OrganizationMember!
 }
 
 type OrganizationMember {
-	organizationId: ID!
-	organization: Organization!
-	accountId: ID!
-	account: Account!
-	since: Date
+  organizationId: ID!
+  organization: Organization!
+  accountId: ID!
+  account: Account!
+  since: Date
 }
 
 input JoinOrganizationInput {
-	organizationId: ID!
-	accountId: ID
-	since: Date
+  organizationId: ID!
+  accountId: ID
+  since: Date
 }

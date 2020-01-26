@@ -9,7 +9,7 @@ import { TradeResolvers } from './trade.resolvers';
 import { TradeService } from './trade.service';
 
 @Module({
-	imports: [ItemModule, LocationModule, GameVersionModule],
-	providers: [TradeService, TradeResolvers, ItemService, LocationService, GameVersionService]
+  imports: [ItemModule, LocationModule, GameVersionModule],
+  providers: [TradeService, TradeResolvers, ItemService, LocationService, GameVersionService]
 })
 export class TradeModule {}

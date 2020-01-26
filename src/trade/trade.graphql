@@ -1,23 +1,23 @@
 type Query {
-	trades(searchInput: TradeSearchInput): [Trade]
+  trades(searchInput: TradeSearchInput): [Trade]
 }
 
 type Trade {
-	buyItemPrice: ItemPrice!
-	sellItemPrice: ItemPrice!
-	item: Item!
-	startLocation: Location!
-	endLocation: Location!
-	profit: Float!
-	margin: Float!
-	scanTime: Date!
-	scannedInGameVersionId: ID!
-	scannedInGameVersion: GameVersion!
+  buyItemPrice: ItemPrice!
+  sellItemPrice: ItemPrice!
+  item: Item!
+  startLocation: Location!
+  endLocation: Location!
+  profit: Float!
+  margin: Float!
+  scanTime: Date!
+  scannedInGameVersionId: ID!
+  scannedInGameVersion: GameVersion!
 }
 
 input TradeSearchInput {
-	startLocationId: ID
-	endLocationId: ID
-	itemIds: [ID]
-	gameVersionId: ID
+  startLocationId: ID
+  endLocationId: ID
+  itemIds: [ID]
+  gameVersionId: ID
 }
