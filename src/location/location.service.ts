@@ -79,7 +79,7 @@ export class LocationService {
       return location;
     }
     const result: QueryResult = await client.query(
-      `UPDATE ${TABLENAME} SET${updates.join(', ')} WHERE id = $1::uuid RETURNING *`,
+      `UPDATE ${TABLENAME} SET${updates.join()} WHERE id = $1::uuid RETURNING *`,
       [id, ...values]
     );
     const updated: Location = result.rows[0];

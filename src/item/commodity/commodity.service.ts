@@ -71,7 +71,7 @@ export class CommodityService {
       return commodity;
     }
     const result: QueryResult = await client.query(
-      `UPDATE ${TABLENAME} SET${updates.join(', ')} WHERE id = $1::uuid RETURNING *`,
+      `UPDATE ${TABLENAME} SET${updates.join()} WHERE id = $1::uuid RETURNING *`,
       [id, ...values]
     );
     const updated: Commodity = result.rows[0];

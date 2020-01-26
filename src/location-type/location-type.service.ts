@@ -37,7 +37,7 @@ export class LocationTypeService {
       return locationType;
     }
     const result: QueryResult = await client.query(
-      `UPDATE ${TABLENAME} SET${updates.join(', ')} WHERE id = $1::uuid RETURNING *`,
+      `UPDATE ${TABLENAME} SET${updates.join()} WHERE id = $1::uuid RETURNING *`,
       [id, ...values]
     );
     const updated: LocationType = result.rows[0];

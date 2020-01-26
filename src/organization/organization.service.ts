@@ -43,7 +43,7 @@ export class OrganizationService {
       return organization;
     }
     const result: QueryResult = await client.query(
-      `UPDATE ${TABLENAME} SET${updates.join(', ')} WHERE id = $1::uuid RETURNING *`,
+      `UPDATE ${TABLENAME} SET${updates.join()} WHERE id = $1::uuid RETURNING *`,
       [id, ...values]
     );
     const updated: Organization = result.rows[0];
