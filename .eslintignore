@@ -2,3 +2,5 @@ node_modules
 dist
 docs
 src/graphql.schema.ts
+graphql.schema.ts
+.history/

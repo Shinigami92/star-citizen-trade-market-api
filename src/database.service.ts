@@ -2,7 +2,6 @@
 import * as dotenv from 'dotenv';
 import * as pg from 'pg';
 import { Client } from 'pg';
-// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 // @ts-ignore
 import * as pgCamelCase from 'pg-camelcase';
 

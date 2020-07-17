@@ -101,7 +101,6 @@ export class ShipService {
 
   private mapDetails(ship: Ship): Ship {
     for (const key of ['focus', 'scu', 'size']) {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
       // @ts-ignore
       ship[key] = ship.details[key];
     }
