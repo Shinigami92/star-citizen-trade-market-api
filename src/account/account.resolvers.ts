@@ -1,5 +1,5 @@
 import { NotFoundException, UnauthorizedException, UseGuards } from '@nestjs/common';
-import { Args, Mutation, Parent, Query, ResolveProperty, Resolver, Subscription } from '@nestjs/graphql';
+import { Args, Mutation, Parent, Query, ResolveField, Resolver, Subscription } from '@nestjs/graphql';
 import { PubSub } from 'graphql-subscriptions';
 import { CurrentAuthUser } from '../auth/current-user';
 import { GraphqlAuthGuard } from '../auth/graphql-auth.guard';
@@ -59,7 +59,7 @@ export class AccountResolvers {
     return pubSub.asyncIterator('accountSignedUp');
   }
 
-  @ResolveProperty()
+  @ResolveField()
   @UseGuards(GraphqlAuthGuard, RoleGuard)
   @HasAnyRole(Role.USER, Role.USERADMIN, Role.ADMIN)
   public email(@Parent() parent: Account, @CurrentUser() currentUser: CurrentAuthUser): string {
@@ -74,7 +74,7 @@ export class AccountResolvers {
     throw new UnauthorizedException();
   }
 
-  @ResolveProperty()
+  @ResolveField()
   public async mainOrganization(@Parent() parent: Account): Promise<Organization | null> {
     if (parent.mainOrganizationId) {
       const organization: Organization | undefined = await this.organizationService.findOneById(

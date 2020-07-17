@@ -1,5 +1,5 @@
 import { NotFoundException, UseGuards } from '@nestjs/common';
-import { Args, Mutation, Parent, Query, ResolveProperty, Resolver, Subscription } from '@nestjs/graphql';
+import { Args, Mutation, Parent, Query, ResolveField, Resolver, Subscription } from '@nestjs/graphql';
 import { PubSub } from 'graphql-subscriptions';
 import { AccountService } from '../account/account.service';
 import { GraphqlAuthGuard } from '../auth/graphql-auth.guard';
@@ -47,7 +47,7 @@ export class OrganizationMemberResolvers {
     return pubSub.asyncIterator('organizationMemberCreated');
   }
 
-  @ResolveProperty()
+  @ResolveField()
   public async organization(@Parent() organizationMember: OrganizationMember): Promise<Organization> {
     const organization: Organization | undefined = await this.organizationService.findOneById(
       organizationMember.organizationId
@@ -58,7 +58,7 @@ export class OrganizationMemberResolvers {
     return organization;
   }
 
-  @ResolveProperty()
+  @ResolveField()
   public async account(@Parent() organizationMember: OrganizationMember): Promise<Account> {
     const account: Account | undefined = await this.accountService.findOneById(organizationMember.accountId);
     if (!account) {

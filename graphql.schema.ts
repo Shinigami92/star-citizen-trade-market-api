@@ -6,6 +6,13 @@
 
 /* tslint:disable */
 /* eslint-disable */
+export enum Role {
+    USER = "USER",
+    ADVANCED = "ADVANCED",
+    USERADMIN = "USERADMIN",
+    ADMIN = "ADMIN"
+}
+
 export enum ItemPriceType {
     BUY = "BUY",
     SELL = "SELL"
@@ -46,13 +53,6 @@ export enum PurchaseCurrency {
     UEC = "UEC"
 }
 
-export enum Role {
-    USER = "USER",
-    ADVANCED = "ADVANCED",
-    USERADMIN = "USERADMIN",
-    ADMIN = "ADMIN"
-}
-
 export enum TransactionDetailType {
     BOUGHT = "BOUGHT",
     SOLD = "SOLD",
@@ -65,32 +65,12 @@ export interface CreateAccountInput {
     email: string;
 }
 
-export interface CreateBoughtTransactionDetailInput {
-    transactionId: string;
-    locationId: string;
-    price: number;
-    quantity: number;
-    note?: string;
-    timestamp?: Date;
-}
-
 export interface CreateCommodityCategoryInput {
     name: string;
 }
 
-export interface CreateCommodityInput {
-    name: string;
-    inGameSinceVersionId: string;
-    inGameSince?: Date;
-    commodityCategoryId: string;
-}
-
-export interface CreateFirstTransactionDetailInput {
-    locationId: string;
-    price: number;
-    quantity: number;
-    note?: string;
-    timestamp?: Date;
+export interface UpdateCommodityCategoryInput {
+    name?: string;
 }
 
 export interface CreateGameVersionInput {
@@ -98,10 +78,9 @@ export interface CreateGameVersionInput {
     release?: Date;
 }
 
-export interface CreateItemInput {
-    name: string;
-    inGameSinceVersionId: string;
-    inGameSince?: string;
+export interface UpdateGameVersionInput {
+    identifier?: string;
+    release?: Date;
 }
 
 export interface CreateItemPriceInput {
@@ -116,6 +95,66 @@ export interface CreateItemPriceInput {
     scannedInGameVersionId?: string;
 }
 
+export interface UpdateItemPriceInput {
+    scannedById?: string;
+    itemId?: string;
+    locationId?: string;
+    price?: number;
+    quantity?: number;
+    scanTime?: Date;
+    type?: ItemPriceType;
+    visibility?: ItemPriceVisibility;
+    scannedInGameVersionId?: string;
+}
+
+export interface CreateCommodityInput {
+    name: string;
+    inGameSinceVersionId: string;
+    inGameSince?: Date;
+    commodityCategoryId: string;
+}
+
+export interface UpdateCommodityInput {
+    name?: string;
+    inGameSinceVersionId?: string;
+    inGameSince?: Date;
+    commodityCategoryId?: string;
+}
+
+export interface CreateItemInput {
+    name: string;
+    inGameSinceVersionId: string;
+    inGameSince?: string;
+}
+
+export interface CreateShipInput {
+    name: string;
+    inGameSinceVersionId: string;
+    inGameSince?: Date;
+    scu: number;
+    manufacturerId: string;
+    focus: string;
+    size: number;
+}
+
+export interface UpdateShipInput {
+    name?: string;
+    inGameSinceVersionId?: string;
+    inGameSince?: Date;
+    scu?: number;
+    manufacturerId?: string;
+    focus?: string;
+    size?: number;
+}
+
+export interface CreateLocationTypeInput {
+    name: string;
+}
+
+export interface UpdateLocationTypeInput {
+    name?: string;
+}
+
 export interface CreateLocationInput {
     name: string;
     parentLocationId?: string;
@@ -125,13 +164,82 @@ export interface CreateLocationInput {
     canTrade?: boolean;
 }
 
-export interface CreateLocationTypeInput {
+export interface UpdateLocationInput {
+    name?: string;
+    parentLocationId?: string;
+    typeId?: string;
+    inGameSinceVersionId?: string;
+    inGameSince?: Date;
+    canTrade?: boolean;
+}
+
+export interface LocationSearchInput {
+    canTrade?: boolean;
+}
+
+export interface CreateManufacturerInput {
     name: string;
 }
 
-export interface CreateLostBasedOnTransactionDetailInput {
-    transactionDetailId: string;
+export interface UpdateManufacturerInput {
+    name?: string;
+}
+
+export interface JoinOrganizationInput {
+    organizationId: string;
+    accountId?: string;
+    since?: Date;
+}
+
+export interface CreateOrganizationInput {
+    name: string;
+    spectrumId: string;
+}
+
+export interface UpdateOrganizationInput {
+    name?: string;
+    spectrumId?: string;
+}
+
+export interface CreatePossessionInput {
+    accountId?: string;
+    itemId: string;
+    purchasePrice: number;
+    purchaseCurrency: PurchaseCurrency;
+    purchaseDate?: Date;
+}
+
+export interface TradeSearchInput {
+    startLocationId?: string;
+    endLocationId?: string;
+    itemIds?: string[];
+    gameVersionId?: string;
+}
+
+export interface CreateTransactionDetailInput {
+    transactionId: string;
+    type: TransactionDetailType;
     locationId?: string;
+    price: number;
+    quantity: number;
+    note?: string;
+    timestamp?: Date;
+}
+
+export interface CreateBoughtTransactionDetailInput {
+    transactionId: string;
+    locationId: string;
+    price: number;
+    quantity: number;
+    note?: string;
+    timestamp?: Date;
+}
+
+export interface CreateSoldTransactionDetailInput {
+    transactionId: string;
+    locationId: string;
+    price: number;
+    quantity: number;
     note?: string;
     timestamp?: Date;
 }
@@ -145,46 +253,15 @@ export interface CreateLostTransactionDetailInput {
     timestamp?: Date;
 }
 
-export interface CreateManufacturerInput {
-    name: string;
-}
-
-export interface CreateOrganizationInput {
-    name: string;
-    spectrumId: string;
-}
-
-export interface CreatePossessionInput {
-    accountId?: string;
-    itemId: string;
-    purchasePrice: number;
-    purchaseCurrency: PurchaseCurrency;
-    purchaseDate?: Date;
-}
-
-export interface CreateShipInput {
-    name: string;
-    inGameSinceVersionId: string;
-    inGameSince?: Date;
-    scu: number;
-    manufacturerId: string;
-    focus: string;
-    size: number;
-}
-
-export interface CreateSoldTransactionDetailInput {
-    transactionId: string;
-    locationId: string;
-    price: number;
-    quantity: number;
+export interface CreateLostBasedOnTransactionDetailInput {
+    transactionDetailId: string;
+    locationId?: string;
     note?: string;
     timestamp?: Date;
 }
 
-export interface CreateTransactionDetailInput {
-    transactionId: string;
-    type: TransactionDetailType;
-    locationId?: string;
+export interface CreateFirstTransactionDetailInput {
+    locationId: string;
     price: number;
     quantity: number;
     note?: string;
@@ -197,83 +274,6 @@ export interface CreateTransactionInput {
     transactionDetail: CreateFirstTransactionDetailInput;
 }
 
-export interface JoinOrganizationInput {
-    organizationId: string;
-    accountId?: string;
-    since?: Date;
-}
-
-export interface LocationSearchInput {
-    canTrade?: boolean;
-}
-
-export interface TradeSearchInput {
-    startLocationId?: string;
-    endLocationId?: string;
-    itemIds?: string[];
-    gameVersionId?: string;
-}
-
-export interface UpdateCommodityCategoryInput {
-    name?: string;
-}
-
-export interface UpdateCommodityInput {
-    name?: string;
-    inGameSinceVersionId?: string;
-    inGameSince?: Date;
-    commodityCategoryId?: string;
-}
-
-export interface UpdateGameVersionInput {
-    identifier?: string;
-    release?: Date;
-}
-
-export interface UpdateItemPriceInput {
-    scannedById?: string;
-    itemId?: string;
-    locationId?: string;
-    price?: number;
-    quantity?: number;
-    scanTime?: Date;
-    type?: ItemPriceType;
-    visibility?: ItemPriceVisibility;
-    scannedInGameVersionId?: string;
-}
-
-export interface UpdateLocationInput {
-    name?: string;
-    parentLocationId?: string;
-    typeId?: string;
-    inGameSinceVersionId?: string;
-    inGameSince?: Date;
-    canTrade?: boolean;
-}
-
-export interface UpdateLocationTypeInput {
-    name?: string;
-}
-
-export interface UpdateManufacturerInput {
-    name?: string;
-}
-
-export interface UpdateOrganizationInput {
-    name?: string;
-    spectrumId?: string;
-}
-
-export interface UpdateShipInput {
-    name?: string;
-    inGameSinceVersionId?: string;
-    inGameSince?: Date;
-    scu?: number;
-    manufacturerId?: string;
-    focus?: string;
-    size?: number;
-}
-
 export interface Item {
     id: string;
     name: string;
@@ -281,153 +281,6 @@ export interface Item {
     inGameSinceVersion: GameVersion;
     inGameSince?: Date;
     type: ItemType;
-}
-
-export interface Account {
-    id: string;
-    username: string;
-    handle: string;
-    email?: string;
-    roles: Role[];
-    mainOrganizationId?: string;
-    mainOrganization?: Organization;
-}
-
-export interface AuthToken {
-    id: string;
-    username: string;
-    roles: Role[];
-    token: string;
-}
-
-export interface Commodity extends Item {
-    id: string;
-    name: string;
-    inGameSinceVersionId: string;
-    inGameSinceVersion: GameVersion;
-    inGameSince?: Date;
-    type: ItemType;
-    commodityCategoryId: string;
-    commodityCategory: CommodityCategory;
-}
-
-export interface CommodityCategory {
-    id: string;
-    name: string;
-}
-
-export interface FallbackItem extends Item {
-    id: string;
-    name: string;
-    inGameSinceVersionId: string;
-    inGameSinceVersion: GameVersion;
-    inGameSince?: Date;
-    type: ItemType;
-}
-
-export interface GameVersion {
-    id: string;
-    identifier: string;
-    release?: Date;
-}
-
-export interface ItemPrice {
-    id: string;
-    scannedById: string;
-    scannedBy: Account;
-    itemId: string;
-    item: Item;
-    locationId: string;
-    location: Location;
-    price: number;
-    quantity: number;
-    unitPrice: number;
-    scanTime: Date;
-    type: ItemPriceType;
-    visibility: ItemPriceVisibility;
-    scannedInGameVersionId: string;
-    scannedInGameVersion: GameVersion;
-}
-
-export interface Location {
-    id: string;
-    name: string;
-    parentLocationId?: string;
-    parentLocation?: Location;
-    typeId: string;
-    type: LocationType;
-    inGameSinceVersionId: string;
-    inGameSinceVersion: GameVersion;
-    inGameSince?: Date;
-    canTrade: boolean;
-    children: Location[];
-}
-
-export interface LocationType {
-    id: string;
-    name: string;
-}
-
-export interface Manufacturer {
-    id: string;
-    name: string;
-}
-
-export interface IMutation {
-    signUp(input: CreateAccountInput): Account | Promise<Account>;
-    createCommodityCategory(input: CreateCommodityCategoryInput): CommodityCategory | Promise<CommodityCategory>;
-    updateCommodityCategory(id: string, input: UpdateCommodityCategoryInput): CommodityCategory | Promise<CommodityCategory>;
-    createGameVersion(input: CreateGameVersionInput): GameVersion | Promise<GameVersion>;
-    updateGameVersion(id: string, input: UpdateGameVersionInput): GameVersion | Promise<GameVersion>;
-    createItemPrice(input: CreateItemPriceInput): ItemPrice | Promise<ItemPrice>;
-    updateItemPrice(id: string, input: UpdateItemPriceInput): ItemPrice | Promise<ItemPrice>;
-    deleteItemPrice(id: string): string | Promise<string>;
-    createCommodity(input: CreateCommodityInput): Commodity | Promise<Commodity>;
-    updateCommodity(id: string, input: UpdateCommodityInput): Commodity | Promise<Commodity>;
-    createItem(input: CreateItemInput): Item | Promise<Item>;
-    createShip(input: CreateShipInput): Ship | Promise<Ship>;
-    updateShip(id: string, input: UpdateShipInput): Ship | Promise<Ship>;
-    createLocationType(input: CreateLocationTypeInput): LocationType | Promise<LocationType>;
-    updateLocationType(id: string, input: UpdateLocationTypeInput): LocationType | Promise<LocationType>;
-    createLocation(input: CreateLocationInput): Location | Promise<Location>;
-    updateLocation(id: string, input: UpdateLocationInput): Location | Promise<Location>;
-    createManufacturer(input: CreateManufacturerInput): Manufacturer | Promise<Manufacturer>;
-    updateManufacturer(id: string, input: UpdateManufacturerInput): Manufacturer | Promise<Manufacturer>;
-    joinOrganization(input: JoinOrganizationInput): OrganizationMember | Promise<OrganizationMember>;
-    createOrganization(input: CreateOrganizationInput): Organization | Promise<Organization>;
-    updateOrganization(id: string, input: UpdateOrganizationInput): Organization | Promise<Organization>;
-    createPossession(input: CreatePossessionInput): Possession | Promise<Possession>;
-    createTransactionDetail(input: CreateTransactionDetailInput): TransactionDetail | Promise<TransactionDetail>;
-    createBoughtTransactionDetail(input: CreateBoughtTransactionDetailInput): TransactionDetail | Promise<TransactionDetail>;
-    createSoldTransactionDetail(input: CreateSoldTransactionDetailInput): TransactionDetail | Promise<TransactionDetail>;
-    createLostTransactionDetail(input: CreateLostTransactionDetailInput): TransactionDetail | Promise<TransactionDetail>;
-    createLostBasedOnTransactionDetail(input: CreateLostBasedOnTransactionDetailInput): TransactionDetail | Promise<TransactionDetail>;
-    createTransaction(input: CreateTransactionInput): Transaction | Promise<Transaction>;
-}
-
-export interface Organization {
-    id: string;
-    name: string;
-    spectrumId: string;
-}
-
-export interface OrganizationMember {
-    organizationId: string;
-    organization: Organization;
-    accountId: string;
-    account: Account;
-    since?: Date;
-}
-
-export interface Possession {
-    id: string;
-    accountId: string;
-    account: Account;
-    itemId: string;
-    item: Item;
-    purchasePrice: number;
-    purchaseCurrency: PurchaseCurrency;
-    purchaseDate?: Date;
 }
 
 export interface IQuery {
@@ -466,18 +319,36 @@ export interface IQuery {
     transaction(id: string): Transaction | Promise<Transaction>;
 }
 
-export interface Ship extends Item {
-    id: string;
-    name: string;
-    inGameSinceVersionId: string;
-    inGameSinceVersion: GameVersion;
-    inGameSince?: Date;
-    type: ItemType;
-    scu: number;
-    manufacturerId: string;
-    manufacturer: Manufacturer;
-    focus: string;
-    size: number;
+export interface IMutation {
+    signUp(input: CreateAccountInput): Account | Promise<Account>;
+    createCommodityCategory(input: CreateCommodityCategoryInput): CommodityCategory | Promise<CommodityCategory>;
+    updateCommodityCategory(id: string, input: UpdateCommodityCategoryInput): CommodityCategory | Promise<CommodityCategory>;
+    createGameVersion(input: CreateGameVersionInput): GameVersion | Promise<GameVersion>;
+    updateGameVersion(id: string, input: UpdateGameVersionInput): GameVersion | Promise<GameVersion>;
+    createItemPrice(input: CreateItemPriceInput): ItemPrice | Promise<ItemPrice>;
+    updateItemPrice(id: string, input: UpdateItemPriceInput): ItemPrice | Promise<ItemPrice>;
+    deleteItemPrice(id: string): string | Promise<string>;
+    createCommodity(input: CreateCommodityInput): Commodity | Promise<Commodity>;
+    updateCommodity(id: string, input: UpdateCommodityInput): Commodity | Promise<Commodity>;
+    createItem(input: CreateItemInput): Item | Promise<Item>;
+    createShip(input: CreateShipInput): Ship | Promise<Ship>;
+    updateShip(id: string, input: UpdateShipInput): Ship | Promise<Ship>;
+    createLocationType(input: CreateLocationTypeInput): LocationType | Promise<LocationType>;
+    updateLocationType(id: string, input: UpdateLocationTypeInput): LocationType | Promise<LocationType>;
+    createLocation(input: CreateLocationInput): Location | Promise<Location>;
+    updateLocation(id: string, input: UpdateLocationInput): Location | Promise<Location>;
+    createManufacturer(input: CreateManufacturerInput): Manufacturer | Promise<Manufacturer>;
+    updateManufacturer(id: string, input: UpdateManufacturerInput): Manufacturer | Promise<Manufacturer>;
+    joinOrganization(input: JoinOrganizationInput): OrganizationMember | Promise<OrganizationMember>;
+    createOrganization(input: CreateOrganizationInput): Organization | Promise<Organization>;
+    updateOrganization(id: string, input: UpdateOrganizationInput): Organization | Promise<Organization>;
+    createPossession(input: CreatePossessionInput): Possession | Promise<Possession>;
+    createTransactionDetail(input: CreateTransactionDetailInput): TransactionDetail | Promise<TransactionDetail>;
+    createBoughtTransactionDetail(input: CreateBoughtTransactionDetailInput): TransactionDetail | Promise<TransactionDetail>;
+    createSoldTransactionDetail(input: CreateSoldTransactionDetailInput): TransactionDetail | Promise<TransactionDetail>;
+    createLostTransactionDetail(input: CreateLostTransactionDetailInput): TransactionDetail | Promise<TransactionDetail>;
+    createLostBasedOnTransactionDetail(input: CreateLostBasedOnTransactionDetailInput): TransactionDetail | Promise<TransactionDetail>;
+    createTransaction(input: CreateTransactionInput): Transaction | Promise<Transaction>;
 }
 
 export interface ISubscription {
@@ -508,6 +379,135 @@ export interface ISubscription {
     transactionCreated(): Transaction | Promise<Transaction>;
 }
 
+export interface Account {
+    id: string;
+    username: string;
+    handle: string;
+    email?: string;
+    roles: Role[];
+    mainOrganizationId?: string;
+    mainOrganization?: Organization;
+}
+
+export interface AuthToken {
+    id: string;
+    username: string;
+    roles: Role[];
+    token: string;
+}
+
+export interface CommodityCategory {
+    id: string;
+    name: string;
+}
+
+export interface GameVersion {
+    id: string;
+    identifier: string;
+    release?: Date;
+}
+
+export interface ItemPrice {
+    id: string;
+    scannedById: string;
+    scannedBy: Account;
+    itemId: string;
+    item: Item;
+    locationId: string;
+    location: Location;
+    price: number;
+    quantity: number;
+    unitPrice: number;
+    scanTime: Date;
+    type: ItemPriceType;
+    visibility: ItemPriceVisibility;
+    scannedInGameVersionId: string;
+    scannedInGameVersion: GameVersion;
+}
+
+export interface Commodity extends Item {
+    id: string;
+    name: string;
+    inGameSinceVersionId: string;
+    inGameSinceVersion: GameVersion;
+    inGameSince?: Date;
+    type: ItemType;
+    commodityCategoryId: string;
+    commodityCategory: CommodityCategory;
+}
+
+export interface FallbackItem extends Item {
+    id: string;
+    name: string;
+    inGameSinceVersionId: string;
+    inGameSinceVersion: GameVersion;
+    inGameSince?: Date;
+    type: ItemType;
+}
+
+export interface Ship extends Item {
+    id: string;
+    name: string;
+    inGameSinceVersionId: string;
+    inGameSinceVersion: GameVersion;
+    inGameSince?: Date;
+    type: ItemType;
+    scu: number;
+    manufacturerId: string;
+    manufacturer: Manufacturer;
+    focus: string;
+    size: number;
+}
+
+export interface LocationType {
+    id: string;
+    name: string;
+}
+
+export interface Location {
+    id: string;
+    name: string;
+    parentLocationId?: string;
+    parentLocation?: Location;
+    typeId: string;
+    type: LocationType;
+    inGameSinceVersionId: string;
+    inGameSinceVersion: GameVersion;
+    inGameSince?: Date;
+    canTrade: boolean;
+    children: Location[];
+}
+
+export interface Manufacturer {
+    id: string;
+    name: string;
+}
+
+export interface OrganizationMember {
+    organizationId: string;
+    organization: Organization;
+    accountId: string;
+    account: Account;
+    since?: Date;
+}
+
+export interface Organization {
+    id: string;
+    name: string;
+    spectrumId: string;
+}
+
+export interface Possession {
+    id: string;
+    accountId: string;
+    account: Account;
+    itemId: string;
+    item: Item;
+    purchasePrice: number;
+    purchaseCurrency: PurchaseCurrency;
+    purchaseDate?: Date;
+}
+
 export interface Trade {
     buyItemPrice: ItemPrice;
     sellItemPrice: ItemPrice;
@@ -521,14 +521,6 @@ export interface Trade {
     scannedInGameVersion: GameVersion;
 }
 
-export interface Transaction {
-    id: string;
-    accountId: string;
-    account: Account;
-    commodityId: string;
-    commodity: Commodity;
-}
-
 export interface TransactionDetail {
     id: string;
     transactionId: string;
@@ -540,4 +532,12 @@ export interface TransactionDetail {
     quantity: number;
     note?: string;
     timestamp: Date;
+}
+
+export interface Transaction {
+    id: string;
+    accountId: string;
+    account: Account;
+    commodityId: string;
+    commodity: Commodity;
 }

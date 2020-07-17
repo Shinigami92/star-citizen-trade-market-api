@@ -1,5 +1,5 @@
 import { NotFoundException } from '@nestjs/common';
-import { Args, Parent, Query, ResolveProperty, Resolver } from '@nestjs/graphql';
+import { Args, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
 import { CurrentUser } from '../auth/user.decorator';
 import { GameVersionService } from '../game-version/game-version.service';
 import { Account, GameVersion, Item, Location, Trade, TradeSearchInput } from '../graphql.schema';
@@ -30,7 +30,7 @@ export class TradeResolvers {
     });
   }
 
-  @ResolveProperty()
+  @ResolveField()
   public async item(@Parent() parent: Trade): Promise<Item> {
     const item: Item | undefined = await this.itemService.findOneById(parent.buyItemPrice.itemId);
     if (!item) {
@@ -39,7 +39,7 @@ export class TradeResolvers {
     return item;
   }
 
-  @ResolveProperty()
+  @ResolveField()
   public async startLocation(@Parent() parent: Trade): Promise<Location> {
     const location: Location | undefined = await this.locationService.findOneById(parent.buyItemPrice.locationId);
     if (!location) {
@@ -48,7 +48,7 @@ export class TradeResolvers {
     return location;
   }
 
-  @ResolveProperty()
+  @ResolveField()
   public async endLocation(@Parent() parent: Trade): Promise<Location> {
     const location: Location | undefined = await this.locationService.findOneById(parent.sellItemPrice.locationId);
     if (!location) {
@@ -57,7 +57,7 @@ export class TradeResolvers {
     return location;
   }
 
-  @ResolveProperty()
+  @ResolveField()
   public async scannedInGameVersion(@Parent() parent: Trade): Promise<GameVersion> {
     const gameVersion: GameVersion | undefined = await this.gameVersionService.findOneById(
       parent.scannedInGameVersionId

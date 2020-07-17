@@ -1,5 +1,5 @@
 import { NotFoundException, UnauthorizedException, UseGuards } from '@nestjs/common';
-import { Args, Mutation, Parent, Query, ResolveProperty, Resolver, Subscription } from '@nestjs/graphql';
+import { Args, Mutation, Parent, Query, ResolveField, Resolver, Subscription } from '@nestjs/graphql';
 import { PubSub } from 'graphql-subscriptions';
 import { AccountService } from '../account/account.service';
 import { CurrentAuthUser } from '../auth/current-user';
@@ -116,7 +116,7 @@ export class ItemPriceResolvers {
     return pubSub.asyncIterator('itemPriceDeleted');
   }
 
-  @ResolveProperty()
+  @ResolveField()
   public async scannedBy(@Parent() parent: ItemPrice): Promise<Account> {
     const account: Account | undefined = await this.accountService.findOneById(parent.scannedById);
     if (!account) {
@@ -125,7 +125,7 @@ export class ItemPriceResolvers {
     return account;
   }
 
-  @ResolveProperty()
+  @ResolveField()
   public async item(@Parent() parent: ItemPrice): Promise<Item> {
     const item: Item | undefined = await this.itemService.findOneById(parent.itemId);
     if (!item) {
@@ -134,7 +134,7 @@ export class ItemPriceResolvers {
     return item;
   }
 
-  @ResolveProperty()
+  @ResolveField()
   public async location(@Parent() parent: ItemPrice): Promise<Location> {
     const location: Location | undefined = await this.locationService.findOneById(parent.locationId);
     if (!location) {
@@ -143,12 +143,12 @@ export class ItemPriceResolvers {
     return location;
   }
 
-  @ResolveProperty()
+  @ResolveField()
   public unitPrice(@Parent() parent: ItemPrice): number {
     return parent.price / parent.quantity;
   }
 
-  @ResolveProperty()
+  @ResolveField()
   public async scannedInGameVersion(@Parent() parent: ItemPrice): Promise<GameVersion> {
     const gameVersion: GameVersion | undefined = await this.gameVersionService.findOneById(
       parent.scannedInGameVersionId
