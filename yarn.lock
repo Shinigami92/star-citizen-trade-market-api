@@ -580,7 +580,7 @@
     iterall "^1.1.3"
     uuid "^3.1.0"
 
-"@nestjs/cli@~6.14.1":
+"@nestjs/cli@~6.14.2":
   version "6.14.2"
   resolved "https://registry.yarnpkg.com/@nestjs/cli/-/cli-6.14.2.tgz#673b2ba3a5cf8f96bfeb27bab078e95e471beaf4"
   integrity sha512-Bv6ZoziyuXrCmeWMf4rcEjN84O4RmZtQugscFm0k2nOWVfW79eltqMJlpj6h9IutLLC52Je/SOw0XTiDGOukyg==
@@ -607,7 +607,7 @@
     webpack "4.41.5"
     webpack-node-externals "1.7.2"
 
-"@nestjs/common@~6.11.1":
+"@nestjs/common@~6.11.11":
   version "6.11.11"
   resolved "https://registry.yarnpkg.com/@nestjs/common/-/common-6.11.11.tgz#701da2462a15cc94d55ec863ddd9f2fb0bbd7136"
   integrity sha512-K4wuK/V2M82AsoudtY0UYV+M1nYDSSb10t8AkMwFiP+AWMuxCJNtE8qLc9jUe2aTKMbhBiQUfsbZFmg/MRinPg==
@@ -617,7 +617,7 @@
     tslib "1.11.1"
     uuid "7.0.1"
 
-"@nestjs/core@~6.11.1":
+"@nestjs/core@~6.11.11":
   version "6.11.11"
   resolved "https://registry.yarnpkg.com/@nestjs/core/-/core-6.11.11.tgz#2b97a3e9c2a853f5693ed84daf81c1ee3b2782b4"
   integrity sha512-ewUy2rjiRWi6SziI5gXZnlat7PfnVklL3tusnU1qqtUm74cPY1Zre+zDCJ27P/+B7sFJHbkFfpi0qQP2pQv9jQ==
@@ -630,7 +630,7 @@
     tslib "1.11.1"
     uuid "7.0.1"
 
-"@nestjs/graphql@~6.5.3":
+"@nestjs/graphql@~6.5.5":
   version "6.5.5"
   resolved "https://registry.yarnpkg.com/@nestjs/graphql/-/graphql-6.5.5.tgz#eecd3f33b7797ad13b97bcbafe42c9adf96d7bbe"
   integrity sha512-0Y2LkXPS6l0WJlhfq0Bqayu1X7O0ProJHsu5QE20GeBASYZc3yrwu6C959DIds4zQN2LChijykz6SMHelAZd1Q==
@@ -649,7 +649,7 @@
   optionalDependencies:
     type-graphql "^0.17.3"
 
-"@nestjs/jwt@~6.1.1":
+"@nestjs/jwt@~6.1.2":
   version "6.1.2"
   resolved "https://registry.yarnpkg.com/@nestjs/jwt/-/jwt-6.1.2.tgz#8048d5dd149218ec15f1224e4e45a1fde9e8a64b"
   integrity sha512-+qfcAeAuZiwGRj5WqmDCtzhlY109l2e6QJR4K2ANu1UJskxxaD9O7QS8SGegzpfTaIL01NAF8BWNxwy5ps6Lzg==
@@ -662,7 +662,7 @@
   resolved "https://registry.yarnpkg.com/@nestjs/passport/-/passport-6.1.1.tgz#991b8736c0ebffabb85a6455f0288055e5b52755"
   integrity sha512-wMhvi3Ru965nftCLUhFUqWNwyzSxVDmGgTEYVyWbOOmHFjNg5US47jzV2NresuUP2vjgg8J8S6DviKTVuLfkRw==
 
-"@nestjs/platform-express@~6.11.1":
+"@nestjs/platform-express@~6.11.11":
   version "6.11.11"
   resolved "https://registry.yarnpkg.com/@nestjs/platform-express/-/platform-express-6.11.11.tgz#d30ea1f39299e92e080553e893a0afac54f20c6e"
   integrity sha512-4h3F3hDhNlO5+Ruy6eS+lSL2yIz5r4hF/BB3QkZVOuRdfji9n0gZAIR7tuSLTizqYxaHYRZ7dBv+PscQS/7ztQ==
@@ -691,7 +691,7 @@
     "@angular-devkit/schematics" "7.3.8"
     fs-extra "8.1.0"
 
-"@nestjs/testing@~6.11.1":
+"@nestjs/testing@~6.11.11":
   version "6.11.11"
   resolved "https://registry.yarnpkg.com/@nestjs/testing/-/testing-6.11.11.tgz#c9858e6516cccf923289919764ed9039376d9b3c"
   integrity sha512-Mqu4IWZhnLdIFfVfueAFFCm3jPfQoWg+YmDLBsFS2kpab3az5gsRCZQv9R9CCHGa1hHKYWqM1lMcz1IQc70kww==
@@ -1104,7 +1104,7 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-12.12.50.tgz#e9b2e85fafc15f2a8aa8fdd41091b983da5fd6ee"
   integrity sha512-5ImO01Fb8YsEOYpV+aeyGYztcYcjGsBvN4D7G5r1ef2cuQOpymjWNQi5V0rKHE6PC2ru3HkoUr/Br2/8GUA84w==
 
-"@types/node@~13.5.0":
+"@types/node@~13.5.3":
   version "13.5.3"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-13.5.3.tgz#37f1f539b7535b9fb4ef77d59db1847a837b7f17"
   integrity sha512-ZPnWX9PW992w6DUsz3JIXHaSb5v7qmKCVzC3km6SxcDGxk7zmLfYaCJTbktIa5NeywJkkZDhGldKqDIvC5DRrA==
@@ -2109,7 +2109,7 @@ bcrypt-pbkdf@^1.0.0:
   dependencies:
     tweetnacl "^0.14.3"
 
-bcrypt@~3.0.7:
+bcrypt@~3.0.8:
   version "3.0.8"
   resolved "https://registry.yarnpkg.com/bcrypt/-/bcrypt-3.0.8.tgz#fe437b7569faffc1105c3c3f6e7d2913e3d3bea5"
   integrity sha512-jKV6RvLhI36TQnPDvUFqBEnGX9c8dRRygKxCZu7E+MgLfKZbmmXL8a7/SFFOyHoPNX9nV81cKRC5tbQfvEQtpw==
@@ -2575,7 +2575,7 @@ class-validator@>=0.9.1:
     tslib ">=1.9.0"
     validator "13.0.0"
 
-class-validator@~0.11.0:
+class-validator@~0.11.1:
   version "0.11.1"
   resolved "https://registry.yarnpkg.com/class-validator/-/class-validator-0.11.1.tgz#9033b9ebdc3883e826dfc0c545a45935e3298553"
   integrity sha512-6CGdjwJLmKw+sQbK5ZDo1v1yTajkqfPOUDWSYVIlhUiCh6Phy8sAnMFE2XKHAcKAdoOz4jJUQhjPQWPYUuHxrA==
@@ -3413,7 +3413,7 @@ eslint-module-utils@^2.4.1:
     debug "^2.6.9"
     pkg-dir "^2.0.0"
 
-eslint-plugin-import@~2.20.0:
+eslint-plugin-import@~2.20.2:
   version "2.20.2"
   resolved "https://registry.yarnpkg.com/eslint-plugin-import/-/eslint-plugin-import-2.20.2.tgz#91fc3807ce08be4837141272c8b99073906e588d"
   integrity sha512-FObidqpXrR8OnCh4iNsxy+WACztJLXAHBO5hK79T1Hc77PgQZkyDGA5Ag9xAvRpglvLNxhH/zSmZ70/pZ31dHg==
@@ -4275,7 +4275,7 @@ graphql-tools@4.0.7:
     iterall "^1.1.3"
     uuid "^3.1.0"
 
-graphql-tools@^4.0.0, graphql-tools@~4.0.6:
+graphql-tools@^4.0.0, graphql-tools@~4.0.8:
   version "4.0.8"
   resolved "https://registry.yarnpkg.com/graphql-tools/-/graphql-tools-4.0.8.tgz#e7fb9f0d43408fb0878ba66b522ce871bafe9d30"
   integrity sha512-MW+ioleBrwhRjalKjYaLQbr+920pHBgy9vM/n47sswtns8+96sRn5M/G+J1eu7IMeKWiN/9p6tmwCHU7552VJg==
@@ -6211,7 +6211,7 @@ node-notifier@^6.0.0:
     shellwords "^0.1.1"
     which "^1.3.1"
 
-node-pg-migrate@~4.2.2:
+node-pg-migrate@~4.2.3:
   version "4.2.3"
   resolved "https://registry.yarnpkg.com/node-pg-migrate/-/node-pg-migrate-4.2.3.tgz#7a8c2a2bbc3b7951f1ac8c43da331378d5a12aab"
   integrity sha512-HizTVFvWj/FtsOxa0nivqHw4FS/xR2KHCaiPKMePunDfCwfj8AylwFRKcygXx09XMJ2U+bzHWog0+JGEC4u7rw==
@@ -7484,7 +7484,7 @@ rxjs@^6.1.0, rxjs@^6.5.3, rxjs@^6.6.0:
   dependencies:
     tslib "^1.9.0"
 
-rxjs@~6.5.4:
+rxjs@~6.5.5:
   version "6.5.5"
   resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-6.5.5.tgz#c5c884e3094c8cfee31bf27eb87e54ccfc87f9ec"
   integrity sha512-WfQI+1gohdf0Dai/Bbmk5L5ItH5tYqm3ki2c5GdWhKjalzjg93N3avFjVStyZZz+A2Em+ZxKH5bNghw9UeylGQ==
@@ -8333,7 +8333,7 @@ ts-jest@~25.0.0:
     semver "^5.5"
     yargs-parser "10.x"
 
-ts-loader@~6.2.1:
+ts-loader@~6.2.2:
   version "6.2.2"
   resolved "https://registry.yarnpkg.com/ts-loader/-/ts-loader-6.2.2.tgz#dffa3879b01a1a1e0a4b85e2b8421dc0dfff1c58"
   integrity sha512-HDo5kXZCBml3EUPcc7RlZOV/JGlLHwppTLEHb3SHnr5V7NXD4klMEkrhJe5wgRbaWsSXi+Y1SIBN/K9B6zWGWQ==
