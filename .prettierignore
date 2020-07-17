@@ -1,3 +1,4 @@
 src/graphql.schema.ts
 graphql.schema.ts
 .history/
+dist/
