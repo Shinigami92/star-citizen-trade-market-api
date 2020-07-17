@@ -46,12 +46,12 @@ export class ManufacturerResolvers {
   }
 
   @Subscription()
-  public manufacturerCreated(): AsyncIterator<{}> {
+  public manufacturerCreated(): AsyncIterator<unknown> {
     return pubSub.asyncIterator('manufacturerCreated');
   }
 
   @Subscription()
-  public manufacturerUpdated(): AsyncIterator<{}> {
+  public manufacturerUpdated(): AsyncIterator<unknown> {
     return pubSub.asyncIterator('manufacturerUpdated');
   }
 }

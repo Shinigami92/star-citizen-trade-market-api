@@ -46,12 +46,12 @@ export class OrganizationResolvers {
   }
 
   @Subscription()
-  public organizationCreated(): AsyncIterator<{}> {
+  public organizationCreated(): AsyncIterator<unknown> {
     return pubSub.asyncIterator('organizationCreated');
   }
 
   @Subscription()
-  public organizationUpdated(): AsyncIterator<{}> {
+  public organizationUpdated(): AsyncIterator<unknown> {
     return pubSub.asyncIterator('organizationUpdated');
   }
 }

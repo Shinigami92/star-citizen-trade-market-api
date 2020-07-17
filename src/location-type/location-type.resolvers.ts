@@ -46,12 +46,12 @@ export class LocationTypeResolvers {
   }
 
   @Subscription()
-  public locationTypeCreated(): AsyncIterator<{}> {
+  public locationTypeCreated(): AsyncIterator<unknown> {
     return pubSub.asyncIterator('locationTypeCreated');
   }
 
   @Subscription()
-  public locationTypeUpdated(): AsyncIterator<{}> {
+  public locationTypeUpdated(): AsyncIterator<unknown> {
     return pubSub.asyncIterator('locationTypeUpdated');
   }
 }

@@ -50,12 +50,12 @@ export class ShipResolvers {
   }
 
   @Subscription()
-  public shipCreated(): AsyncIterator<{}> {
+  public shipCreated(): AsyncIterator<unknown> {
     return pubSub.asyncIterator('shipCreated');
   }
 
   @Subscription()
-  public shipUpdated(): AsyncIterator<{}> {
+  public shipUpdated(): AsyncIterator<unknown> {
     return pubSub.asyncIterator('shipUpdated');
   }
 

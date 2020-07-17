@@ -55,7 +55,7 @@ export class AccountResolvers {
   @Subscription()
   @UseGuards(GraphqlAuthGuard, RoleGuard)
   @HasAnyRole(Role.USERADMIN, Role.ADMIN)
-  public accountSignedUp(): AsyncIterator<{}> {
+  public accountSignedUp(): AsyncIterator<unknown> {
     return pubSub.asyncIterator('accountSignedUp');
   }
 

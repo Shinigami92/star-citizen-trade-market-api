@@ -45,7 +45,7 @@ export class PossessionResolvers {
 
   @Subscription()
   @UseGuards(GraphqlAuthGuard)
-  public possessionCreated(): AsyncIterator<{}> {
+  public possessionCreated(): AsyncIterator<unknown> {
     return pubSub.asyncIterator('possessionCreated');
   }
 }

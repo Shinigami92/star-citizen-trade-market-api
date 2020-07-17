@@ -52,12 +52,12 @@ export class LocationResolvers {
   }
 
   @Subscription()
-  public locationCreated(): AsyncIterator<{}> {
+  public locationCreated(): AsyncIterator<unknown> {
     return pubSub.asyncIterator('locationCreated');
   }
 
   @Subscription()
-  public locationUpdated(): AsyncIterator<{}> {
+  public locationUpdated(): AsyncIterator<unknown> {
     return pubSub.asyncIterator('locationUpdated');
   }
 

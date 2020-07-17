@@ -102,17 +102,17 @@ export class ItemPriceResolvers {
   }
 
   @Subscription()
-  public itemPriceCreated(): AsyncIterator<{}> {
+  public itemPriceCreated(): AsyncIterator<unknown> {
     return pubSub.asyncIterator('itemPriceCreated');
   }
 
   @Subscription()
-  public itemPriceUpdated(): AsyncIterator<{}> {
+  public itemPriceUpdated(): AsyncIterator<unknown> {
     return pubSub.asyncIterator('itemPriceUpdated');
   }
 
   @Subscription()
-  public itemPriceDeleted(): AsyncIterator<{}> {
+  public itemPriceDeleted(): AsyncIterator<unknown> {
     return pubSub.asyncIterator('itemPriceDeleted');
   }
 
