@@ -5,6 +5,7 @@
  */
 
 /* tslint:disable */
+/* eslint-disable */
 export enum ItemPriceType {
     BUY = "BUY",
     SELL = "SELL"
