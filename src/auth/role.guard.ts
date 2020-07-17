@@ -10,7 +10,7 @@ export class RoleGuard implements CanActivate {
   public constructor(private readonly reflector: Reflector) {}
 
   public canActivate(context: ExecutionContext): boolean {
-    // tslint:disable-next-line:ban-types
+    // eslint-disable-next-line @typescript-eslint/ban-types
     const ctxHandler: Function = context.getHandler();
     const ctxClass: Type<any> = context.getClass();
     const functionReferenceName: string = `${ctxClass.name}::${ctxHandler.name}`;

@@ -53,7 +53,12 @@ module.exports = {
     indent: ['off', 2],
     '@typescript-eslint/indent': ['off', 2],
 
-    '@typescript-eslint/ban-ts-comment': 'warn',
+    '@typescript-eslint/ban-ts-comment': [
+      'warn',
+      {
+        'ts-expect-error': 'allow-with-description'
+      }
+    ],
     '@typescript-eslint/ban-types': 'warn',
     '@typescript-eslint/explicit-function-return-type': ['error', { allowExpressions: true }],
     '@typescript-eslint/explicit-member-accessibility': 'error',

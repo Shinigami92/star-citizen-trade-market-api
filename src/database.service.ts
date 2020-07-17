@@ -2,7 +2,7 @@
 import * as dotenv from 'dotenv';
 import * as pg from 'pg';
 import { Client } from 'pg';
-// @ts-ignore
+// @ts-expect-error: No type definitions :(
 import * as pgCamelCase from 'pg-camelcase';
 
 pgCamelCase.inject(pg);

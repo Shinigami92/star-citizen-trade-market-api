@@ -101,7 +101,7 @@ export class ShipService {
 
   private mapDetails(ship: Ship): Ship {
     for (const key of ['focus', 'scu', 'size']) {
-      // @ts-ignore
+      // @ts-expect-error: Move values up to root
       ship[key] = ship.details[key];
     }
     return ship;

@@ -1,5 +1,6 @@
 import { CustomScalar, Scalar } from '@nestjs/graphql';
 import { Kind, ValueNode } from 'graphql';
+import { Maybe } from 'graphql/jsutils/Maybe';
 
 @Scalar('Date')
 export class DateScalar implements CustomScalar<string, Date> {
@@ -15,12 +16,12 @@ export class DateScalar implements CustomScalar<string, Date> {
     return value.toISOString();
   }
 
-  // @ts-ignore
-  public parseLiteral(ast: ValueNode): number | null {
-    console.log(ast);
-    if (ast.kind === Kind.INT) {
-      // ast value is always in string format
-      return parseInt(ast.value, 10);
+  // @ts-expect-error: Force number instead of Date
+  public parseLiteral(valueNode: ValueNode): Maybe<number> {
+    console.log(valueNode);
+    if (valueNode.kind === Kind.INT) {
+      // valueNode is always in string format
+      return parseInt(valueNode.value, 10);
     }
     return null;
   }
