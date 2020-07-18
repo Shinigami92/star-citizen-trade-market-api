@@ -83,6 +83,7 @@ export class TradeService {
     }
     return result.rows.map(this.convertTradeResult);
   }
+
   private convertTradeResult(tradeResult: TradeResult): Trade {
     return {
       buyItemPrice: {

@@ -96,11 +96,17 @@ export class AccountService {
 
   public async findOneById(id: string): Promise<Account | undefined> {
     const result: QueryResult = await client.query(`SELECT * FROM ${TABLENAME} WHERE id = $1::uuid`, [id]);
+    if (result.rowCount === 0) {
+      return;
+    }
     return this.transformRoles(result.rows[0]);
   }
 
   public async findOneByUsername(username: string): Promise<Account | undefined> {
     const result: QueryResult = await client.query(`SELECT * FROM ${TABLENAME} WHERE username = $1::text`, [username]);
+    if (result.rowCount === 0) {
+      return;
+    }
     return this.transformRoles(result.rows[0]);
   }
 
